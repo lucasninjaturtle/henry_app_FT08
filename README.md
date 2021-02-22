@@ -1,4 +1,10 @@
-# henry_app_FT08
+# Henry Students APP [MERN]
 
 
-HOLA TEST
+Tools for develop:
+
+React native
+Expo
+Native base
+MongoDB
+Moonsgose
