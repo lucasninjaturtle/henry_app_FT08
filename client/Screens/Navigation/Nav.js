@@ -26,16 +26,16 @@ export default function Nav() {
         <Content />
         <Footer>
                 <FooterTab>
-                    <Button>
-                        <Icon name="home" />
+                    <Button active>
+                        <Icon active name="home" />
                         <Text>Home</Text>
                     </Button>
                     <Button>
                         <Icon name="calendar" />
                         <Text>Calendar</Text>
                     </Button>
-                    <Button active>
-                        <Icon active name="stats-chart-sharp" />
+                    <Button>
+                        <Icon name="stats-chart-sharp" />
                         <Text>Stats</Text>
                     </Button>
                     <Button>
