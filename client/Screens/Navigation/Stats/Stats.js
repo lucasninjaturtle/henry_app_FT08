@@ -1,7 +1,7 @@
 import React from 'react'
 import 'react-native-gesture-handler';
 import {Image} from 'react-native'
-import { Container, Icon, Content, Card, CardItem, Text, Body, Button } from "native-base";
+import { Container, Header, Content, Badge, Text, Icon } from 'native-base';
 
 const user = {
   name:'Lautaro Paez',
@@ -14,19 +14,39 @@ const user = {
   nextCheck:'none'
 }
 
-export default function Stats() {
+const Stats = ()=> {
     return (
-        <Container style={{alignContent:'center', alignItems:'center', paddingTop:60, backgroundColor:'#FFFDD0'}}>
-        <Content   padder>
-          <Card style={{}}>
-            <CardItem header bordered style={{alignItems:'center', alignContent:'center', alignSelf:'center'}}>
-              <Image style={{width:50,height:50}} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}
-              />
-            </CardItem>
-            
-    
-          </Card>
+        <Container>
+        <Header />
+        <Content>
+          <Badge>
+            <Text>2</Text>
+          </Badge>
+          <Badge primary>
+            <Text>2</Text>
+          </Badge>
+          <Badge success>
+            <Text>2</Text>
+          </Badge>
+          <Badge info>
+            <Text>2</Text>
+          </Badge>
+          <Badge warning>
+            <Text>2</Text>
+          </Badge>
+          
+          <Badge danger>
+            <Text>2</Text>
+          </Badge>
+          <Badge primary>
+          <Icon name="star" style={{ fontSize: 15, color: "#fff", lineHeight: 20 }}/>
+          </Badge>
+          <Badge style={{ backgroundColor: 'black' }}>
+            <Text style={{ color: 'white' }}>1866</Text>
+          </Badge>
         </Content>
       </Container>
     )
 }
+
+export default Stats;
