@@ -16,10 +16,7 @@ import  NavigationMain from './Screens/Navigation/NavigationMain'
 export default function App() {
   return (
   <NavigationContainer>
-
-
     <NavigationMain/>
   </NavigationContainer>
   );
 }
-
