@@ -1,6 +1,5 @@
 import {Request, Response} from 'express'
 import {QueryResult} from 'pg'
-import db from "../database/models/index"
 
 export const getUsers = async (req: Request, res: Response): Promise<Response> => {
     try {

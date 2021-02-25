@@ -1,33 +1,26 @@
-'use strict';
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-let sequelize;
-if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable], config);
-}
-else {
-    sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-fs
-    .readdirSync(__dirname)
-    .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+const sequelize_typescript_1 = require("sequelize-typescript");
+const User_1 = require("./User");
+const UserType_1 = require("./UserType");
+const Module_1 = require("./Module");
+require("dotenv").config();
+const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const sequelize = new sequelize_typescript_1.Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/henryapp`, {
+    dialectOptions: {
+        charset: "utf8",
+        multipleStatements: true
+    },
+    logging: false,
+    models: [User_1.User, UserType_1.UserType, Module_1.Modules]
+});
+sequelize
+    .authenticate()
+    .then(() => {
+    console.log("Connection has been established successfully.");
 })
-    .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+    .catch((err) => {
+    console.error("Unable to connect to the database:", err);
 });
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
-    }
-});
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-exports.default = db;
+sequelize.sync({ force: false });
+exports.default = sequelize;
