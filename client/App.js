@@ -6,13 +6,19 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Footer, Foot
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 
+// Navigators
 
+import  NavigationMain from './Screens/Navigation/NavigationMain'
 
 
 
 export default function App() {
   return (
-    <Nav />
+  <NavigationContainer>
+
+
+    <NavigationMain/>
+  </NavigationContainer>
   );
 }
 
