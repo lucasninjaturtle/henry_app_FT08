@@ -11,14 +11,13 @@ const user = {
   joinDate:'05/07/2020',
   actualModule:'Labs',
   nextCheck:'none'
-
 }
 
 export default function Home() {
     return (
-        <Container style={{alignContent:'center', alignItems:'center', alignSelf:'center'}}>
+        <Container style={{alignContent:'center', alignItems:'center', paddingTop:60, backgroundColor:'#FFFDD0'}}>
         <Content   padder>
-          <Card>
+          <Card style={{}}>
             <CardItem header bordered style={{alignItems:'center', alignContent:'center', alignSelf:'center'}}>
               <Image style={{width:50,height:50}} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}
               />
