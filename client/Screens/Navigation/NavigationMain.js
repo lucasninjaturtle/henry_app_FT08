@@ -5,11 +5,15 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 //Stacks
 import HomeNavigator from './HomeNavigator'
+//import StatsNavigator from './Stats/StatsNavigator'
+import Home from '../Home/Home'
+import CalendarNavigator from '../Calendar/CalendarNavigator'
 
 const Tab = createBottomTabNavigator();
 
 const NavigationMain = () =>{
 
+    
     return(
         <Tab.Navigator 
         initialRouteName='Home'
@@ -37,7 +41,7 @@ const NavigationMain = () =>{
             />
             <Tab.Screen
             name='Calendar'
-            component={HomeNavigator}
+            component={CalendarNavigator}
             options={{
                 tabBarIcon:({color}) =>(
                     <Icon
