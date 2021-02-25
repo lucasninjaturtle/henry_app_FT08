@@ -1,10 +1,13 @@
 import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {View} from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
+// import Icon from 'react-native-vector-icons/FontAwesome'
+import {Icon} from 'native-base'
+import { Ionicons } from '@expo/vector-icons'
 
 //Stacks
 import HomeNavigator from './HomeNavigator'
+import StatsNavigator from './Stats/StatsNavigator'
 
 const Tab = createBottomTabNavigator();
 
@@ -13,24 +16,24 @@ const NavigationMain = () =>{
     return(
         <Tab.Navigator 
         initialRouteName='Home'
-        // tabBarOptions={{
-        //     // keyboardHidesTabBar=true,
-        //     // showLabel=false,
-        //     activeTintColor='yellow'
-
-        // }}
+        tabBarOptions={{
+            // keyboardHidesTabBar=true,
+            // showLabel=false,
+            activeTintColor: 'red',
+          inactiveTintColor: 'black',
+        }}
         
         >
             <Tab.Screen
-            name='Home'
+            name="Home"
             component={HomeNavigator}
             options={{
                 tabBarIcon:({color}) =>(
-                    <Icon
-                    name='analytics'
+                    <Ionicons
+                    name='home'
                     style={{position:'relative'}}
                     color={color}
-                    size={60}
+                    size={45}
                     />
                 )
             }}
@@ -40,10 +43,10 @@ const NavigationMain = () =>{
             component={HomeNavigator}
             options={{
                 tabBarIcon:({color}) =>(
-                    <Icon
-                    name='calendar-star'
+                    <Ionicons
+                    name='calendar'
                     color={color}
-                    size={60}
+                    size={45}
                     />
                 )
             }}
@@ -51,13 +54,13 @@ const NavigationMain = () =>{
 
 <Tab.Screen
             name='Stats'
-            component={HomeNavigator}
+            component={StatsNavigator}
             options={{
                 tabBarIcon:({color}) =>(
-                    <Icon
+                    <Ionicons
                     name='analytics'
                     color={color}
-                    size={60}
+                    size={45}
                     />
                 )
             }}
@@ -68,10 +71,10 @@ const NavigationMain = () =>{
             component={HomeNavigator}
             options={{
                 tabBarIcon:({color}) =>(
-                    <Icon
-                    name='comment-dots'
+                    <Ionicons
+                    name='md-chatbubbles'
                     color={color}
-                    size={60}
+                    size={45}
                     />
                 )
             }}
