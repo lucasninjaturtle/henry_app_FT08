@@ -2,11 +2,22 @@ import React from 'react'
 import 'react-native-gesture-handler';
 import {Image} from 'react-native'
 import { Container, Icon, Content, Card, CardItem, Text, Body, Button } from "native-base";
+const user = {
+  name:'Lautaro Paez',
+  gitUser:'lautaro202',
+  instructor: 'Leandro Alvarez',
+  pm: 'Leandro Alvarez',
+  cohorte:'FT08',
+  joinDate:'05/07/2020',
+  actualModule:'Labs',
+  nextCheck:'none'
+
+}
 
 export default function Home() {
     return (
-        <Container>
-        <Content padder>
+        <Container style={{alignContent:'center', alignItems:'center', alignSelf:'center'}}>
+        <Content   padder>
           <Card>
             <CardItem header bordered style={{alignItems:'center', alignContent:'center', alignSelf:'center'}}>
               <Image style={{width:50,height:50}} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}
@@ -17,40 +28,37 @@ export default function Home() {
                 <Text style={{alignContent:'center', alignItems:'center', alignSelf:'center'}}>
                   <Icon name='heart'/>
                 </Text>
-                <Text style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}}>
-                    Nombre y Apellido
+                <Text >
+                    {user.name}
                 </Text>
-                <Text style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}}>
-                    GitHub User: xxxxxxx
+                <Text >
+                    GitHub User: {user.gitUser}
                 </Text>
               </Body>
             </CardItem>
-            <CardItem footer bordered style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}}>
+            <CardItem footer bordered >
               <Text>Datos</Text>
             </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-              <Text>Instructor: xxxxxxxx</Text>
+            <CardItem  >
+              <Text>Instructor: {user.instructor}</Text>
             </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-              <Text>PM: xxxxxxxx</Text>
+            <CardItem  >
+              <Text>PM: {user.pm}</Text>
             </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-              <Text>Cohorte actual: FTXX</Text>
+            <CardItem  >
+              <Text>Cohorte actual: {user.cohorte}</Text>
               <Button>
               <Icon name='eye'/>
                 </Button>
             </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-              <Text>Fecha Ingreso: xx/xx/xxxx</Text>
+            <CardItem  >
+              <Text>Fecha Ingreso: {user.joinDate} </Text>
             </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-                <Text>Modulo Actual: XX </Text>
+            <CardItem  >
+                <Text>Modulo Actual: {user.actualModule} </Text>
                 <Button>
                     <Icon name='eye'/>
                 </Button>
-            </CardItem>
-            <CardItem style={{alignContent:'center', alignItems:'center', alignSelf:'center', paddingTop:15}} >
-              <Text>Proximo Checkpoint: XXXXX </Text>
             </CardItem>
           </Card>
         </Content>

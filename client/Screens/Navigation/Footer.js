@@ -3,9 +3,9 @@ import {Button, Icon, Footer, FooterTab,Text } from 'native-base';
 
 export default function Footers() {
     return (
-        <Footer style={{backgroundColor:'#CEBB1B'}}>
-                <FooterTab style={{backgroundColor:'#CEBB1B'}}>
-                    <Button active style={{backgroundColor:'#CEBB1B'}}>
+        <Footer >
+                <FooterTab style={{backgroundColor:'#CEBB1B', alignItems:'center', justifyContent:'center', alignContent:'center'}}>
+                    <Button >
                         <Icon active name="home" />
                         <Text>Home</Text>
                     </Button>
