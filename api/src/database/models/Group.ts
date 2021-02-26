@@ -1,15 +1,14 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
-import { User } from './User'
 
 @Table({
   defaultScope: {
     attributes: { exclude: ["deletedAt"] }
   },
   paranoid: false,
-  tableName: "UserTypes"
+  tableName: "Group"
 })
 
-export class UserType extends Model {
+export class Group extends Model {
   @Column({
     allowNull: false,
     autoIncrement: true,
@@ -18,7 +17,9 @@ export class UserType extends Model {
   })
   id!: string;
 
-  @HasMany(() => User)
-  Users!: User[];
+  @Column({
+    allowNull: false,
+    type: DataType.STRING
+  })
+  name!: string;
 }
-

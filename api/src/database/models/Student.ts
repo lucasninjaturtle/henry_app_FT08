@@ -1,15 +1,17 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
-import { Classes } from './Class'
+import { Cohort } from './Cohort'
+import { Group } from './Group'
+import { User } from './User'
 
 @Table({
   defaultScope: {
     attributes: { exclude: ["deletedAt"] }
   },
   paranoid: false,
-  tableName: "Module"
+  tableName: "Student"
 })
 
-export class Module extends Model {
+export class Student extends Model {
   @Column({
     allowNull: false,
     autoIncrement: true,
@@ -20,19 +22,28 @@ export class Module extends Model {
 
   @Column({
     allowNull: false,
-    type: DataType.INTEGER
+    type: DataType.STRING
   })
-  Ordinal!: number;
+  Github!: string;
 
   @Column({
     allowNull: false,
     type: DataType.STRING
   })
-  Name!: string;
+  @ForeignKey(() => User)
+  UserId!: string;
 
   @Column({
     allowNull: false,
     type: DataType.STRING
   })
-  StartDate!: string;
+  @ForeignKey(() => Group)
+  GroupId!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.STRING
+  })
+  @ForeignKey(() => Cohort)
+  CohortId!: string;
 }

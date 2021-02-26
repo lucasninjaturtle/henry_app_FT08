@@ -6,10 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Classes = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const UserType_1 = require("./UserType");
-let User = class User extends sequelize_typescript_1.Model {
+const Module_1 = require("./Module");
+let Classes = class Classes extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column({
@@ -18,45 +18,57 @@ __decorate([
         primaryKey: true,
         type: sequelize_typescript_1.DataType.INTEGER
     })
-], User.prototype, "id", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "name", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "lastname", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "email", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "password", void 0);
+], Classes.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.Column({
         allowNull: false,
         type: sequelize_typescript_1.DataType.INTEGER
+    })
+], Classes.prototype, "Ordinal", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.DATE
+    })
+], Classes.prototype, "Name", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Classes.prototype, "GithubRep", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Classes.prototype, "GithubFeedBack", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Classes.prototype, "GithubQuizzLink", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Classes.prototype, "VideoRecorder", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
     }),
-    sequelize_typescript_1.ForeignKey(() => UserType_1.UserType)
-], User.prototype, "UserTypeId", void 0);
-User = __decorate([
+    sequelize_typescript_1.ForeignKey(() => Module_1.Module)
+], Classes.prototype, "ModuleId", void 0);
+Classes = __decorate([
     sequelize_typescript_1.Table({
         defaultScope: {
             attributes: { exclude: ["deletedAt"] }
         },
         paranoid: false,
-        tableName: "User"
+        tableName: "Classes"
     })
-], User);
-exports.User = User;
+], Classes);
+exports.Classes = Classes;

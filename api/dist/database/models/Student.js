@@ -6,10 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Student = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const UserType_1 = require("./UserType");
-let User = class User extends sequelize_typescript_1.Model {
+const Cohort_1 = require("./Cohort");
+const Group_1 = require("./Group");
+const User_1 = require("./User");
+let Student = class Student extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column({
@@ -18,45 +20,41 @@ __decorate([
         primaryKey: true,
         type: sequelize_typescript_1.DataType.INTEGER
     })
-], User.prototype, "id", void 0);
+], Student.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.Column({
         allowNull: false,
         type: sequelize_typescript_1.DataType.STRING
     })
-], User.prototype, "name", void 0);
+], Student.prototype, "Github", void 0);
 __decorate([
     sequelize_typescript_1.Column({
         allowNull: false,
         type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "lastname", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "email", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.STRING
-    })
-], User.prototype, "password", void 0);
-__decorate([
-    sequelize_typescript_1.Column({
-        allowNull: false,
-        type: sequelize_typescript_1.DataType.INTEGER
     }),
-    sequelize_typescript_1.ForeignKey(() => UserType_1.UserType)
-], User.prototype, "UserTypeId", void 0);
-User = __decorate([
+    sequelize_typescript_1.ForeignKey(() => User_1.User)
+], Student.prototype, "UserId", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    }),
+    sequelize_typescript_1.ForeignKey(() => Group_1.Group)
+], Student.prototype, "GroupId", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    }),
+    sequelize_typescript_1.ForeignKey(() => Cohort_1.Cohort)
+], Student.prototype, "CohortId", void 0);
+Student = __decorate([
     sequelize_typescript_1.Table({
         defaultScope: {
             attributes: { exclude: ["deletedAt"] }
         },
         paranoid: false,
-        tableName: "User"
+        tableName: "Student"
     })
-], User);
-exports.User = User;
+], Student);
+exports.Student = Student;

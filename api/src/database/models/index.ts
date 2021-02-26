@@ -1,7 +1,15 @@
 import { Sequelize } from "sequelize-typescript";
-import { User } from './User'
+import { Cohort } from './Cohort'
 import { UserType } from './UserType'
-import { Modules } from './Module'
+import { Module } from './Module'
+import { Admin } from './Admin'
+import { Classes } from './Class'
+import { Group } from './Group'
+import { Instructor } from './Instructor'
+import { PM } from './ProductoManagaer'
+import { Student } from './Student'
+import { User } from './User'
+
 require("dotenv").config();
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
@@ -11,7 +19,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
     multipleStatements: true
   },
   logging: false,
-  models: [User, UserType, Modules]
+  models: [Cohort, UserType, Module, Admin, Classes, Group, Instructor, PM, Student, User]
 });
 
 sequelize
@@ -23,6 +31,6 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-sequelize.sync({ force: false });
+sequelize.sync({ force: true });
 
 export default sequelize;

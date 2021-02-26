@@ -6,9 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Modules = void 0;
+exports.Module = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-let Modules = class Modules extends sequelize_typescript_1.Model {
+let Module = class Module extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column({
@@ -17,42 +17,32 @@ __decorate([
         primaryKey: true,
         type: sequelize_typescript_1.DataType.INTEGER
     })
-], Modules.prototype, "id", void 0);
+], Module.prototype, "id", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.INTEGER
+    })
+], Module.prototype, "Ordinal", void 0);
 __decorate([
     sequelize_typescript_1.Column({
         allowNull: false,
         type: sequelize_typescript_1.DataType.STRING
     })
-], Modules.prototype, "Modules", void 0);
-Modules = __decorate([
+], Module.prototype, "Name", void 0);
+__decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Module.prototype, "StartDate", void 0);
+Module = __decorate([
     sequelize_typescript_1.Table({
         defaultScope: {
             attributes: { exclude: ["deletedAt"] }
         },
         paranoid: false,
-        tableName: "Modules"
+        tableName: "Module"
     })
-], Modules);
-exports.Modules = Modules;
-// export class Restaurant extends Model {
-//   @Column({
-//     allowNull: false,
-//     autoIncrement: true,
-//     primaryKey: true,
-//     type: DataType.INTEGER.UNSIGNED
-//   })
-//   id!: string;
-//   @Column({
-//     allowNull: false,
-//     type: DataType.INTEGER.UNSIGNED
-//   })
-//   @ForeignKey(() => Chef)
-//   chefId!: string;
-//   @Column({
-//     allowNull: false,
-//     type: DataType.STRING
-//   })
-//   name!: string;
-//   @BelongsTo(() => Chef)
-//   chef!: Chef;
-// }
+], Module);
+exports.Module = Module;

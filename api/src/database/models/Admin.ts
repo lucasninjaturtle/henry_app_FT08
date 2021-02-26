@@ -6,10 +6,10 @@ import { User } from './User'
     attributes: { exclude: ["deletedAt"] }
   },
   paranoid: false,
-  tableName: "UserTypes"
+  tableName: "Admin"
 })
 
-export class UserType extends Model {
+export class Admin extends Model {
   @Column({
     allowNull: false,
     autoIncrement: true,
@@ -18,7 +18,10 @@ export class UserType extends Model {
   })
   id!: string;
 
-  @HasMany(() => User)
-  Users!: User[];
+  @Column({
+    allowNull: false,
+    type: DataType.STRING
+  })
+  @ForeignKey(() => User)
+  UserId!: string;
 }
-

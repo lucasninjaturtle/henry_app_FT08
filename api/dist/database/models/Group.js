@@ -6,10 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserType = void 0;
+exports.Group = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const User_1 = require("./User");
-let UserType = class UserType extends sequelize_typescript_1.Model {
+let Group = class Group extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.Column({
@@ -18,17 +17,20 @@ __decorate([
         primaryKey: true,
         type: sequelize_typescript_1.DataType.INTEGER
     })
-], UserType.prototype, "id", void 0);
+], Group.prototype, "id", void 0);
 __decorate([
-    sequelize_typescript_1.HasMany(() => User_1.User)
-], UserType.prototype, "Users", void 0);
-UserType = __decorate([
+    sequelize_typescript_1.Column({
+        allowNull: false,
+        type: sequelize_typescript_1.DataType.STRING
+    })
+], Group.prototype, "name", void 0);
+Group = __decorate([
     sequelize_typescript_1.Table({
         defaultScope: {
             attributes: { exclude: ["deletedAt"] }
         },
         paranoid: false,
-        tableName: "UserTypes"
+        tableName: "Group"
     })
-], UserType);
-exports.UserType = UserType;
+], Group);
+exports.Group = Group;
