@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import 'react-native-gesture-handler';
-import {Dimensions} from 'react-native'
-import { Container, Header, Content, Badge, Text, Icon, View } from 'native-base';
+import {Dimensions, StyleSheet} from 'react-native'
+import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import {
     LineChart,
     BarChart,
@@ -21,10 +21,31 @@ const Stats = ()=> {
           flexDirection: "column",
           height: 150,
           padding: 0,
-          top: 30,
+          top: 40,
         }}
         >
-  <Text>Your GIT Stats messured in Lines of code</Text>
+  <View>
+  <List>
+            <ListItem avatar>
+              <Left>
+                <Thumbnail source={{ uri: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' }} />
+              </Left>
+              <Body>
+                <Text>Johndoegithubprofile</Text>
+                <Text note>Your GIT Stats messured in Lines of code</Text>
+              </Body>
+              <Right>
+                <Text note></Text>
+              </Right>
+            </ListItem>
+          </List>
+
+
+  </View>
+  
+  {/* <Text
+  style={styles.baseText}
+  >Your GIT Stats messured in Lines of code</Text> */}
   <LineChart
     data={{
       labels: ["M1", "M2", "M3", "M4", "Project", "Labs"],
@@ -105,5 +126,15 @@ const Stats = ()=> {
     //   </Container>
     )
 }
+
+const styles = StyleSheet.create({
+  baseText: {
+    fontWeight: 'bold',
+    alignItems:'center',
+  },
+  innerText: {
+    color: 'red',
+  },
+});
 
 export default Stats;
