@@ -23,8 +23,12 @@ const NavigationMain = () =>{
         tabBarOptions={{
             // keyboardHidesTabBar=true,
             // showLabel=false,
-            activeTintColor: 'red',
+            activeTintColor: '#f2cc8f',
           inactiveTintColor: 'black',
+          style: {
+            backgroundColor: '#fca311',
+        
+          },
         }}
         
         >
@@ -37,7 +41,7 @@ const NavigationMain = () =>{
                     name='home'
                     style={{position:'relative'}}
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -50,7 +54,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='calendar'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -64,7 +68,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='analytics'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -78,7 +82,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='md-chatbubbles'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
