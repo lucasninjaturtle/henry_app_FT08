@@ -32,7 +32,7 @@ const Stats = ()=> {
               </Left>
               <Body>
                 <Text>Johndoegithubprofile</Text>
-                <Text note>Your GIT Stats messured in Lines of code</Text>
+                <Text note>Your GI Stats messured in Lines of code</Text>
               </Body>
               <Right>
                 <Text note></Text>
