@@ -7,12 +7,16 @@ import { Ionicons } from '@expo/vector-icons'
 
 //Stacks
 import HomeNavigator from './HomeNavigator'
+//import StatsNavigator from './Stats/StatsNavigator'
+import Home from '../Home/Home'
+import CalendarNavigator from '../Calendar/CalendarNavigator'
 import StatsNavigator from './Stats/StatsNavigator'
 
 const Tab = createBottomTabNavigator();
 
 const NavigationMain = () =>{
 
+    
     return(
         <Tab.Navigator 
         initialRouteName='Home'
@@ -40,7 +44,7 @@ const NavigationMain = () =>{
             />
             <Tab.Screen
             name='Calendar'
-            component={HomeNavigator}
+            component={CalendarNavigator}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons
