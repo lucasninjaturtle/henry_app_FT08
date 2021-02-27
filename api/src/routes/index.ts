@@ -1,10 +1,7 @@
 import {Router} from 'express'
+import userRouter from './user'
+import githubRouter from './github'
 const router = Router()
 
-// Importo los controllers de cada ruta
-import {getUsers} from "../controller/indexController"
-
-// Rutas
-router.get("/users", getUsers)
-
-export default router;
+router.use("/user", userRouter)
+router.use("/github", githubRouter)
