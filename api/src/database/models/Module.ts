@@ -1,38 +1,49 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
-import { Classes } from './Class'
+import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-@Table({
-  defaultScope: {
-    attributes: { exclude: ["deletedAt"] }
-  },
-  paranoid: false,
-  tableName: "Module"
-})
+export interface moduleAttributes {
+    id: number;
+    ordinal: number;
+    name: string;
+    startday: Date;
+    checkpointday: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+export interface ModuleModel extends Model<moduleAttributes>, moduleAttributes {}
+export class Module extends Model<ModuleModel, moduleAttributes> {}
 
-export class Module extends Model {
-  @Column({
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataType.INTEGER
-  })
-  id!: string;
+export type ModuleStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): ModuleModel;
+};
 
-  @Column({
-    allowNull: false,
-    type: DataType.INTEGER
-  })
-  Ordinal!: number;
-
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  Name!: string;
-
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  StartDate!: string;
+export function ModuleFactory (sequelize: Sequelize) {
+    return <ModuleStatic>sequelize.define("module", {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        startday: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        checkpointday: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+    });
 }

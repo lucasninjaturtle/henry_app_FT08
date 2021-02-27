@@ -1,57 +1,39 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-@Table({
-  defaultScope: {
-    attributes: { exclude: ["deletedAt"] }
-  },
-  paranoid: false,
-  tableName: "Instructor"
-})
-
-export class Instructor extends Model {
-  @Column({
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataType.INTEGER
-  })
-  id!: string;
-
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  Github!: string;
-
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  UserId!: string;
+export interface instructorAttributes {
+    id: number;
+    github: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
+export interface InstructorModel extends Model<instructorAttributes>, instructorAttributes {}
+export class Instructor extends Model<InstructorModel, instructorAttributes> {}
 
-// export class Restaurant extends Model {
-//   @Column({
-//     allowNull: false,
-//     autoIncrement: true,
-//     primaryKey: true,
-//     type: DataType.INTEGER.UNSIGNED
-//   })
-//   id!: string;
+export type InstructorStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): InstructorModel;
+};
 
-//   @Column({
-//     allowNull: false,
-//     type: DataType.INTEGER.UNSIGNED
-//   })
-//   @ForeignKey(() => Chef)
-//   chefId!: string;
-
-//   @Column({
-//     allowNull: false,
-//     type: DataType.STRING
-//   })
-//   name!: string;
-
-//   @BelongsTo(() => Chef)
-//   chef!: Chef;
-// }
+export function InstructorFactory (sequelize: Sequelize) {
+    return <InstructorStatic>sequelize.define("instructor", {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        github: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+    });
+}

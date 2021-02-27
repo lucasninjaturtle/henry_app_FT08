@@ -1,33 +1,29 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface cohortAttributes {
+export interface productoManagerAttributes {
     id: number;
-    name: string;
-    startDay: Date;
+    github: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
-export interface cohortModel extends Model<cohortAttributes>, cohortAttributes {}
-export class Cohort extends Model<cohortModel, cohortAttributes> {}
+export interface productoManagerModel extends Model<productoManagerAttributes>, productoManagerAttributes {}
+export class productManager extends Model<productoManagerModel, productoManagerAttributes> {}
 
-export type CohortStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): cohortModel;
+export type ProductoManagerStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): productoManagerModel;
 };
 
-export function CohortFactory (sequelize: Sequelize) {
-    return <CohortStatic>sequelize.define("cohort", {
+export function ProductManagerFactory (sequelize: Sequelize) {
+    return <ProductoManagerStatic>sequelize.define("productomanager", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        name: {
+        github: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        startDay: {
-            type: DataTypes.DATE,
-            allowNull: false,
+            unique: true,
         },
         createdAt: {
             type: DataTypes.DATE,

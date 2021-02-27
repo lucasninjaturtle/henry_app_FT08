@@ -1,47 +1,42 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface classAttributes {
+export interface UserAttributes {
     id: number;
-    ordinal: number;
     name: string;
-    githubrep: string;
-    githubfeedback: string;
-    githubquizzlink: string;
-    videorecorder: string;
+    lastname: string;
+    email: string;
+    password: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
-export interface ClassModel extends Model<classAttributes>, classAttributes {}
-export class Class extends Model<ClassModel, classAttributes> {}
+export interface UserModel extends Model<UserAttributes>, UserAttributes {}
+export class User extends Model<UserModel, UserAttributes> {}
 
-export type ClassStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): ClassModel;
+export type UserStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): UserModel;
 };
 
-export function ClassFactory (sequelize: Sequelize) {
-    return <ClassStatic>sequelize.define("class", {
+export function UserFactory (sequelize: Sequelize) {
+    return <UserStatic>sequelize.define("users", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        githubrep: {
+        lastName: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        githubfeedback: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        githubquizzlink: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        videorecorder: {
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
         },

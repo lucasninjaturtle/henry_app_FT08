@@ -1,33 +1,29 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface cohortAttributes {
+export interface StudentAttributes {
     id: number;
-    name: string;
-    startDay: Date;
+    github: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
-export interface cohortModel extends Model<cohortAttributes>, cohortAttributes {}
-export class Cohort extends Model<cohortModel, cohortAttributes> {}
+export interface StudentModel extends Model<StudentAttributes>, StudentAttributes {}
+export class Student extends Model<StudentModel, StudentAttributes> {}
 
-export type CohortStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): cohortModel;
+export type StudentStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): StudentModel;
 };
 
-export function CohortFactory (sequelize: Sequelize) {
-    return <CohortStatic>sequelize.define("cohort", {
+export function StudentFactory (sequelize: Sequelize) {
+    return <StudentStatic>sequelize.define("student", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        name: {
+        github: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        startDay: {
-            type: DataTypes.DATE,
-            allowNull: false,
+            unique: true,
         },
         createdAt: {
             type: DataTypes.DATE,

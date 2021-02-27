@@ -1,27 +1,33 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
-import { User } from './User'
+import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-@Table({
-  defaultScope: {
-    attributes: { exclude: ["deletedAt"] }
-  },
-  paranoid: false,
-  tableName: "Admin"
-})
+export interface adminAttributes {
+    id: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+export interface adminModel extends Model<adminAttributes>, adminAttributes {}
+export class Admin extends Model<adminModel, adminAttributes> {}
 
-export class Admin extends Model {
-  @Column({
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataType.INTEGER
-  })
-  id!: string;
+export type AdminStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): adminModel;
+};
 
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  @ForeignKey(() => User)
-  UserId!: string;
+export function AdminFactory (sequelize: Sequelize) {
+    return <AdminStatic>sequelize.define("admin", {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+    });
 }

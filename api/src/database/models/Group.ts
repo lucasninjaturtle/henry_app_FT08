@@ -1,25 +1,38 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-@Table({
-  defaultScope: {
-    attributes: { exclude: ["deletedAt"] }
-  },
-  paranoid: false,
-  tableName: "Group"
-})
+export interface groupAttributes {
+    id: number;
+    name: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+export interface GroupModel extends Model<groupAttributes>, groupAttributes {}
+export class Group extends Model<GroupModel, groupAttributes> {}
 
-export class Group extends Model {
-  @Column({
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataType.INTEGER
-  })
-  id!: string;
+export type GroupStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): GroupModel;
+};
 
-  @Column({
-    allowNull: false,
-    type: DataType.STRING
-  })
-  name!: string;
+export function GroupFactory (sequelize: Sequelize) {
+    return <GroupStatic>sequelize.define("group", {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+    });
 }
