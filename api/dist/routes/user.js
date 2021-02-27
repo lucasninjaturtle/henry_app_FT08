@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const user_1 = __importDefault(require("./user"));
-const github_1 = __importDefault(require("./github"));
 const router = express_1.Router();
-router.use("/user", user_1.default);
-router.use("/github", github_1.default);
+// Importo los controllers de cada ruta
+const userController_1 = __importDefault(require("../controller/userController"));
+// Rutas
+router.get("/", userController_1.default.getUsers);
 exports.default = router;

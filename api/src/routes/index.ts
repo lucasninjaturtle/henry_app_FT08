@@ -5,3 +5,5 @@ const router = Router()
 
 router.use("/user", userRouter)
 router.use("/github", githubRouter)
+
+export default router
