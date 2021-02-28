@@ -32,7 +32,7 @@ const Stats = ()=> {
               </Left>
               <Body>
                 <Text>Johndoegithubprofile</Text>
-                <Text note>Your GI Stats messured in Lines of code</Text>
+                <Text note>Github stats messured in Lines of code</Text>
               </Body>
               <Right>
                 <Text note></Text>
@@ -68,9 +68,9 @@ const Stats = ()=> {
     yAxisSuffix="L"
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa722",
+      backgroundColor: "#f2cc8f",
+      backgroundGradientFrom: "#f2cc8f",
+      backgroundGradientTo: "#f2cc8f",
       decimalPlaces: 0, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,

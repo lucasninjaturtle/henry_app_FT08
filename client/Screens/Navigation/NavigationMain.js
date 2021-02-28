@@ -7,10 +7,10 @@ import { Ionicons } from '@expo/vector-icons'
 
 //Stacks
 import HomeNavigator from './HomeNavigator'
-//import StatsNavigator from './Stats/StatsNavigator'
+
 import Home from '../Home/Home'
 import CalendarNavigator from '../Calendar/CalendarNavigator'
-import StatsNavigator from './Stats/StatsNavigator'
+import StatsNavigator from '../Stats/StatsNavigator'
 
 const Tab = createBottomTabNavigator();
 
