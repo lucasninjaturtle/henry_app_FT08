@@ -11,6 +11,7 @@ import HomeNavigator from './HomeNavigator'
 import Home from '../Home/Home'
 import CalendarNavigator from '../Calendar/CalendarNavigator'
 import StatsNavigator from '../Stats/StatsNavigator'
+import ChatNavigator from '../Chat/ChatNavigator'
 
 const Tab = createBottomTabNavigator();
 
@@ -76,7 +77,7 @@ const NavigationMain = () =>{
 
 <Tab.Screen
             name='Chat'
-            component={HomeNavigator}
+            component={ChatNavigator}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons

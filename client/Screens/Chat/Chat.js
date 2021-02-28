@@ -1,5 +1,5 @@
 // @refresh reset
-import React, {Component, useState, useEffect} from 'react'
+import React, {Component, useState, useEffect, useCallback} from 'react'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -43,10 +43,15 @@ useEffect(()=>{
       const message = doc.data()
       return {...message, createdAt:message.createdAt.toDate()}
     }).sort((a,b)=>b.createdAt.getTime() - a.createdAt.getTime())
-    setMessages(messagesFirestore)
+    appenMessages(messagesFirestore)
   })
 
 }, [])
+
+const appenMessages = useCallback((messages)=>{
+  setMessages((previousMessages)=>GiftedChat.append(previousMessages, messages))
+},[messages])
+
 
 const readUser = async ()=>{
   const user = await AsyncStorage.getItem('user')
