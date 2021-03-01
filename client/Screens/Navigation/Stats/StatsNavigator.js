@@ -1,6 +1,6 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
-import Home from '../Home/Home'
+import Stats from './Stats'
 
 const Stack = createStackNavigator()
 
@@ -10,8 +10,8 @@ const MyStack = ()=>{
     return (
         <Stack.Navigator>
             <Stack.Screen
-            name='Home'
-            component={Home}
+            name='Stats'
+            component={Stats}
             options={{
                 headerShown: false,
             }}
@@ -20,7 +20,7 @@ const MyStack = ()=>{
     )
 }
 
-export default function HomeNavigator(){
+export default function StatsNavigator(){
     return <MyStack/>
 }
 
