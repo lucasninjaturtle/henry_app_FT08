@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express";
 const app = express();
 import indexRoutes from './routes/index'
 import { db } from "./database/models/index";
@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors())
 
 // Rutas
-app.use(indexRoutes)
+app.use(indexRoutes);
 
 // INICIO DB
 db.sequelize
