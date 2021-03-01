@@ -1,20 +1,20 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface productoManagerAttributes {
+export interface proyectManagerAttributes {
     id: number;
     github: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
-export interface productoManagerModel extends Model<productoManagerAttributes>, productoManagerAttributes {}
-export class productManager extends Model<productoManagerModel, productoManagerAttributes> {}
+export interface proyectManagerModel extends Model<proyectManagerAttributes>, proyectManagerAttributes {}
+export class proyectManager extends Model<proyectManagerModel, proyectManagerAttributes> {}
 
-export type ProductoManagerStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): productoManagerModel;
+export type ProyectManagerStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): proyectManagerModel;
 };
 
-export function ProductManagerFactory (sequelize: Sequelize) {
-    return <ProductoManagerStatic>sequelize.define("productomanager", {
+export function ProyectManagerFactory (sequelize: Sequelize) {
+    return <ProyectManagerStatic>sequelize.define("proyectmanager", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

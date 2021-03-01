@@ -1,22 +1,22 @@
 import { Sequelize } from "sequelize";
 require('dotenv').config()
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
-import { UserFactory, UserStatic } from "./users";
-import { StudentFactory, StudentStatic } from "./students"
-import { InstructorFactory, InstructorStatic } from "./instructor"
-import { ProductManagerFactory, ProductoManagerStatic } from "./productmanager"
-import { AdminFactory, AdminStatic } from "./admin"
-import { CohortFactory, CohortStatic } from "./cohort"
-import { ClassFactory, ClassStatic } from "./class"
-import { ModuleFactory, ModuleStatic } from "./module"
-import { GroupFactory, GroupStatic } from "./group"
+import { UserFactory, UserStatic } from "./Users";
+import { StudentFactory, StudentStatic } from "./Students"
+import { InstructorFactory, InstructorStatic } from "./Instructor"
+import { ProyectManagerFactory, ProyectManagerStatic } from "./ProyectManager"
+import { AdminFactory, AdminStatic } from "./Admin"
+import { CohortFactory, CohortStatic } from "./Cohort"
+import { ClassFactory, ClassStatic } from "./Class"
+import { ModuleFactory, ModuleStatic } from "./Module"
+import { GroupFactory, GroupStatic } from "./Group"
 
 export interface DB {
     sequelize: Sequelize;
     User: UserStatic;
     Student: StudentStatic;
     Instructor: InstructorStatic;
-    ProductManager: ProductoManagerStatic;
+    ProyectManager: ProyectManagerStatic;
     Admin: AdminStatic;
     Cohort: CohortStatic;
     Class: ClassStatic;
@@ -47,7 +47,7 @@ const sequelize = new Sequelize(
 const User = UserFactory(sequelize);
 const Student = StudentFactory(sequelize);
 const Instructor = InstructorFactory(sequelize);
-const ProductManager = ProductManagerFactory(sequelize);
+const ProyectManager = ProyectManagerFactory(sequelize);
 const Admin = AdminFactory(sequelize);
 const Cohort = CohortFactory(sequelize);
 const Class = ClassFactory(sequelize);
@@ -55,28 +55,46 @@ const Module = ModuleFactory(sequelize);
 const Group = GroupFactory(sequelize);
 
 // RELACION ENTRE MODELOS
-Cohort.belongsTo(Instructor);
-Instructor.hasOne(Cohort);
-Cohort.hasMany(Student);
-Student.belongsTo(Cohort)
-Group.hasMany(Student);
+User.hasOne(Student)
+Student.belongsTo(User)
+
+User.hasOne(Instructor)
+Instructor.belongsTo(User)
+
+User.hasOne(ProyectManager)
+ProyectManager.belongsTo(User)
+
+User.hasOne(Admin)
+Admin.belongsTo(User)
+
+Cohort.belongsTo(Instructor)
+Instructor.hasMany(Cohort)
+
+Group.hasMany(ProyectManager)
+ProyectManager.belongsTo(Group)
+
 Student.belongsTo(Group)
-Group.belongsTo(ProductManager)
-ProductManager.hasOne(Group)
-Group.hasOne(Cohort)
-Module.hasOne(Cohort)
+Group.hasMany(Student)
+
+Group.belongsTo(Cohort)
+Cohort.hasMany(Group)
+
+Module.belongsTo(Cohort)
+Cohort.hasMany(Module)
+
+Student.belongsTo(Cohort)
+Cohort.hasMany(Student)
+
+Student.belongsTo(Group)
 Class.belongsTo(Module)
-User.hasMany(Instructor)
-User.hasMany(Student)
-User.hasMany(ProductManager)
-User.hasMany(Admin)
+Module.hasMany(Class)
 
 export const db: DB = {
     sequelize,
     User,
     Student,
     Instructor,
-    ProductManager,
+    ProyectManager,
     Admin,
     Cohort,
     Class,

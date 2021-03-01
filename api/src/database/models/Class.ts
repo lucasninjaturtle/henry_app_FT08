@@ -4,6 +4,7 @@ export interface classAttributes {
     id: number;
     ordinal: number;
     name: string;
+    startday: Date;
     githubrep: string;
     githubfeedback: string;
     githubquizzlink: string;
@@ -27,6 +28,10 @@ export function ClassFactory (sequelize: Sequelize) {
         },
         name: {
             type: DataTypes.STRING,
+            allowNull: false,
+        },
+        startday: {
+            type: DataTypes.DATE,
             allowNull: false,
         },
         githubrep: {
