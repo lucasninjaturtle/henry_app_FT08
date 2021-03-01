@@ -45,7 +45,7 @@ useEffect(()=>{
     }).sort((a,b)=>b.createdAt.getTime() - a.createdAt.getTime())
     appenMessages(messagesFirestore)
   })
-
+return () => unsubscribe()
 }, [])
 
 const appenMessages = useCallback((messages)=>{
