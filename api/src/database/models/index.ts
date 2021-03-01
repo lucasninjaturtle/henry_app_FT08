@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 require("dotenv").config();
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 import { UserFactory, UserStatic } from "./User";
 import { StudentFactory, StudentStatic } from "./Student";
 import { InstructorFactory, InstructorStatic } from "./Instructor";
@@ -87,6 +86,7 @@ Cohort.hasMany(Student);
 
 Student.belongsTo(Group);
 Class.belongsTo(Module);
+
 Module.hasMany(Class);
 
 export const db: DB = {
