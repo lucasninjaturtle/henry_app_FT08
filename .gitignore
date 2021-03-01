@@ -1,4 +1,4 @@
 node_modules/
 .env
 api/dist
-api/package-lock
+api/package-lock.json
