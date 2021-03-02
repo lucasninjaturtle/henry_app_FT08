@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869456409904",
+    "project_id": "henry-app-13095",
+    "storage_bucket": "henry-app-13095.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869456409904:android:d7648868ac658365a084f5",
+        "android_client_info": {
+          "package_name": "com.henry.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869456409904-36sn8e75odmcgnmm6l3m211ftu3mfl6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe-Hjg9kVq2VLI0mPQrIlgmRVxL8MN6pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869456409904-36sn8e75odmcgnmm6l3m211ftu3mfl6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
