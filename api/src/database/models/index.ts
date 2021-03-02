@@ -66,28 +66,26 @@ ProyectManager.belongsTo(User);
 User.hasOne(Admin);
 Admin.belongsTo(User);
 
-Cohort.belongsTo(Instructor);
 Instructor.hasMany(Cohort);
+Cohort.belongsTo(Instructor);
 
 Group.hasMany(ProyectManager);
 ProyectManager.belongsTo(Group);
 
-Student.belongsTo(Group);
 Group.hasMany(Student);
-
-Group.belongsTo(Cohort);
-Cohort.hasMany(Group);
-
-Module.belongsTo(Cohort);
-Cohort.hasMany(Module);
-
-Student.belongsTo(Cohort);
-Cohort.hasMany(Student);
-
 Student.belongsTo(Group);
-Class.belongsTo(Module);
+
+Cohort.hasMany(Group);
+Group.belongsTo(Cohort);
+
+Cohort.hasMany(Module);
+Module.belongsTo(Cohort);
+
+Cohort.hasMany(Student);
+Student.belongsTo(Cohort);
 
 Module.hasMany(Class);
+Class.belongsTo(Module);
 
 export const db: DB = {
   sequelize,
