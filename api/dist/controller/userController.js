@@ -5,9 +5,8 @@ const users = {
         try {
             /* const response: QueryResult = await db.query('SELECT * FROM users');
             console.log(response.rows) */
-            let respuesta = res;
-            console.log(res);
-            return res.status(200).send("Hola");
+            console.log("Hola");
+            return res.status(200).json("Hola");
         }
         catch (e) {
             console.log(e);

@@ -16,6 +16,10 @@ function ClassFactory(sequelize) {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
         },
+        startday: {
+            type: sequelize_1.DataTypes.DATE,
+            allowNull: false,
+        },
         githubrep: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
