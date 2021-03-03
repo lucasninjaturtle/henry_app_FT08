@@ -7,10 +7,11 @@ import { Ionicons } from '@expo/vector-icons'
 
 //Stacks
 import HomeNavigator from './HomeNavigator'
-//import StatsNavigator from './Stats/StatsNavigator'
+
 import Home from '../Home/Home'
 import CalendarNavigator from '../Calendar/CalendarNavigator'
-import StatsNavigator from './Stats/StatsNavigator'
+import StatsNavigator from '../Stats/StatsNavigator'
+import ChatNavigator from '../Chat/ChatNavigator'
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +24,12 @@ const NavigationMain = () =>{
         tabBarOptions={{
             // keyboardHidesTabBar=true,
             // showLabel=false,
-            activeTintColor: 'red',
+            activeTintColor: '#f2cc8f',
           inactiveTintColor: 'black',
+          style: {
+            backgroundColor: '#fca311',
+        
+          },
         }}
         
         >
@@ -37,7 +42,7 @@ const NavigationMain = () =>{
                     name='home'
                     style={{position:'relative'}}
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -50,7 +55,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='calendar'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -64,7 +69,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='analytics'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}
@@ -72,13 +77,13 @@ const NavigationMain = () =>{
 
 <Tab.Screen
             name='Chat'
-            component={HomeNavigator}
+            component={ChatNavigator}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons
                     name='md-chatbubbles'
                     color={color}
-                    size={45}
+                    size={40}
                     />
                 )
             }}

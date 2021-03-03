@@ -4,10 +4,11 @@ import {Image} from 'react-native'
 import {StyleSheet} from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
 
-const Login = () => {
+const Login = (props) => {
 
     function simulateLogin() {
         console.log("Login!")
+        props.test(true)
     }
 
     return (

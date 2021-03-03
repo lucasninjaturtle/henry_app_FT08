@@ -1,37 +1,101 @@
-'use strict';
+import { Sequelize } from "sequelize";
+require("dotenv").config();
+import { UserFactory, UserStatic } from "./User";
+import { StudentFactory, StudentStatic } from "./Student";
+import { InstructorFactory, InstructorStatic } from "./Instructor";
+import { ProyectManagerFactory, ProyectManagerStatic } from "./ProyectManager";
+import { AdminFactory, AdminStatic } from "./Admin";
+import { CohortFactory, CohortStatic } from "./Cohort";
+import { ClassFactory, ClassStatic } from "./Class";
+import { ModuleFactory, ModuleStatic } from "./Module";
+import { GroupFactory, GroupStatic } from "./Group";
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db:any = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+export interface DB {
+  sequelize: Sequelize;
+  User: UserStatic;
+  Student: StudentStatic;
+  Instructor: InstructorStatic;
+  ProyectManager: ProyectManagerStatic;
+  Admin: AdminStatic;
+  Cohort: CohortStatic;
+  Class: ClassStatic;
+  Module: ModuleStatic;
+  Group: GroupStatic;
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// CONFIGURACION DB
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    port: Number(process.env.DB_PORT) || 5432,
+    host: process.env.DB_HOST || "localhost",
+    dialect: "postgres",
+    logging: false,
+    pool: {
+      min: 0,
+      max: 5,
+      acquire: 30000,
+      idle: 10000
+    }
   }
-});
+);
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// RELACION LOS MODELOS CON SEQUELIZE
+const User = UserFactory(sequelize);
+const Student = StudentFactory(sequelize);
+const Instructor = InstructorFactory(sequelize);
+const ProyectManager = ProyectManagerFactory(sequelize);
+const Admin = AdminFactory(sequelize);
+const Cohort = CohortFactory(sequelize);
+const Class = ClassFactory(sequelize);
+const Module = ModuleFactory(sequelize);
+const Group = GroupFactory(sequelize);
 
-export default db;
+// RELACION ENTRE MODELOS
+User.hasOne(Student);
+Student.belongsTo(User);
+
+User.hasOne(Instructor);
+Instructor.belongsTo(User);
+
+User.hasOne(ProyectManager);
+ProyectManager.belongsTo(User);
+
+User.hasOne(Admin);
+Admin.belongsTo(User);
+
+Instructor.hasMany(Cohort);
+Cohort.belongsTo(Instructor);
+
+Group.hasMany(ProyectManager);
+ProyectManager.belongsTo(Group);
+
+Group.hasMany(Student);
+Student.belongsTo(Group);
+
+Cohort.hasMany(Group);
+Group.belongsTo(Cohort);
+
+Cohort.hasMany(Module);
+Module.belongsTo(Cohort);
+
+Cohort.hasMany(Student);
+Student.belongsTo(Cohort);
+
+Module.hasMany(Class);
+Class.belongsTo(Module);
+
+export const db: DB = {
+  sequelize,
+  User,
+  Student,
+  Instructor,
+  ProyectManager,
+  Admin,
+  Cohort,
+  Class,
+  Module,
+  Group
+};
