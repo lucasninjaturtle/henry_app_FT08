@@ -12,14 +12,14 @@ export interface classAttributes {
     createdAt?: Date;
     updatedAt?: Date;
 }
-export interface ClassModel extends Model<classAttributes>, classAttributes {}
-export class Class extends Model<ClassModel, classAttributes> {}
+export interface ClassModel extends Model<classAttributes>, classAttributes { }
+export class Class extends Model<ClassModel, classAttributes> { }
 
 export type ClassStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): ClassModel;
+    new(values?: object, options?: BuildOptions): ClassModel;
 };
 
-export function ClassFactory (sequelize: Sequelize) {
+export function ClassFactory(sequelize: Sequelize) {
     return <ClassStatic>sequelize.define("class", {
         id: {
             type: DataTypes.INTEGER,

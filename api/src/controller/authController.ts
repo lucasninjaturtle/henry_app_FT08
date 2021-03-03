@@ -5,7 +5,6 @@ const auth = {
         console.log("Se inicio correctamente")
         res.status(200).send("Se inicio correctamente")
     },
-
 }
 
 export default auth
