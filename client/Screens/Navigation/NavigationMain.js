@@ -12,6 +12,7 @@ import Home from '../Home/Home'
 import CalendarNavigator from '../Calendar/CalendarNavigator'
 import StatsNavigator from '../Stats/StatsNavigator'
 import ChatNavigator from '../Chat/ChatNavigator'
+import Login from '../Login/Login'
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +21,7 @@ const NavigationMain = () =>{
     
     return(
         <Tab.Navigator 
-        initialRouteName='Home'
+        initialRouteName='Login'
         tabBarOptions={{
             // keyboardHidesTabBar=true,
             // showLabel=false,
@@ -35,7 +36,7 @@ const NavigationMain = () =>{
         >
             <Tab.Screen
             name="Home"
-            component={HomeNavigator}
+            component={Login}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons

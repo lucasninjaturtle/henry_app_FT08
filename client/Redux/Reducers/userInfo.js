@@ -4,7 +4,7 @@ import {
 
 
 let initialState = {
-    user:'pepe',
+    user:'',
     userInfo:{},
 }
 

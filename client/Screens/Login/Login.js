@@ -3,13 +3,10 @@ import {View, Text, Button} from 'native-base'
 import {Image} from 'react-native'
 import {StyleSheet} from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
+import firebase from 'firebase'
 
-const Login = (props) => {
 
-    function simulateLogin() {
-        console.log("Login!")
-        props.test(true)
-    }
+const Login = () => {
 
     return (
         <View style={styles.view}>
@@ -18,7 +15,7 @@ const Login = (props) => {
                 style={styles.img}
                 
             />
-            <Button onPress={simulateLogin} style={styles.btn}>
+            <Button style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>
