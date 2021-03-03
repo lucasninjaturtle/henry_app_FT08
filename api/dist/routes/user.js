@@ -8,5 +8,5 @@ const router = express_1.Router();
 // Importo los controllers de cada ruta
 const userController_1 = __importDefault(require("../controller/userController"));
 // Rutas
-router.get("/", userController_1.default.getUsers);
+router.get("/", userController_1.default.getUser);
 exports.default = router;

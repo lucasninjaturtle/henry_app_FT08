@@ -5,6 +5,6 @@ const router = Router()
 import users from "../controller/userController"
 
 // Rutas
-router.get("/", users.getUsers)
+router.get("/", users.getUser)
 
 export default router;

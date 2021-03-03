@@ -53,7 +53,7 @@ INSERT INTO students VALUES
     (5, 'njgnjg', now(), now(), 14, 3, 6),
     (6, 'bhrbhr', now(), now(), 15, 3, 6),
     (7, 'qcsqcs', now(), now(), 16, 4, 6),
-    (8, 'sdy', now(), now(), 17, 4, 6);
+    (8, 'sdysdy', now(), now(), 17, 4, 6);
 
 
 INSERT INTO users VALUES
@@ -74,3 +74,6 @@ INSERT INTO users VALUES
     (15, 'hbr', 'bhr', 'bhr.bhr@gmail.com', 1414141414, 'hash', now(), now()),
     (16, 'qcs', 'qcs', 'qcs.qcs@gmail.com', 1515151515, 'hash', now(), now()),
     (17, 'sdy', 'sdy', 'sdy.sdy@gmail.com', 1161616161, 'hash', now(), now());
+
+INSERT INTO studentsPm VALUES
+    (now(), now()),
