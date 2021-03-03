@@ -1,10 +1,10 @@
-import {Router} from 'express'
+import { Router } from 'express'
+import userRouter from './user'
+import authRouter from './auth'
+
 const router = Router()
 
-// Importo los controllers de cada ruta
-import {getUsers} from "../controller/indexController"
+router.use("/user", userRouter)
+router.use("/auth", authRouter)
 
-// Rutas
-router.get("/users", getUsers)
-
-export default router;
+export default router
