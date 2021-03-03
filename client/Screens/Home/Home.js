@@ -21,7 +21,7 @@ export default function Home() {
                     {user.name}
                 </Text>
                 <Text >
-                    GitHub User: {user.gitUser}
+                    GitHub Usser: {user.gitUser}
                 </Text>
               </Body>
             </CardItem>

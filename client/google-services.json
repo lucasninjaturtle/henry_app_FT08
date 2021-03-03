@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "869456409904",
-    "project_id": "henry-app-13095",
-    "storage_bucket": "henry-app-13095.appspot.com"
+    "project_number": "173093822930",
+    "firebase_url": "https://henry-app-94d17-default-rtdb.firebaseio.com",
+    "project_id": "henry-app-94d17",
+    "storage_bucket": "henry-app-94d17.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:869456409904:android:d7648868ac658365a084f5",
+        "mobilesdk_app_id": "1:173093822930:android:902f047fa8b7740874e80b",
         "android_client_info": {
-          "package_name": "com.henry.app"
+          "package_name": "com.henryapp2.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "869456409904-36sn8e75odmcgnmm6l3m211ftu3mfl6u.apps.googleusercontent.com",
+          "client_id": "173093822930-nrnb2iga73tqn4o9hv3got0l4o8diddu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCe-Hjg9kVq2VLI0mPQrIlgmRVxL8MN6pk"
+          "current_key": "AIzaSyAVDyZ4dMqfU3ZIo97j3XdovzHV4c0KjuQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "869456409904-36sn8e75odmcgnmm6l3m211ftu3mfl6u.apps.googleusercontent.com",
+              "client_id": "173093822930-nrnb2iga73tqn4o9hv3got0l4o8diddu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
