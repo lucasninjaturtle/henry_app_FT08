@@ -1,30 +1,30 @@
 INSERT INTO users VALUES
-    (1, 'marcos', 'grizzuti', 'marcos.grizzuti@gmail.com', 541112345678, 'hash', now(), now()),
-    (2, 'qwe', 'qwe', 'qwe.qwe@gmail.com', 1111311111, 'hash', now(), now()),
-    (3, 'asd', 'asd', 'asd.asd@gmail.com', 2222222222, 'hash', now(), now()),
-    (4, 'zxc', 'zxc', 'zxc.zxc@gmail.com', 3333333333, 'hash', now(), now()),
-    (5, 'rty', 'rty', 'rty.rty@gmail.com', 4444444444, 'hash', now(), now()),
-    (6, 'fgh', 'fgh', 'fgh.fgh@gmail.com', 5555555555, 'hash', now(), now()),
-    (7, 'vbn', 'vbn', 'vbn.vbn@gmail.com', 6666666666, 'hash', now(), now()),
-    (8, 'uio', 'uio', 'uio.uio@gmail.com', 7777777777, 'hash', now(), now()),
-    (9, 'jkl', 'jkl', 'jkl.jkl@gmail.com', 8888888888, 'hash', now(), now()),
-    (10, 'nmh', 'nmh', 'nmh.nmh@gmail.com', 9999999999, 'hash', now(), now()),
-    (11, 'ert', 'ert', 'ert.ert@gmail.com', 1010101010, 'hash', now(), now()),
-    (12, 'dfg', 'dfg', 'dfg.dfg@gmail.com', 1111111111, 'hash', now(), now()),
-    (13, 'xcb', 'xcb', 'xcb.xcb@gmail.com', 1212121212, 'hash', now(), now()),
-    (14, 'njg', 'njg', 'njg.njg@gmail.com', 1313131313, 'hash', now(), now()),
-    (15, 'hbr', 'bhr', 'bhr.bhr@gmail.com', 1414141414, 'hash', now(), now()),
-    (16, 'qcs', 'qcs', 'qcs.qcs@gmail.com', 1515151515, 'hash', now(), now()),
-    (17, 'sdy', 'sdy', 'sdy.sdy@gmail.com', 1161616161, 'hash', now(), now());
+    (1, 'marcos', 'grizzuti', 'marcos.grizzuti@gmail.com', 541137775964, 'hash', now(), now()),
+    (2, 'Rodolfo', 'Estefania ', 'Rodolfo.Rodríguez@gmail.com', 541189775488, 'hash', now(), now()),
+    (3, 'Manuel', 'Chen', 'Manuel.Chen@gmail.com', 541172411070, 'hash', now(), now()),
+    (4, 'Aaron', 'Conde', 'Aaron.Conde@gmail.com', 541135909686, 'hash', now(), now()),
+    (5, 'Axel', 'Arribas', 'Axel.Arribas@gmail.com', 541182501588, 'hash', now(), now()),
+    (6, 'Juan', 'Rodrguez', 'Juan.Rodrguez@gmail.com', 541127964205, 'hash', now(), now()),
+    (7, 'Roberto', 'Castillo', 'Roberto.Castillo@gmail.com', 541103526017, 'hash', now(), now()),
+    (8, 'Jacobo', 'Catala', 'Jacobo.Catala@gmail.com', 541175693944, 'hash', now(), now()),
+    (9, 'Jordi', 'Saiz', 'Jordi.Saiz@gmail.com', 541102914610, 'hash', now(), now()),
+    (10, 'Gaizka', 'Ferreiro', 'Gaizka.Ferreiro@gmail.com', 541141681934, 'hash', now(), now()),
+    (11, 'Martin', 'Sánchez', 'Martin.Sánchez@gmail.com', 541179525651, 'hash', now(), now()),
+    (12, 'Bartolome', 'Soriano', 'Bartolome.Soriano@gmail.com', 541117126216, 'hash', now(), now()),
+    (13, 'Jesus', 'Latorre', 'Jesus.Latorre@gmail.com', 541189878207, 'hash', now(), now()),
+    (14, 'Luciano', 'Menendez', 'Luciano.Menendez@gmail.com', 541189397249, 'hash', now(), now()),
+    (15, 'Gabriel', 'Quero', 'Gabriel.Quero@gmail.com', 541105916738, 'hash', now(), now()),
+    (16, 'Marcelino', 'Andujar', 'Marcelino.Andujar@gmail.com', 541169978956, 'hash', now(), now()),
+    (17, 'Luis', 'Juarez', 'Luis.Juarez@gmail.com', 541186574503, 'hash', now(), now());
 
 INSERT INTO admins VALUES
     (1, now(), now(), 1);
 
 INSERT INTO instructors VALUES
-    (1, 'qweqwe', now(), now(), 2),
-    (2, 'asdasd', now(), now(), 3),
-    (3, 'zxczxc', now(), now(), 4),
-    (4, 'rtyrty', now(), now(), 5);
+    (1, 'RodolfoRodríguez', now(), now(), 2),
+    (2, 'ManuelChen', now(), now(), 3),
+    (3, 'AaronConde', now(), now(), 4),
+    (4, 'AxelArribas', now(), now(), 5);
 
 INSERT INTO cohorts VALUES
     (1, 'Ft05', '01/12/2020', now(), now(), 1),
@@ -41,10 +41,10 @@ INSERT INTO groups VALUES
     (4, 'Ft10-g2', now(), now(), 6);
 
 INSERT INTO projectmanagers VALUES
-    (1, 'fghfgh', now(), now(), 6, 1),
-    (2, 'vbnvbn', now(), now(), 7, 2),
-    (3, 'uiouio', now(), now(), 8, 3),
-    (4, 'jkljkl', now(), now(), 9, 4);
+    (1, 'JuanRodrguez', now(), now(), 6, 1),
+    (2, 'RobertoCastillo', now(), now(), 7, 2),
+    (3, 'JacoboCatala', now(), now(), 8, 3),
+    (4, 'JordiSaiz', now(), now(), 9, 4);
 
 INSERT INTO modules VALUES
     (1, 'Fundamentions', '01/04/2021', '13/04/2021', now(), now(), 6),
@@ -65,11 +65,11 @@ INSERT INTO classes VALUES
     (8, 'class42', '18/05/2021', 'link', 'link', 'link', 'link', now(), now(), 4);
 
 INSERT INTO students VALUES
-    (1, 'nmhnmh', now(), now(), 10, 1, 5),
-    (2, 'ertert', now(), now(), 11, 1, 5),
-    (3, 'dfgdfg', now(), now(), 12, 2, 5),
-    (4, 'xcbxcb', now(), now(), 13, 2, 5),
-    (5, 'njgnjg', now(), now(), 14, 3, 6),
-    (6, 'bhrbhr', now(), now(), 15, 3, 6),
-    (7, 'qcsqcs', now(), now(), 16, 4, 6),
-    (8, 'sdysdy', now(), now(), 17, 4, 6);
+    (1, 'GaizkaFerreiro', now(), now(), 10, 1, 5),
+    (2, 'MartinSánchez', now(), now(), 11, 1, 5),
+    (3, 'BartolomeSoriano', now(), now(), 12, 2, 5),
+    (4, 'JesusLatorre', now(), now(), 13, 2, 5),
+    (5, 'LucianoMenendez', now(), now(), 14, 3, 6),
+    (6, 'GabrielQuero', now(), now(), 15, 3, 6),
+    (7, 'MarcelinoAndujar', now(), now(), 16, 4, 6),
+    (8, 'LuisJuarez', now(), now(), 17, 4, 6);

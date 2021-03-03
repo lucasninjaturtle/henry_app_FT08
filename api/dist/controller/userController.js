@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../database/models/index");
 const users = {
     getUser: function (req, res) {
+        const { id } = req.params;
         index_1.db.Student.findAll({
-            include: [index_1.db.User, index_1.db.Cohort, index_1.db.Group]
+            include: [index_1.db.User, index_1.db.Cohort, index_1.db.Group],
+            where: { id: id }
         })
             .then((getUserGrlData) => {
             let instructorName = getUserGrlData[0].cohort.dataValues.instructorId;
@@ -29,21 +31,22 @@ const users = {
                             }]
                     })
                         .then((getUserModule) => {
-                        instructorName = getUserInstructor.user.name;
-                        let search = getUserGrlData[0];
                         let user = {
-                            name: search.user.name,
-                            lastname: search.user.lastName,
-                            githubUser: search.github,
-                            cohort: search.cohort.name,
-                            instructor: instructorName,
+                            name: getUserGrlData[0].user.name,
+                            lastname: getUserGrlData[0].user.lastName,
+                            githubUser: getUserGrlData[0].github,
+                            cohort: getUserGrlData[0].cohort.name,
+                            instructor: {
+                                firstname: getUserInstructor.user.name,
+                                lastname: getUserInstructor.user.lastName
+                            },
                             group: getUserGrlData[0].group.name,
                             module: getUserModule[0].name,
                             projectManagers: {
                                 firstname: getUserPM[0].user.name,
                                 lastname: getUserPM[0].user.lastName
                             },
-                            startDay: "03/03/2021",
+                            startDay: getUserGrlData[0].createdAt,
                         };
                         res.json(user);
                     });
