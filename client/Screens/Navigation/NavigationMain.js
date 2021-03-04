@@ -36,7 +36,7 @@ const NavigationMain = () =>{
         >
             <Tab.Screen
             name="Home"
-            component={Login}
+            component={Home}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons

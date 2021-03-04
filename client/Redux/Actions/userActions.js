@@ -4,8 +4,13 @@ import {
     GET_USER_INFO,
 } from '../constants'
 
-export function getUserInfo() {
+export function getUserInfo(id) {
     return function (dispatch) {
-        axios.get('')
+        axios.get(`http://192.168.100.13:3000/user/5`)
+            .then((res) => res.data )
+            .then ( data => {
+                dispatch({ type: GET_USER_INFO, payload:data})
+            })
+            .catch(error => alert(error))
     }
 }
