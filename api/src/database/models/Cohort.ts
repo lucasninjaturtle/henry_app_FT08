@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface cohortAttributes {
+export interface cohortAttributes extends baseProps {
   name: string;
   startDay: Date;
 }

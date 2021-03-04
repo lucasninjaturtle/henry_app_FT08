@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface projectManagerAttributes {
+export interface projectManagerAttributes extends baseProps {
   github: string;
 }
 export interface projectManagerModel

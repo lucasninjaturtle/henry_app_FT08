@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface adminAttributes {}
+export interface adminAttributes extends baseProps {}
 export interface adminModel extends Model<adminAttributes>, adminAttributes {}
 export class Admin extends Model<adminModel, adminAttributes> {}
 

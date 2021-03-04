@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface instructorAttributes {
+export interface instructorAttributes extends baseProps {
   github: string;
 }
 export interface InstructorModel

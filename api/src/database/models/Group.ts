@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface groupAttributes {
+export interface groupAttributes extends baseProps {
   name: string;
 }
 export interface GroupModel extends Model<groupAttributes>, groupAttributes {}

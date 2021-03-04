@@ -1,14 +1,12 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface UserAttributes {
-  id?: number;
+export interface UserAttributes extends baseProps {
   name: string;
   lastName: string;
   email: string;
   cellphone: number;
   password?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 export interface UserModel extends Model<UserAttributes>, UserAttributes {}
 export class User extends Model<UserModel, UserAttributes> {}
