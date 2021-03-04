@@ -6,6 +6,6 @@ import {
 
 export function getUserInfo() {
     return function (dispatch) {
-        
+        axios.get('')
     }
 }

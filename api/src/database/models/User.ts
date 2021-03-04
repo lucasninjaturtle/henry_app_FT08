@@ -5,6 +5,7 @@ export interface UserAttributes {
     name: string;
     lastname: string;
     email: string;
+    cellphone: number;
     password: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -23,11 +24,6 @@ export function UserFactory (sequelize: Sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -35,6 +31,16 @@ export function UserFactory (sequelize: Sequelize) {
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        cellphone: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            unique: true,
         },
         password: {
             type: DataTypes.STRING,
