@@ -81,9 +81,7 @@ const onFailure = response => console.error(response);
                 </div>  
 
                 </form>
-                <GitHubLogin clientId="2171ad8dbd1e122f9dfb"
-    onSuccess={onSuccess}
-    onFailure={onFailure}/>,
+               
                     <input type="submit" value="Log In GitHub" class="bg-black text-white font-bold text-lg  hover:bg-gray-700 p-2 mt-8"/>
               
             </div>

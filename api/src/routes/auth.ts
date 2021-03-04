@@ -11,7 +11,6 @@ import auth from "../controller/authController"
 router.get('/login/github',
     passport.authenticate('github'), (req, res, next) => {
         console.log("=======================")
-        console.log(req.user)
     }
 );
 

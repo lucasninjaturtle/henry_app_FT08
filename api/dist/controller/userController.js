@@ -13,5 +13,13 @@ const users = {
             return res.status(500).json("Error");
         }
     },
+    loadUsers: function (req, res) {
+        try {
+            console.log(req.body);
+            return res.send('ok');
+        }
+        catch (error) {
+        }
+    },
 };
 exports.default = users;

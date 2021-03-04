@@ -9,4 +9,5 @@ const router = express_1.Router();
 const userController_1 = __importDefault(require("../controller/userController"));
 // Rutas
 router.get("/", userController_1.default.getUsers);
+router.post('/', userController_1.default.loadUsers);
 exports.default = router;

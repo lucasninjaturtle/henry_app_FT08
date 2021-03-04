@@ -6,5 +6,6 @@ import users from "../controller/userController"
 
 // Rutas
 router.get("/", users.getUsers)
+router.post('/', users.loadUsers)
 
 export default router;
