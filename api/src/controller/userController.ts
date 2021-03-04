@@ -1,18 +1,59 @@
 import { Request, Response } from 'express'
-import { QueryResult } from 'pg'
+import { where } from 'sequelize'
+import  { db } from "../database/models/index"
 
 const users = {
-    getUsers: function (req: Request, res: Response) {
-        try {
-            /* const response: QueryResult = await db.query('SELECT * FROM users');
-            console.log(response.rows) */
-            console.log("Hola")
-            return res.status(200).json("Hola")
-        }
-        catch (e) {
-            console.log(e)
-            return res.status(500).json("Error")
-        }
+    getUser: function (req: Request, res: Response) {
+        const { id } = req.params
+        db.Student.findAll({
+            include: [db.User, db.Cohort, db.Group],
+            where: { id: id}
+        })
+            .then((getUserGrlData) => {
+                let instructorName = getUserGrlData[0].cohort.dataValues.instructorId;
+                db.Instructor.findOne({
+                    instructorName,
+                    include: {model: db.User}
+                })
+                    .then((getUserInstructor) => {
+                        db.ProjectManager.findAll({
+                            include: [{
+                                model: db.User,
+                            }, {
+                                model: db.Group,
+                                where: { id: getUserGrlData[0].group.id }
+                            }]
+                        })
+                            .then((getUserPM) => {
+                                db.Module.findAll({
+                                    include: [{
+                                        model: db.Cohort,
+                                        where: { id: getUserGrlData[0].cohort.id }
+                                    }]
+                                })
+                                    .then((getUserModule) => {
+                                        let user = {
+                                            name: getUserGrlData[0].user.name,
+                                            lastname: getUserGrlData[0].user.lastName,
+                                            githubUser: getUserGrlData[0].github,
+                                            cohort: getUserGrlData[0].cohort.name,
+                                            instructor: {
+                                                firstname: getUserInstructor.user.name,
+                                                lastname: getUserInstructor.user.lastName
+                                            },
+                                            group: getUserGrlData[0].group.name,
+                                            module: getUserModule[0].name,
+                                            projectManagers: {
+                                                firstname: getUserPM[0].user.name,
+                                                lastname: getUserPM[0].user.lastName
+                                            },
+                                            startDay: getUserGrlData[0].createdAt,
+                                        }
+                                        res.json(user)
+                                    })
+                            })
+                    })
+            })
     },
     loadUsers: function (req: Request, res: Response){
 
@@ -26,4 +67,4 @@ const users = {
     },
 }
 
-export default users
+export default users;

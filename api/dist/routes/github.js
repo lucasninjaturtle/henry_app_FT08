@@ -9,4 +9,5 @@ const router = express_1.Router();
 const githubController_1 = __importDefault(require("../controller/githubController"));
 // Rutas
 router.get("/", githubController_1.default.getgithub);
+router.get("/test", githubController_1.default.test);
 exports.default = router;

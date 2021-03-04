@@ -12,11 +12,6 @@ function UserFactory(sequelize) {
             autoIncrement: true,
             primaryKey: true,
         },
-        email: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
         name: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
@@ -24,6 +19,16 @@ function UserFactory(sequelize) {
         lastName: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
+        },
+        email: {
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        cellphone: {
+            type: sequelize_1.DataTypes.BIGINT,
+            allowNull: false,
+            unique: true,
         },
         password: {
             type: sequelize_1.DataTypes.STRING,

@@ -5,7 +5,8 @@ const router = Router()
 import users from "../controller/userController"
 
 // Rutas
-router.get("/", users.getUsers)
-router.post('/', users.loadUsers)
+// router.get("/", users.getUsers)
+
+router.get("/:id", users.getUser)
 
 export default router;
