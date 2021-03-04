@@ -17,7 +17,7 @@ const github = {
     getgithub: function (req, res) {
         try {
             /* const response: QueryResult = await db.query('SELECT * FROM users');
-            console.log(response.rows) */
+                  console.log(response.rows) */
             console.log("Hola");
             return res.status(200).json("Hola");
         }
@@ -28,7 +28,8 @@ const github = {
     },
     test: function (req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            axios_1.default.get("http://api.github.com/users/MarcosGrizzuti/repos")
+            axios_1.default
+                .get("http://api.github.com/users/MarcosGrizzuti/repos")
                 .then((res) => {
                 console.log(res);
             });
