@@ -14,6 +14,7 @@ type studentData = {
 };
 
 const upload = async (req, res: Response) => {
+  console.log(req.file.filename)
   try {
     // let tutorials = [];
     let path = baseDir + "/test/" + req.file.filename;

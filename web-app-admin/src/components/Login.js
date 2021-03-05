@@ -32,8 +32,7 @@ function Login() {
     });
     postLogin(inputData);
   };
-  const onSuccess = (response) => console.log(response);
-  const onFailure = (response) => console.error(response);
+  
 
   const handleChange = (e) => {
     const { value, name } = e.target;
