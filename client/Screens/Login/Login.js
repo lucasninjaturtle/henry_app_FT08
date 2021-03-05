@@ -1,12 +1,44 @@
-import React from 'react'
+import * as React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import {View, Text, Button} from 'native-base'
 import {Image} from 'react-native'
 import {StyleSheet} from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
-import firebase from 'firebase'
+// import { AuthSession } from 'expo';
 
+WebBrowser.maybeCompleteAuthSession();
 
-const Login = () => {
+// Endpoint
+const discovery = {
+  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+  tokenEndpoint: 'https://github.com/login/oauth/access_token',
+  revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+};
+
+const Login = (props) => {
+    const [request, response, promptAsync] = useAuthRequest({
+        clientId: '4cf64d15fe0157927482',
+        scopes: ['identity'],
+        // For usage in managed apps using the proxy
+        redirectUri: makeRedirectUri({
+        // For usage in bare and standalone
+            // native: 'your.app://redirect',
+            native: 'exp://192.168.100.13:19000',
+        }),
+    }, discovery);
+
+    React.useEffect(() => {
+    if (response?.type === 'success') {
+        const { code } = response.params;
+        props.test(true)    
+        }
+    }, [response]);
+
+    function simulateLogin() {
+        console.log("Login!")
+        promptAsync();
+    }
 
     return (
         <View style={styles.view}>
@@ -15,7 +47,8 @@ const Login = () => {
                 style={styles.img}
                 
             />
-            <Button style={styles.btn}>
+            <Button disabled={!request}
+            onPress={simulateLogin} style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>

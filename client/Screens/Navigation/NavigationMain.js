@@ -12,7 +12,6 @@ import Home from '../Home/Home'
 import CalendarNavigator from '../Calendar/CalendarNavigator'
 import StatsNavigator from '../Stats/StatsNavigator'
 import ChatNavigator from '../Chat/ChatNavigator'
-import Login from '../Login/Login'
 
 const Tab = createBottomTabNavigator();
 

@@ -22,12 +22,16 @@ LogBox.ignoreAllLogs(true);
 
 export default function App() {
 
-  return (
-    <Provider store={store}>
-    <NavigationContainer>
-      <NavigationMain/>
-    </NavigationContainer>
-    </Provider>
+  const [state, setState] = useState(false)
+
+  switch (state) {
+    case false: return <Login test={setState}/>
+    default: return (
+      <Provider store={store}>
+      <NavigationContainer>
+        <NavigationMain/>
+      </NavigationContainer>
+      </Provider>
   )
-  
+  }
 }

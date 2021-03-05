@@ -12,6 +12,11 @@ export default function Home() {
       dispatch(getUserInfo())
   }, [])
     const User = useSelector((store) => store.userInfo.usuario)
+
+    if (Object.keys(User).length === 0) return <Text>
+      Abri el back boludon
+    </Text>;
+
     return (
         <Container style={styles.container}>
         <Content   padder>
