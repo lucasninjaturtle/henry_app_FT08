@@ -3,8 +3,12 @@ import GitHubLogin from "react-github-login";
 import henrylogo from "../logo_henry.png";
 import adminbg from "../admin.png";
 import { postLogin } from "../api";
+import {useHistory} from 'react-router-dom'
+
 
 function Login() {
+  let history = useHistory()
+
   const [inputData, setInputData] = useState({
     email: "",
     password: ""
@@ -31,6 +35,7 @@ function Login() {
       email: ""
     });
     postLogin(inputData);
+    history.push('/load-data')
   };
   
 

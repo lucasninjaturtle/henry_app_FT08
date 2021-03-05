@@ -3,7 +3,10 @@ import axios from "axios";
 
 function Dashboard() {
   const [dataFile, setDataFile] = useState(null);
+  const [showAlert, setShowAlert] = React.useState(false);
 
+
+  //x-data="{ show: true }" x-show="show"
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -11,6 +14,8 @@ function Dashboard() {
 
     axios.post("http://localhost:3001/csv", data).then((res) => {
       console.log(res);
+      setShowAlert(true)
+      return
     });
   };
 
@@ -72,7 +77,31 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      {/* {showAlert ? (
+        <div
+          className={
+            "text-white px-6 py-4 border-0 rounded relative mb-4 bg-5 00"
+          }
+        >
+          <span className="text-xl inline-block mr-5 align-middle">
+            <i className="fas fa-bell" />
+          </span>
+          <span className="inline-block align-middle mr-8">
+            <b className="capitalize">{color}!</b> This is a {color} alert -
+            check it out!
+          </span>
+          <button
+            className="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none"
+            onClick={() => setShowAlert(false)}
+          >
+            <span>×</span>
+          </button>
+        </div>
+      ) : null} */}
+     
     </form>
+    
+    
   );
 }
 
