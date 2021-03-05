@@ -1,9 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'react-native-gesture-handler';
 import {Image, StyleSheet} from 'react-native'
 import { Container, Icon, Content, Card, CardItem, Text, Body, Button } from "native-base";
+import {useSelector,useDispatch } from 'react-redux'
+import { getUserInfo } from '../../Redux/Actions/userActions';
+import store from '../../Redux/store';
 
 export default function Home() {
+  const dispatch = useDispatch()
+    useEffect(() => {
+      dispatch(getUserInfo())
+  }, [])
+    const User = useSelector((store) => store.userInfo.usuario)
+
+    if (Object.keys(User).length === 0) return <Text>
+      Abri el back boludon
+    </Text>;
+
     return (
         <Container style={styles.container}>
         <Content   padder>
@@ -18,10 +31,10 @@ export default function Home() {
                   <Icon name='heart'/>
                 </Text>
                 <Text >
-                    {user.name}
+                    {User.name}
                 </Text>
                 <Text >
-                    GitHub Usser: {user.gitUser}
+                    GitHub User: {User.githubUser}
                 </Text>
               </Body>
             </CardItem>
@@ -29,25 +42,25 @@ export default function Home() {
               <Text>Datos</Text>
             </CardItem>
             <CardItem  >
-              <Text>Instructor: {user.instructor}</Text>
+              <Text>Instructor: {User.instructor.firstname} {User.instructor.lastname} </Text>
             </CardItem>
             <CardItem  >
-              <Text>PM: {user.pm}</Text>
+              <Text>PM: {User.projectManagers.firstname} {User.projectManagers.lastname} </Text>
             </CardItem>
             <CardItem  >
-              <Text>Cohorte actual: {user.cohorte}</Text>
-              <Button>
+              <Text>Cohorte actual: {User.cohort}</Text>
+              {/* <Button>
               <Icon name='eye'/>
-                </Button>
+                </Button> */}
             </CardItem>
             <CardItem  >
-              <Text>Fecha Ingreso: {user.joinDate} </Text>
+              <Text>Fecha Ingreso: {User.startDay.slice(0,10)} </Text>
             </CardItem>
             <CardItem  >
-                <Text>Modulo Actual: {user.actualModule} </Text>
-                <Button>
+                <Text>Modulo Actual: {User.module} </Text>
+                {/* <Button>
                     <Icon name='eye'/>
-                </Button>
+                </Button> */}
             </CardItem>
           </Card>
         </Content>
@@ -55,16 +68,6 @@ export default function Home() {
     )
 }
 
-const user = {
-  name:'Lautaro Paez',
-  gitUser:'lautaro202',
-  instructor: 'Leandro Alvarez',
-  pm: 'Leandro Alvarez',
-  cohorte:'FT08',
-  joinDate:'05/07/2020',
-  actualModule:'Labs',
-  nextCheck:'none'
-}
 const styles = StyleSheet.create({
   container :{
     alignContent:'center',
