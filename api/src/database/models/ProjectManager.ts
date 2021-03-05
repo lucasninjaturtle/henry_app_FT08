@@ -1,39 +1,27 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface projectManagerAttributes {
-    id: number;
-    github: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+export interface projectManagerAttributes extends baseProps {
+  github: string;
 }
-export interface projectManagerModel extends Model<projectManagerAttributes>, projectManagerAttributes {}
-export class projectManager extends Model<projectManagerModel, projectManagerAttributes> {}
+export interface projectManagerModel
+  extends Model<projectManagerAttributes>,
+    projectManagerAttributes {}
+export class projectManager extends Model<
+  projectManagerModel,
+  projectManagerAttributes
+> {}
 
 export type ProjectManagerStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): projectManagerModel;
+  new (values?: object, options?: BuildOptions): projectManagerModel;
 };
 
-export function ProjectManagerFactory (sequelize: Sequelize) {
-    return <ProjectManagerStatic>sequelize.define("projectmanager", {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        github: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-    });
+export function ProjectManagerFactory(sequelize: Sequelize) {
+  return <ProjectManagerStatic>sequelize.define("projectmanager", {
+    github: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
+  });
 }
