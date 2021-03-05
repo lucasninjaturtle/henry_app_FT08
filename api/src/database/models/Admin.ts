@@ -1,33 +1,14 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import baseProps from "./baseProps";
 
-export interface adminAttributes {
-    id: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
+export interface adminAttributes extends baseProps {}
 export interface adminModel extends Model<adminAttributes>, adminAttributes {}
 export class Admin extends Model<adminModel, adminAttributes> {}
 
 export type AdminStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): adminModel;
+  new (values?: object, options?: BuildOptions): adminModel;
 };
 
-export function AdminFactory (sequelize: Sequelize) {
-    return <AdminStatic>sequelize.define("admin", {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-    });
+export function AdminFactory(sequelize: Sequelize) {
+  return <AdminStatic>sequelize.define("admin", {});
 }

@@ -3,7 +3,7 @@ require("dotenv").config();
 import { UserFactory, UserStatic } from "./User";
 import { StudentFactory, StudentStatic } from "./Student";
 import { InstructorFactory, InstructorStatic } from "./Instructor";
-import { ProyectManagerFactory, ProyectManagerStatic } from "./ProyectManager";
+import { ProjectManagerFactory, ProjectManagerStatic } from "./ProjectManager";
 import { AdminFactory, AdminStatic } from "./Admin";
 import { CohortFactory, CohortStatic } from "./Cohort";
 import { ClassFactory, ClassStatic } from "./Class";
@@ -15,7 +15,7 @@ export interface DB {
   User: UserStatic;
   Student: StudentStatic;
   Instructor: InstructorStatic;
-  ProyectManager: ProyectManagerStatic;
+  ProjectManager: ProjectManagerStatic;
   Admin: AdminStatic;
   Cohort: CohortStatic;
   Class: ClassStatic;
@@ -46,7 +46,7 @@ const sequelize = new Sequelize(
 const User = UserFactory(sequelize);
 const Student = StudentFactory(sequelize);
 const Instructor = InstructorFactory(sequelize);
-const ProyectManager = ProyectManagerFactory(sequelize);
+const ProjectManager = ProjectManagerFactory(sequelize);
 const Admin = AdminFactory(sequelize);
 const Cohort = CohortFactory(sequelize);
 const Class = ClassFactory(sequelize);
@@ -60,8 +60,8 @@ Student.belongsTo(User);
 User.hasOne(Instructor);
 Instructor.belongsTo(User);
 
-User.hasOne(ProyectManager);
-ProyectManager.belongsTo(User);
+User.hasOne(ProjectManager);
+ProjectManager.belongsTo(User);
 
 User.hasOne(Admin);
 Admin.belongsTo(User);
@@ -69,8 +69,8 @@ Admin.belongsTo(User);
 Instructor.hasMany(Cohort);
 Cohort.belongsTo(Instructor);
 
-Group.hasMany(ProyectManager);
-ProyectManager.belongsTo(Group);
+Group.hasMany(ProjectManager);
+ProjectManager.belongsTo(Group);
 
 Group.hasMany(Student);
 Student.belongsTo(Group);
@@ -92,7 +92,7 @@ export const db: DB = {
   User,
   Student,
   Instructor,
-  ProyectManager,
+  ProjectManager,
   Admin,
   Cohort,
   Class,

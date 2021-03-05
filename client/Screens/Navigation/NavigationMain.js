@@ -20,7 +20,7 @@ const NavigationMain = () =>{
     
     return(
         <Tab.Navigator 
-        initialRouteName='Home'
+        initialRouteName='Login'
         tabBarOptions={{
             // keyboardHidesTabBar=true,
             // showLabel=false,
@@ -35,14 +35,14 @@ const NavigationMain = () =>{
         >
             <Tab.Screen
             name="Home"
-            component={HomeNavigator}
+            component={Home}
             options={{
                 tabBarIcon:({color}) =>(
                     <Ionicons
                     name='home'
                     style={{position:'relative'}}
                     color={color}
-                    size={40}
+                    size={30}
                     />
                 )
             }}
@@ -55,7 +55,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='calendar'
                     color={color}
-                    size={40}
+                    size={30}
                     />
                 )
             }}
@@ -69,7 +69,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='analytics'
                     color={color}
-                    size={40}
+                    size={30}
                     />
                 )
             }}
@@ -83,7 +83,7 @@ const NavigationMain = () =>{
                     <Ionicons
                     name='md-chatbubbles'
                     color={color}
-                    size={40}
+                    size={30}
                     />
                 )
             }}

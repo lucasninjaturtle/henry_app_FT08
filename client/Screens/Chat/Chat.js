@@ -9,13 +9,14 @@ import {Dimensions, StyleSheet, LogBox, TextInput, Button} from 'react-native'
 import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBKzpYoRH3JJC4idPVrssYj1Y3-bOJfW7g",
-  authDomain: "henry-app-13095.firebaseapp.com",
-  projectId: "henry-app-13095",
-  storageBucket: "henry-app-13095.appspot.com",
-  messagingSenderId: "869456409904",
-  appId: "1:869456409904:web:d7c150d69d496b0da084f5",
-  measurementId: "G-S437Y1M9Q9"
+  apiKey: "AIzaSyCvb5hwhUHNLmKyx842yRUTK6rbUO5YugI",
+  authDomain: "henry-app-94d17.firebaseapp.com",
+  databaseURL: "https://henry-app-94d17-default-rtdb.firebaseio.com",
+  projectId: "henry-app-94d17",
+  storageBucket: "henry-app-94d17.appspot.com",
+  messagingSenderId: "173093822930",
+  appId: "1:173093822930:web:5217b2345f4751fd74e80b",
+  measurementId: "G-Q8X2274B3S"
 };
 if(firebase.apps.length === 0){
 firebase.initializeApp(firebaseConfig)
