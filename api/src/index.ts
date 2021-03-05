@@ -38,5 +38,5 @@ db.sequelize
   });
 
 // INICIO SERVER
-app.listen(3001);
+app.listen(5000);
 console.log("El servidor inicio correctamente");
