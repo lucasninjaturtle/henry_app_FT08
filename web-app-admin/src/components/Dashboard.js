@@ -12,7 +12,7 @@ function Dashboard() {
     const data = new FormData();
     data.append("file", dataFile);
 
-    axios.post("http://localhost:3001/csv", data).then((res) => {
+    axios.post("http://localhost:5000/csv", data).then((res) => {
       console.log(res);
       setShowAlert(true)
       return
