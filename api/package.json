@@ -2,8 +2,9 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "scripts": {
+    "start": "nodemon index.ts",
     "build": "tsc",
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\""
   },
