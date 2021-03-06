@@ -14,7 +14,7 @@ type studentData = {
 };
 
 const upload = async (req, res: Response) => {
-  console.log(req.file.filename)
+  console.log(req.file.filename);
   try {
     // let tutorials = [];
     let path = baseDir + "/test/" + req.file.filename;
@@ -35,7 +35,7 @@ const upload = async (req, res: Response) => {
         await studentsData.map(async (student) => {
           const { Cellphone, Email, Name, Surname, Github } = student;
           const newUser = await db.User.create({
-            cellphone: +Cellphone,
+            cellphone: Cellphone,
             email: Email,
             lastName: Surname,
             name: Name
