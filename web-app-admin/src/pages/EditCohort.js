@@ -70,6 +70,7 @@ function EditCohort() {
       </select>
       {studentsData.rows.length > 0 && (
         <ReactDataGrid
+          idProperty="id"
           editable={true}
           onEditComplete={onEditComplete}
           columns={studentsData.columns}
