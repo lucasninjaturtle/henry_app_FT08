@@ -13,6 +13,7 @@ export const studentController = {
             github: student.github,
             groupId: student.groupId,
             cohortId: student.cohortId,
+            userId: userData.id,
             name: userData.name,
             lastName: userData.lastName,
             email: userData.email,
@@ -22,5 +23,46 @@ export const studentController = {
       );
       res.json(studentsData);
     });
+  },
+  async putStudent(req: Request, res: Response) {
+    type studentData = {
+      id: number;
+      github: string;
+      groupId: number;
+      cohortId: number;
+      name: string;
+      lastName: string;
+      email: string;
+      cellphone: string;
+      userId: number;
+    };
+    const data = req.body as studentData[];
+
+    await Promise.all(
+      data.map(
+        async ({
+          cellphone,
+          cohortId,
+          email,
+          github,
+          groupId,
+          id,
+          lastName,
+          name,
+          userId
+        }) => {
+          await db.Student.update(
+            { github, groupId, cohortId },
+            { where: { id } }
+          );
+          await db.User.update(
+            { cellphone, email, lastName, name },
+            { where: { id: userId } }
+          );
+        }
+      )
+    );
+
+    res.sendStatus(200);
   }
 };

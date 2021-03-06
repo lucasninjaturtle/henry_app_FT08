@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getCohorts, getStudentsFromCohort } from "../api";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
-
-// cohortId: 1
-// createdAt: "2021-03-06T00:27:11.020Z"
-// github: "Jeffery-cf6"
-// groupId: null
-// id: 11
-// updatedAt: "2021-03-06T00:50:26.077Z"
-// userId: 11
+import { putStudents } from "../api";
 
 function EditCohort() {
   const [cohortsList, setCohortsList] = useState([]);
+  const [originalStudentsData, setOriginalStudentsData] = useState([]);
   const [studentsData, setStudentsData] = useState({
     columns: [
-      { name: "id", minWidth: 70, defaultWidth: 70, header: "Id" },
+      {
+        name: "id",
+        minWidth: 70,
+        defaultWidth: 70,
+        header: "Id",
+        editable: false
+      },
       {
         name: "github",
         defaultFlex: 1,
@@ -40,12 +40,24 @@ function EditCohort() {
     getCohorts().then((data) => setCohortsList(data));
   }, []);
 
+  const onEditComplete = useCallback(
+    ({ value, columnId, rowIndex }) => {
+      const data = [...studentsData.rows];
+      data[rowIndex][columnId] = value;
+      putStudents(data);
+
+      setStudentsData({ ...studentsData, rows: data });
+    },
+    [studentsData]
+  );
+
   return (
     <div>
       <select
         onChange={(e) =>
           getStudentsFromCohort(e.target.value).then((resp) => {
             setStudentsData({ ...studentsData, rows: resp });
+            setOriginalStudentsData(resp);
           })
         }
       >
@@ -56,11 +68,15 @@ function EditCohort() {
           </option>
         ))}
       </select>
-      <ReactDataGrid
-        columns={studentsData.columns}
-        style={{ minHeight: 500 }}
-        dataSource={studentsData.rows}
-      />
+      {studentsData.rows.length > 0 && (
+        <ReactDataGrid
+          editable={true}
+          onEditComplete={onEditComplete}
+          columns={studentsData.columns}
+          style={{ minHeight: 500 }}
+          dataSource={studentsData.rows}
+        />
+      )}
     </div>
   );
 }
