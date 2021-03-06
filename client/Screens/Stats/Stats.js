@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import 'react-native-gesture-handler';
-import {Dimensions, StyleSheet} from 'react-native'
+import {Dimensions, Modal, StyleSheet} from 'react-native'
 import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail, Button } from 'native-base';
 import {
     LineChart,
@@ -10,6 +10,8 @@ import {
     ContributionGraph,
     StackedBarChart
   } from "react-native-chart-kit";
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons'
 
 const width = Dimensions.get("window").width
 
@@ -28,6 +30,9 @@ const Stats = (props)=> {
     { date: "2017-03-05", count: 2 },
     { date: "2017-02-30", count: 4 }
   ];
+
+
+  const [modalVisible, setModalVisible] = useState(false)
 
     return (
         
@@ -138,9 +143,57 @@ const Stats = (props)=> {
       <Text>PRESS ME AND I USE NAGIVATION</Text>
     </Button>
 
-    <Button warning onPress={()=>console.log('MODAL')}>
+    <Button warning onLongPress={()=>setModalVisible(true)}  onPress={()=>console.log('MODAL')}>
       <Text>PRESS ME AND I USE MODAL</Text>
     </Button>
+
+    <View>
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={()=>{
+          setModalVisible(false)
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity
+            underlayColor='#E8E8E8'
+            onPress={()=>{
+              setModalVisible(false)
+            }}
+            style={{
+              alignSelf:'flex-end',
+              position:'absolute',
+              top: 5,
+              right: 10,
+            }}
+            >
+
+              
+            
+            </TouchableOpacity>
+            <Button onPress={()=>{
+              setModalVisible(false)
+            }}>
+            <Ionicons name='close' size={20}/>
+            </Button>
+            
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+          </View>
+        </View>
+
+      </Modal>
+    </View>
 
 </View>
 </View>
@@ -160,6 +213,20 @@ const styles = StyleSheet.create({
   innerText: {
     color: 'red',
   },
+  modalView:{
+    margin:20,
+    backgroundColor:'white',
+    borderRadius:20,
+    padding:35,
+    alignItems:'center',
+    elevation: 5
+  },
+  centeredView:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:22,
+  }
 });
 
 export default Stats;
