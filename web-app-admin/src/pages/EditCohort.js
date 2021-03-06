@@ -21,6 +21,11 @@ function EditCohort() {
         defaultFlex: 1,
         header: "Github"
       },
+      { name: "name", defaultFlex: 1, header: "First name" },
+      { name: "lastName", defaultFlex: 1, header: "Last name" },
+      { name: "email", defaultFlex: 1, header: "Email" },
+      { name: "cellphone", defaultFlex: 1, header: "Cellphone" },
+      { name: "groupId", minWidth: 150, defaultWidth: 150, header: "Group Id" },
       {
         name: "cohortId",
         minWidth: 150,
