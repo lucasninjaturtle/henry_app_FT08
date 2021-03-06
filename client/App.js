@@ -14,6 +14,7 @@ import store from './Redux/store'
 // Navigators
 
 import  NavigationMain from './Screens/Navigation/NavigationMain'
+import DrawerHomeNavigator from './Navigators_test/DrawerHomeNavigator'
 
 // Disable LogBox (Warnings)
 
