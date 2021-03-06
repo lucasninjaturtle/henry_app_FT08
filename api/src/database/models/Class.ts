@@ -4,11 +4,11 @@ import baseProps from "./baseProps";
 export interface classAttributes extends baseProps {
   ordinal: number;
   name: string;
-  startday: Date;
-  githubrep: string;
-  githubfeedback: string;
-  githubquizzlink: string;
-  videorecorder: string;
+  startDay: Date;
+  githubRep: string;
+  githubFeedback: string;
+  githubQuizLink: string;
+  recordedVideoURL: string;
 }
 export interface ClassModel extends Model<classAttributes>, classAttributes {}
 export class Class extends Model<ClassModel, classAttributes> {}
@@ -23,23 +23,23 @@ export function ClassFactory(sequelize: Sequelize) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    startday: {
+    startDay: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    githubrep: {
+    githubRep: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    githubfeedback: {
+    githubFeedback: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    githubquizzlink: {
+    githubQuizLink: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    videorecorder: {
+    recordedVideoURL: {
       type: DataTypes.STRING,
       allowNull: false
     }
