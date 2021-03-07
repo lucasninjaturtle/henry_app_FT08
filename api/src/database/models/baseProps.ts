@@ -1,7 +1,7 @@
 type baseProps = {
   id?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export default baseProps;
