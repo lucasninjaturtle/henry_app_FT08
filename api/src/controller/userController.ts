@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { db } from "../database/models/index";
 import bcryptjs from "bcryptjs";
+import { Student } from "../database/models/Student";
+import { where } from "sequelize";
 
 const users = {
   getUser: function (req: Request, res: Response) {
@@ -71,7 +73,7 @@ const users = {
     const newAdmin = await db.Admin.create();
     newUser.setAdmin(newAdmin);
     res.sendStatus(200);
-  }
+  },
 };
 
 export default users;
