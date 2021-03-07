@@ -2,9 +2,9 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": "index.ts",
   "scripts": {
-    "start": "nodemon index.ts",
+    "start": "npm run dev",
     "build": "tsc",
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\""
   },
@@ -19,7 +19,8 @@
     "concurrently": "^6.0.0",
     "nodemon": "^2.0.7",
     "passport-github": "^1.1.0",
-    "typescript": "^4.2.2"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
