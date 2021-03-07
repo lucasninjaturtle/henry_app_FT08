@@ -82,7 +82,7 @@ router.post("/cohorts/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/user/add/:amount", async (req, res) => {
+router.post("/student/add/:amount", async (req, res) => {
   const { amount } = req.params;
   for (let i = 0; i < +amount; i++) {
     const { first_name, last_name, uid } = await getRandomName();
@@ -101,7 +101,7 @@ router.post("/user/add/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
-router.get("/user/set/cohort/all", async (req, res) => {
+router.get("/student/set/cohort/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
   const randomCohortIdx = () => ~~(Math.random() * cohorts.length);
   db.Student.findAll().then((students) => {
