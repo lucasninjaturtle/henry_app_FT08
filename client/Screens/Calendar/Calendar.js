@@ -1,6 +1,10 @@
 import React, {useState} from 'react'
-import {View, Text, Container, Content, CardItem} from 'native-base'
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {View, Text, Container, Icon} from 'native-base'
+import {Agenda} from 'react-native-calendars';
+import { TouchableOpacity, Modal, Pressable} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons'
+
+import {styles, stylesModal} from './AgendaStyles'
 
 const Calendario = ()=>{
     const [modalVisible, setModalVisible] = useState(false)
@@ -61,9 +65,43 @@ const Calendario = ()=>{
             setItems(newItems);
         //}, 1000);
     }
-    
+
     return (
         <Container style={{alignContent:'center', paddingTop:60, backgroundColor:'#FFFDD0'}}>
+            <View>
+                <Modal 
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={stylesModal.centeredView}>
+                        <View style={stylesModal.modalView}>
+                            {selectedItem ?
+                            <>
+                                <FontAwesome 
+                                        name={selectedItem.type && icons.hasOwnProperty(selectedItem.type) ? icons[selectedItem.type].icon : "question-circle"} 
+                                        size={75}
+                                        color={selectedItem.type && icons.hasOwnProperty(selectedItem.type) ? icons[selectedItem.type].color : "gray"}
+                                />
+                                <Text style={[stylesModal.modalTextTitle,stylesModal.modalText]}>{selectedItem.name ? selectedItem.name : 'Evento Sin Nombre'}</Text>
+                                <Text style={stylesModal.modalText}>Horario: {selectedItem.time ? selectedItem.time : 'Indefinido'}</Text>
+                                <Text style={stylesModal.modalText}>Tipo de Evento: {selectedItem.type ? selectedItem.type : 'Indefinido'}</Text>
+                                <Text style={stylesModal.modalText}>{selectedItem.description ? selectedItem.description : 'Sin Descripción'}</Text>
+                            </>
+                            : <></> }
+                            <Pressable
+                                style={stylesModal.button}
+                                onPress={() => setModalVisible(!modalVisible)}
+                            >
+                                <Text style={stylesModal.textStyle}>OK</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
             <Agenda
             items={items ? items : {}}
 
