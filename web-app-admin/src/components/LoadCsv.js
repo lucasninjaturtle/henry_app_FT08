@@ -21,7 +21,6 @@ function LoadCsv() {
   // process CSV data
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
-    console.log(dataStringLines)
     const headers = dataStringLines[0].split(
       /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
     );
@@ -55,7 +54,6 @@ function LoadCsv() {
     const columns = headers.map((c) => ({
       name: c,
       selector: c,
-      center: true,
       sortable: true
     }));
 
@@ -86,11 +84,15 @@ function LoadCsv() {
     console.log("Selected Rows: ", state.selectedRows);
   };
 
+  console.log(data)
+
   return (
     <div className="max-w-full mx-full bg-white rounded-lg overflow-hidden md:full">
-      <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} />
-      <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-        Editar</button>
+      <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} style={{margin:'40px'}} />
+      <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+        onClick={() => alert('cargar')}
+      >
+        Cargar CSV</button>
 
       <DataTable
         pagination
