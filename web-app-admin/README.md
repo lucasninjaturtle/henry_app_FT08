@@ -1,3 +1,13 @@
+1) Crear nueva cohorte [CSV/Manual] Manual = Muestra una lista de estudiantes
+2) Editar una cohorte existente
+3) Añadir un usuario (y poder manejarlo despues)
+4) Editar/Borrar un usuario
+5) Definir profes y pms
+6) Crear tablas de control (para funciones que tendran los pms y profes, como cambiar estudiante de cohorte, colocar una nota a un checkpoint, etc)
+7) Cargar CSV de resulta2 de cp
+8) Manejar el calendario (definir fechas de cp, henry talks, etc)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

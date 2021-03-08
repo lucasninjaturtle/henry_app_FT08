@@ -1,5 +1,6 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import baseProps from "./baseProps";
+import { StudentModel } from "./Student";
 
 export interface UserAttributes extends baseProps {
   name: string;
@@ -8,7 +9,9 @@ export interface UserAttributes extends baseProps {
   cellphone: number;
   password?: string;
 }
-export interface UserModel extends Model<UserAttributes>, UserAttributes {}
+export interface UserModel extends Model<UserAttributes>, UserAttributes {
+  setStudent(newStudent: StudentModel);
+}
 export class User extends Model<UserModel, UserAttributes> {}
 
 export type UserStatic = typeof Model & {

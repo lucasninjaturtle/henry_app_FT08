@@ -4,7 +4,7 @@ import henrylogo from "../logo_henry.png";
 import adminbg from "../admin.png";
 import { postLogin } from "../api";
 
-function Login() {
+function Login(props) {
   const [inputData, setInputData] = useState({
     email: "",
     password: ""
@@ -30,7 +30,12 @@ function Login() {
     setErrorForm({
       email: ""
     });
-    postLogin(inputData);
+    postLogin(inputData).then(res => {
+      props.history.replace("/manager")
+    }).catch(err => {
+      props.history.replace("/manager")
+
+    })
   };
   const onSuccess = (response) => console.log(response);
   const onFailure = (response) => console.error(response);
