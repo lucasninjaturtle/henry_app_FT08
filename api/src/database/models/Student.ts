@@ -6,7 +6,9 @@ export interface StudentAttributes extends baseProps {
 }
 export interface StudentModel
   extends Model<StudentAttributes>,
-    StudentAttributes {}
+    StudentAttributes {
+  cohort: any;
+}
 export class Student extends Model<StudentModel, StudentAttributes> {}
 
 export type StudentStatic = typeof Model & {

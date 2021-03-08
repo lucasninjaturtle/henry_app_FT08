@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93cc79ac-4e83-4ac4-a8ae-06e1a8384a8b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/api/dist/database/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/dist/database/models/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/dist/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/database/models/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/database/models/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/.env" beforeDir="false" afterPath="$PROJECT_DIR$/api/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/Screens/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/Screens/Login/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,9 +46,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1614290278785" />
-    <state x="100" y="100" width="1720" height="840" key="AVDManager" timestamp="1614290208470">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="60" y="80" width="1032" height="672" key="AVDManager" timestamp="1614869105417">
+      <screen x="0" y="0" width="1152" height="832" />
     </state>
+    <state x="60" y="80" width="1032" height="672" key="AVDManager/0.0.1152.832@0.0.1152.832" timestamp="1614869105417" />
     <state x="100" y="100" width="1720" height="840" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1614290208470" />
     <state x="336" y="153" key="SettingsEditor" timestamp="1614290058165">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -64,6 +62,3 @@
     <state x="623" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1614290304000">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1614290304000" />
-  </component>
-</project>

@@ -3,12 +3,9 @@ import GitHubLogin from "react-github-login";
 import henrylogo from "../logo_henry.png";
 import adminbg from "../admin.png";
 import { postLogin } from "../api";
-import {useHistory} from 'react-router-dom'
 
 
-function Login() {
-  let history = useHistory()
-
+function Login(props) {
   const [inputData, setInputData] = useState({
     email: "",
     password: ""
@@ -34,8 +31,12 @@ function Login() {
     setErrorForm({
       email: ""
     });
-    postLogin(inputData);
-    history.push('/load-data')
+    postLogin(inputData).then(res => {
+      props.history.replace("/manager")
+    }).catch(err => {
+      props.history.replace("/manager")
+
+    })
   };
   
 
