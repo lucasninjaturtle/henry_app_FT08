@@ -4,7 +4,6 @@ import LoadCsv from "./components/LoadCsv";
 import Login from "./components/Login";
 import Dashboard from "./pages/Dashboard";
 import EditCohort from "./pages/EditCohort";
-import example from "./pages/example";
 
 function App() {
   return (
