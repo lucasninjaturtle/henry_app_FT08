@@ -4,19 +4,9 @@ const router = Router();
 // Importo los controllers de cada ruta
 import { users } from "../controller/userController";
 import { studentController } from "../controller/studentController";
-import { projectManagerController } from '../controller/projectManager'
-import { instructorController } from '../controller/instructorController'
-import { adminController } from '../controller/adminController'
-
-//////////////////////////
-//// RUTA DE USUARIOs ////
-//////////////////////////
-
-/* Ruta para BUSCAR todos los USUARIOS */
-router.post("/", users.getUsers);
-
-/* Ruta para BUSCAR un USUARIO x ID */
-router.post("/:id", users.getUserById);
+import { projectManagerController } from "../controller/projectManager";
+import { instructorController } from "../controller/instructorController";
+import { adminController } from "../controller/adminController";
 
 //////////////////////////
 //// RUTA DE ALUMNOs /////
@@ -34,7 +24,6 @@ router.put("/student/:id", studentController.putStudent);
 /* Ruta para BORRAR un ALUMNOS x ID. */
 router.delete("/student/:id", studentController.deleteStudent);
 
-
 /////////////////////
 //// RUTA DE PMs ////
 /////////////////////
@@ -50,7 +39,6 @@ router.put("/projectmanager/:id", projectManagerController.putPM);
 
 /* Ruta para BORRAR un PM x ID. */
 router.delete("/projectmanager/:id", projectManagerController.deletePM);
-
 
 //////////////////////////////
 //// RUTA DE INSTRUCTORES ////
@@ -68,7 +56,6 @@ router.put("/instructor/:id", instructorController.putInstructor);
 /* Ruta para BORRAR un INSTRUCTOR x ID. */
 router.delete("/instructor/:id", instructorController.deleteInstructor);
 
-
 ////////////////////////
 //// RUTA DE ADMINs ////
 ////////////////////////
@@ -85,5 +72,14 @@ router.put("/admin/:id", adminController.putAdmin);
 /* Ruta para BORRAR un ADMIN x ID. */
 router.delete("/admin/:id", adminController.deleteAdmin);
 
+//////////////////////////
+//// RUTA DE USUARIOs ////
+//////////////////////////
+
+/* Ruta para BUSCAR todos los USUARIOS */
+router.post("/", users.getUsers);
+
+/* Ruta para BUSCAR un USUARIO x ID */
+router.post("/:id", users.getUserById);
 
 export default router;
