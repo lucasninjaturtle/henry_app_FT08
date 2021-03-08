@@ -84,13 +84,25 @@ function LoadCsv() {
     console.log("Selected Rows: ", state.selectedRows);
   };
 
+  const sendStudentData = (data) =>{
+     if(data.length == 0){
+       alert('No hay alumnos cargados')
+     }
+     else{
+       alert('ya hay alumnos cargados')
+     }
+
+
+  }
+
   console.log(data)
 
   return (
     <div className="max-w-full mx-full bg-white rounded-lg overflow-hidden md:full">
       <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} style={{margin:'40px'}} />
       <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-        onClick={() => alert('cargar')}
+        onClick={() => sendStudentData(data)}
+        disabled={data.length == 0}
       >
         Cargar CSV</button>
 
