@@ -9,5 +9,6 @@ import users from "../controller/userController";
 
 router.get("/:id", users.getUser);
 router.post("/admin", users.createAdmin);
+router.post("/create", users.createUsers);
 
 export default router;

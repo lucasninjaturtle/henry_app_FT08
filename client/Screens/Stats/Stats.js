@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import 'react-native-gesture-handler';
-import {Dimensions, StyleSheet} from 'react-native'
-import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
+import {Dimensions, Modal, StyleSheet} from 'react-native'
+import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail, Button } from 'native-base';
 import {
     LineChart,
     BarChart,
@@ -10,10 +10,30 @@ import {
     ContributionGraph,
     StackedBarChart
   } from "react-native-chart-kit";
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons'
+
+const width = Dimensions.get("window").width
+
+const Stats = (props)=> {
+
+  const commitsData = [
+    { date: "2017-01-02", count: 1 },
+    { date: "2017-01-03", count: 2 },
+    { date: "2017-01-04", count: 3 },
+    { date: "2017-01-05", count: 4 },
+    { date: "2017-01-06", count: 5 },
+    { date: "2017-01-30", count: 2 },
+    { date: "2017-01-31", count: 3 },
+    { date: "2017-03-01", count: 2 },
+    { date: "2017-04-02", count: 4 },
+    { date: "2017-03-05", count: 2 },
+    { date: "2017-02-30", count: 4 }
+  ];
 
 
+  const [modalVisible, setModalVisible] = useState(false)
 
-const Stats = ()=> {
     return (
         
         <View
@@ -68,10 +88,10 @@ const Stats = ()=> {
     yAxisSuffix="L"
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
-      backgroundColor: "#f2cc8f",
-      backgroundGradientFrom: "#f2cc8f",
-      backgroundGradientTo: "#f2cc8f",
-      decimalPlaces: 0, // optional, defaults to 2dp
+      backgroundColor: "#e26a00",
+      backgroundGradientFrom: "#fb8c00",
+      backgroundGradientTo: "#ffa726",
+      decimalPlaces: 2, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
@@ -89,42 +109,100 @@ const Stats = ()=> {
       borderRadius: 16
     }}
   />
+
+
+<ContributionGraph
+  values={commitsData}
+  endDate={new Date("2017-04-01")}
+  numDays={105}
+  width={width}
+  height={220}
+  chartConfig={{
+    // backgroundColor: "black",
+    backgroundGradientFrom: "#457b9d",
+    backgroundGradientTo: "#1d3557",
+    decimalPlaces: 2, // optional, defaults to 2dp
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    style: {
+      borderRadius: 16
+    },
+    propsForDots: {
+      r: "6",
+      strokeWidth: "2",
+      stroke: "#ffa726"
+    }
+  }}
+/>
+
+<View>
+
+<Text>PRACTICE </Text>
+
+    <Button onPress={()=>props.navigation.navigate('DrawerHome')}>
+      <Text>PRESS ME AND I USE NAGIVATION</Text>
+    </Button>
+
+    <Button warning onLongPress={()=>setModalVisible(true)}  onPress={()=>console.log('MODAL')}>
+      <Text>PRESS ME AND I USE MODAL</Text>
+    </Button>
+
+    <View>
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={()=>{
+          setModalVisible(false)
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity
+            underlayColor='#E8E8E8'
+            onPress={()=>{
+              setModalVisible(false)
+            }}
+            style={{
+              alignSelf:'flex-end',
+              position:'absolute',
+              top: 5,
+              right: 10,
+            }}
+            >
+
+              
+            
+            </TouchableOpacity>
+            <Button onPress={()=>{
+              setModalVisible(false)
+            }}>
+            <Ionicons name='close' size={20}/>
+            </Button>
+            
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+            <Button>
+              <Text> TEST </Text>
+            </Button>
+          </View>
+        </View>
+
+      </Modal>
+    </View>
+
+</View>
 </View>
         
         
-    //     <Container>
-    //     <Header />
-    //     <Content>
-    //       <Badge>
-    //         <Text>2</Text>
-    //       </Badge>
-    //       <Badge primary>
-    //         <Text>2</Text>
-    //       </Badge>
-    //       <Badge success>
-    //         <Text>2</Text>
-    //       </Badge>
-    //       <Badge info>
-    //         <Text>2</Text>
-    //       </Badge>
-    //       <Badge warning>
-    //         <Text>2</Text>
-    //       </Badge>
-          
-    //       <Badge danger>
-    //         <Text>2</Text>
-    //       </Badge>
-    //       <Badge primary>
-    //       <Icon name="star" style={{ fontSize: 15, color: "#fff", lineHeight: 20 }}/>
-    //       </Badge>
-    //       <Badge style={{ backgroundColor: 'black' }}>
-    //         <Text style={{ color: 'white' }}>1866</Text>
-
-    //         <Text>2</Text>
-    //       </Badge>
-    //     </Content>
-    //   </Container>
+    
     )
+
+    
 }
 
 const styles = StyleSheet.create({
@@ -135,6 +213,20 @@ const styles = StyleSheet.create({
   innerText: {
     color: 'red',
   },
+  modalView:{
+    margin:20,
+    backgroundColor:'white',
+    borderRadius:20,
+    padding:35,
+    alignItems:'center',
+    elevation: 5
+  },
+  centeredView:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:22,
+  }
 });
 
 export default Stats;

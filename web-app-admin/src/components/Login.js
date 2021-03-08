@@ -4,6 +4,7 @@ import henrylogo from "../logo_henry.png";
 import adminbg from "../admin.png";
 import { postLogin } from "../api";
 
+
 function Login(props) {
   const [inputData, setInputData] = useState({
     email: "",
@@ -37,8 +38,7 @@ function Login(props) {
 
     })
   };
-  const onSuccess = (response) => console.log(response);
-  const onFailure = (response) => console.error(response);
+  
 
   const handleChange = (e) => {
     const { value, name } = e.target;

@@ -6,16 +6,16 @@ export interface UserAttributes extends baseProps {
   name: string;
   lastName: string;
   email: string;
-  cellphone: number;
+  cellphone: string;
   password?: string;
 }
-export interface UserModel extends Model<UserAttributes>, UserAttributes {
-  setStudent(newStudent: StudentModel);
-}
-export class User extends Model<UserModel, UserAttributes> {}
 
+export interface UserModel extends Model<UserAttributes>, UserAttributes {}
+export class User extends Model<UserModel, UserAttributes> {}
 export type UserStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): UserModel;
+  new (values?: object, options?: BuildOptions): UserModel & {
+    setStudent: (student: StudentModel) => PromiseLike<void>;
+  };
 };
 
 export function UserFactory(sequelize: Sequelize) {
@@ -34,7 +34,7 @@ export function UserFactory(sequelize: Sequelize) {
       unique: true
     },
     cellphone: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
