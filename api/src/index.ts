@@ -29,9 +29,9 @@ passportConfig(passport);
 // Rutas
 app.use(indexRoutes);
 
-// INICIO DB
+// // INICIO DB
 db.sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => console.log("Se conecto a la base de datos"))
   .catch(() => {
     throw "error";

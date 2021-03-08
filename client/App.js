@@ -14,6 +14,7 @@ import store from './Redux/store'
 // Navigators
 
 import  NavigationMain from './Screens/Navigation/NavigationMain'
+import DrawerHomeNavigator from './Navigators_test/DrawerHomeNavigator'
 
 // Disable LogBox (Warnings)
 
@@ -24,14 +25,15 @@ export default function App() {
 
   const [state, setState] = useState(false)
 
-  switch (state) {
-    case false: return <Login test={setState}/>
-    default: return (
+  // switch (state) {
+  //   case false: return <Login test={setState}/>
+  //   default: 
+  return (
       <Provider store={store}>
       <NavigationContainer>
         <NavigationMain/>
       </NavigationContainer>
       </Provider>
   )
-  }
+  // }
 }

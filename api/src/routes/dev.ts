@@ -1,0 +1,158 @@
+import { Router } from "express";
+const router = Router();
+import axios from "axios";
+import { db } from "../database/models/index";
+
+type randomCompany = {
+  id: number;
+  uid: string;
+  business_name: string;
+  suffix: string;
+  industry: string;
+  catch_phrase: string;
+  buzzword: string;
+  bs_company_statement: string;
+  employee_identification_number: string;
+  duns_number: string;
+  logo: string;
+  type: string;
+  phone_number: string;
+  full_address: string;
+  latitude: number;
+  longitude: number;
+};
+
+const getRandomCompanies = async (amount = 1) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomCompany>(
+          `https://random-data-api.com/api/company/random_company?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomCompany[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
+};
+
+type randomName = {
+  id: number;
+  uid: string;
+  name: string;
+  two_word_name: string;
+  four_word_name: string;
+  name_with_initials: string;
+  name_with_middle: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  male_first_name: string;
+  female_first_name: string;
+  prefix: string;
+  initials: string;
+};
+
+const getRandomNames = async (amount = 1) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomName>(
+          `https://random-data-api.com/api/name/random_name?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomName[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
+};
+
+type randomNumber = {
+  id: number;
+  uid: string;
+  number: number;
+  leading_zero_number: string;
+  decimal: number;
+  normal: number;
+  hexadecimal: string;
+  positive: number;
+  negative: number;
+  non_zero_number: number;
+  digit: number;
+};
+
+const getRandomNumbers = async (amount = 0) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomNumber>(
+          `https://random-data-api.com/api/number/random_number?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomNumber[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
+};
+
+router.post("/cohorts/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const companies = await getRandomCompanies(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { business_name } = companies[i];
+    await db.Cohort.create({ name: business_name, startDay: new Date() });
+  }
+  res.sendStatus(200);
+});
+
+router.post("/student/add/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newStudent = await db.Student.create({
+      github: `${first_name}-${uid.substr(0, 4)}`
+    });
+    await newUser.setStudent(newStudent);
+  }
+  res.sendStatus(200);
+});
+
+router.get("/student/set/cohort/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  const randomCohortIdx = () => ~~(Math.random() * cohorts.length);
+  db.Student.findAll().then((students) => {
+    students.map(async (student) => {
+      await student.setCohort(cohorts[randomCohortIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
+export default router;

@@ -4,8 +4,8 @@ import baseProps from "./baseProps";
 export interface moduleAttributes extends baseProps {
   ordinal: number;
   name: string;
-  startday: Date;
-  checkpointday: Date;
+  startDay: Date;
+  checkpointDay: Date;
 }
 export interface ModuleModel
   extends Model<moduleAttributes>,
@@ -22,11 +22,11 @@ export function ModuleFactory(sequelize: Sequelize) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    startday: {
+    startDay: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    checkpointday: {
+    checkpointDay: {
       type: DataTypes.DATE,
       allowNull: false
     }
