@@ -22,12 +22,24 @@ type randomCompany = {
   longitude: number;
 };
 
-const getRandomCompany = () => {
-  return axios
-    .get<randomCompany>(
-      "https://random-data-api.com/api/company/random_company"
-    )
-    .then((resp) => resp.data);
+const getRandomCompanies = async (amount = 1) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomCompany>(
+          `https://random-data-api.com/api/company/random_company?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomCompany[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
 };
 
 type randomName = {
@@ -47,10 +59,24 @@ type randomName = {
   initials: string;
 };
 
-const getRandomName = () => {
-  return axios
-    .get<randomName>("https://random-data-api.com/api/name/random_name")
-    .then((resp) => resp.data);
+const getRandomNames = async (amount = 1) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomName>(
+          `https://random-data-api.com/api/name/random_name?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomName[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
 };
 
 type randomNumber = {
@@ -67,41 +93,58 @@ type randomNumber = {
   digit: number;
 };
 
-const getRandomNumber = () => {
-  return axios
-    .get<randomNumber>("https://random-data-api.com/api/number/random_number")
-    .then((resp) => resp.data);
+const getRandomNumbers = async (amount = 0) => {
+  const fetchingPromises = [];
+  do {
+    fetchingPromises.push(
+      axios
+        .get<randomNumber>(
+          `https://random-data-api.com/api/number/random_number?size=${Math.min(
+            amount,
+            100
+          )}`
+        )
+        .then((resp) => resp.data)
+    );
+    amount = Math.max(amount - 100, 0);
+  } while (amount !== 0);
+  return await Promise.all<randomNumber[]>(fetchingPromises).then((data) =>
+    data.flat()
+  );
 };
 
 router.post("/cohorts/:amount", async (req, res) => {
   const { amount } = req.params;
+  const companies = await getRandomCompanies(+amount);
   for (let i = 0; i < +amount; i++) {
-    const { business_name } = await getRandomCompany();
+    const { business_name } = companies[i];
     await db.Cohort.create({ name: business_name, startDay: new Date() });
   }
   res.sendStatus(200);
 });
 
-router.post("/user/add/:amount", async (req, res) => {
+router.post("/student/add/:amount", async (req, res) => {
   const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
   for (let i = 0; i < +amount; i++) {
-    const { first_name, last_name, uid } = await getRandomName();
-    const { number } = await getRandomNumber();
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
     const newUser = await db.User.create({
       cellphone: `${number}`,
-      email: `${first_name}@test.com`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
       lastName: last_name,
       name: first_name
     });
     const newStudent = await db.Student.create({
-      github: `${first_name}-${uid.substr(0, 3)}`
+      github: `${first_name}-${uid.substr(0, 4)}`
     });
     await newUser.setStudent(newStudent);
   }
   res.sendStatus(200);
 });
 
-router.get("/user/set/cohort/all", async (req, res) => {
+router.get("/student/set/cohort/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
   const randomCohortIdx = () => ~~(Math.random() * cohorts.length);
   db.Student.findAll().then((students) => {
