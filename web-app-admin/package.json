@@ -10,11 +10,15 @@
     "@testing-library/user-event": "^12.8.1",
     "axios": "^0.21.1",
     "react": "^17.0.1",
+    "react-csv-to-table": "^0.0.1",
+    "react-data-table-component": "^6.11.7",
     "react-dom": "^17.0.1",
     "react-github-login": "^1.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.0"
+    "styled-components": "^5.2.1",
+    "web-vitals": "^1.1.0",
+    "xlsx": "^0.16.9"
   },
   "scripts": {
     "start": "craco start",

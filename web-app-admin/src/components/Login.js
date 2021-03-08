@@ -35,7 +35,7 @@ function Login() {
       email: ""
     });
     postLogin(inputData);
-    history.push('/load-data')
+    history.push('/dashboard')
   };
   
 
