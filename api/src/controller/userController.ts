@@ -71,6 +71,29 @@ const users = {
     const newAdmin = await db.Admin.create();
     newUser.setAdmin(newAdmin);
     res.sendStatus(200);
+  },
+  createUsers: async function (req: Request, res: Response) {
+    //let data = req.body.map(obj => delete obj.github)
+    let data = req.body
+    console.log("Data: ", data)
+
+    try {
+      let users = await db.User.bulkCreate(data, { fields: ['name', 'lastName', 'email', 'cellphone'] })
+    
+      console.log("Usuarios registra2: ", users)
+      users.forEach(async (inst, i) => {
+        try {
+          let u = await db.Student.create({
+            github: data[i].github
+          })
+
+          inst.setStudent(u)
+        } catch (e) {console.log("Error linea 91: ", e)}
+        //.then(r => console.log("Se hizo la relación user/student"))
+      })
+    } catch (e) {
+      console.log("Error: ", e)
+    }
   }
 };
 

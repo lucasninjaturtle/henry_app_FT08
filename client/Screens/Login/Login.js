@@ -29,9 +29,15 @@ const Login = (props) => {
     }, discovery);
 
     React.useEffect(() => {
-    if (response?.type === 'success') {
-        const { code } = response.params;
-        props.test(true)    
+        if (response?.type === 'success') {
+            const { code } = response.params;
+            props.test(true)
+
+            // Obtener todos los datos del usuario (get maestro), y corroborar
+            // si es la primera vez que ingresa, si no lo es, cargar datos,
+            // y si lo es, crear relación con firebase (creandole un usuario)
+            // Guardar todos los datos del usuario en redux, para mostrarlo facilmente
+            // en el front
         }
     }, [response]);
 
