@@ -4,7 +4,7 @@ import {Agenda} from 'react-native-calendars';
 import { TouchableOpacity, Modal, Pressable} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
 
-import {styles, stylesModal} from './AgendaStyles'
+import {styles, stylesModal} from './CalendarStyles'
 
 const Calendario = ()=>{
     const [modalVisible, setModalVisible] = useState(false)
