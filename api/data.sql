@@ -73,3 +73,7 @@ INSERT INTO students VALUES
     (6, 'GabrielQuero', now(), now(), 15, 3, 6),
     (7, 'MarcelinoAndujar', now(), now(), 16, 4, 6),
     (8, 'LuisJuarez', now(), now(), 17, 4, 6);
+
+INSERT INTO "eventTypes" VALUES
+    (1, 'HenryTalk', now(), now()),
+    (2, 'HenryCV', now(), now());

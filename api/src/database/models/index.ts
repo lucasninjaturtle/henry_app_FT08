@@ -93,8 +93,7 @@ Student.belongsTo(Cohort);
 Module.hasMany(Class);
 Class.belongsTo(Module);
 
-Event.hasOne(EventType);
-EventType.belongsTo(Event);
+Event.belongsTo(EventType);
 
 export const db: DB = {
   sequelize,
