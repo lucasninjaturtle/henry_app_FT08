@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../database/models";
+import bcryptjs from "bcryptjs"
 
 export const adminController = {
   async createAdmin(req: Request, res: Response) {

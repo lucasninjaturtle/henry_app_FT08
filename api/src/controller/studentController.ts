@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 import { db } from "../database/models";
 
 export const studentController = {
@@ -101,25 +102,50 @@ export const studentController = {
   },
   async createStudent(req: Request, res: Response) {
     //let data = req.body.map(obj => delete obj.github)
-    let data = req.body
-    console.log("Data: ", data)
+    let data = req.body;
+    console.log("Data: ", data);
 
     try {
-      let users = await db.User.bulkCreate(data, { fields: ['name', 'lastName', 'email', 'cellphone'] })
+      let users = await db.User.bulkCreate(data, {
+        fields: ["name", "lastName", "email", "cellphone"]
+      });
 
-      console.log("Usuarios registra2: ", users)
+      console.log("Usuarios registra2: ", users);
       users.forEach(async (inst, i) => {
         try {
           let u = await db.Student.create({
             github: data[i].github
-          })
+          });
 
-          inst.setStudent(u)
-        } catch (e) {console.log("Error linea 91: ", e)}
+          inst.setStudent(u);
+        } catch (e) {
+          console.log("Error linea 91: ", e);
+        }
         //.then(r => console.log("Se hizo la relación user/student"))
-      })
+      });
     } catch (e) {
-      console.log("Error: ", e)
+      console.log("Error: ", e);
     }
   },
+  async searchStudentByName(req: Request, res: Response) {
+    const { limit = 15, name } = (req.query as unknown) as {
+      name: string;
+      limit: number;
+    };
+
+    if (!name || isNaN(limit)) return res.sendStatus(400);
+
+    db.User.findAll({
+      where: {
+        [Op.or]: {
+          name: { [Op.iLike]: `%${name}%` },
+          lastName: { [Op.iLike]: `%${name}%` }
+        }
+      },
+      // SOLO los estudiantes, sino trae TODOS los usuarios, sean estudiantes, pms, etc.
+      include: [{ model: db.Student, where: { userId: { [Op.ne]: null } } }],
+      limit,
+      order: [["name", "DESC"]]
+    }).then((userData) => res.json(userData));
+  }
 };
