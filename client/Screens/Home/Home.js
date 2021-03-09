@@ -7,10 +7,11 @@ import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
 import Nav from '../Navigation/Navigation/Nav';
 import { ScrollView } from 'react-native-gesture-handler';
+import Profile from '../Profile/Profile'
 
 
 
-export default function Home() {
+export default function Home({navigation}) {
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(getUserInfo())
@@ -91,9 +92,9 @@ export default function Home() {
       <Content style={styles.list}>
           <List>
           
-          <ListItem icon>
+          <ListItem onPress={()=>navigation.navigate('Profile')} icon>
             <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
+              <Button  style={{ backgroundColor: "green" }}>
                 <Icon active name="person" />
               </Button>
             </Left>
@@ -107,7 +108,7 @@ export default function Home() {
           </ListItem>
           <ListItem icon>
             <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
+              <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="settings" />
               </Button>
             </Left>
@@ -134,7 +135,7 @@ export default function Home() {
           </ListItem>
           <ListItem icon>
             <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
+              <Button style={{ backgroundColor: "red" }}>
                 <Icon active name="log-out" />
               </Button>
             </Left>
