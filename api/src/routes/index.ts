@@ -6,8 +6,9 @@ import uploadController from "../controller/csvController";
 import authRouter from "./auth";
 import devRouter from "./dev";
 import cohortRouter from "./cohort";
-import groupRouter from './group';
-import eventRouter from './event';
+import groupRouter from "./group";
+import eventRouter from "./event";
+import studentRouter from "./student";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use("/github", githubRouter);
 router.use("/auth", authRouter);
 router.use("/cohort", cohortRouter);
 router.use("/group", groupRouter);
+router.use("/student", studentRouter);
 router.use("/event", eventRouter);
 
 // dev testing
