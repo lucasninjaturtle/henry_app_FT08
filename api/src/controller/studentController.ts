@@ -2,26 +2,57 @@ import { Request, Response } from "express";
 import { db } from "../database/models";
 
 export const studentController = {
-  async getStudentsByCohort(req: Request, res: Response) {
-    const { cohortId } = req.params;
-    db.Student.findAll({ where: { cohortId } }).then(async (students) => {
-      const studentsData = await Promise.all(
-        students.map(async (student) => {
-          const userData = await db.User.findByPk(student.userId);
-          return {
-            id: student.id,
-            github: student.github,
-            groupId: student.groupId,
-            cohortId: student.cohortId,
-            userId: userData.id,
-            name: userData.name,
-            lastName: userData.lastName,
-            email: userData.email,
-            cellphone: userData.cellphone
-          };
-        })
-      );
-      res.json(studentsData);
+  async getStudent(req: Request, res: Response) {
+    const { id } = req.params;
+    db.Student.findAll({
+      include: [db.User, db.Cohort, db.Group],
+      where: { id: id }
+    }).then((getUserGrlData) => {
+      let instructorName = getUserGrlData[0].cohort.dataValues.instructorId;
+      db.Instructor.findOne({
+        instructorName,
+        include: { model: db.User }
+      }).then((getUserInstructor) => {
+        db.ProjectManager.findAll({
+          include: [
+            {
+              model: db.User
+            },
+            {
+              model: db.Group,
+              where: { id: getUserGrlData[0].group.id }
+            }
+          ]
+        }).then((getUserPM) => {
+          db.Module.findAll({
+            include: [
+              {
+                model: db.Cohort,
+                where: { id: getUserGrlData[0].cohort.id }
+              }
+            ]
+          }).then((getUserModule) => {
+            let user = {
+              name: getUserGrlData[0].user.name,
+              lastname: getUserGrlData[0].user.lastName,
+              githubUser: getUserGrlData[0].github,
+              cohort: getUserGrlData[0].cohort.name,
+              instructor: {
+                firstname: getUserInstructor.user.name,
+                lastname: getUserInstructor.user.lastName
+              },
+              group: getUserGrlData[0].group.name,
+              module: getUserModule[0].name,
+              projectManagers: {
+                firstname: getUserPM[0].user.name,
+                lastname: getUserPM[0].user.lastName
+              },
+              startDay: getUserGrlData[0].createdAt
+            };
+            res.json(user);
+          });
+        });
+      });
     });
   },
   async putStudent(req: Request, res: Response) {
@@ -64,5 +95,31 @@ export const studentController = {
     );
 
     res.sendStatus(200);
-  }
+  },
+  async deleteStudent(req: Request, res: Response) {
+    /* CODIGO */
+  },
+  async createStudent(req: Request, res: Response) {
+    //let data = req.body.map(obj => delete obj.github)
+    let data = req.body
+    console.log("Data: ", data)
+
+    try {
+      let users = await db.User.bulkCreate(data, { fields: ['name', 'lastName', 'email', 'cellphone'] })
+
+      console.log("Usuarios registra2: ", users)
+      users.forEach(async (inst, i) => {
+        try {
+          let u = await db.Student.create({
+            github: data[i].github
+          })
+
+          inst.setStudent(u)
+        } catch (e) {console.log("Error linea 91: ", e)}
+        //.then(r => console.log("Se hizo la relación user/student"))
+      })
+    } catch (e) {
+      console.log("Error: ", e)
+    }
+  },
 };
