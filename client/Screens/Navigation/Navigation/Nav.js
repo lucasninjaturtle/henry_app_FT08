@@ -24,30 +24,7 @@ export default function Nav() {
                 </Right>
             </Header>
         <Content />
-        <Footer>
-                <FooterTab>
-                    <Button active>
-                        <Icon active name="home" />
-                        <Text>Home</Text>
-                    </Button>
-                    <Button>
-                        <Icon name="calendar" />
-                        <Text>Calendar</Text>
-                    </Button>
-                    <Button>
-                        <Icon name="stats-chart-sharp" />
-                        <Text>Stats</Text>
-                    </Button>
-                    <Button>
-                        <Icon name="hardware-chip" />
-                        <Text>Challenge</Text>
-                    </Button>
-                    <Button>
-                        <Icon name="chatbox" />
-                        <Text>Chat</Text>
-                    </Button>
-            </FooterTab>
-             </Footer>
+        
         </Container>
     )
 }
