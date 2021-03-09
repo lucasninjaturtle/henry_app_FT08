@@ -33,7 +33,7 @@ function LoadCsv(props) {
   let type = props.match.params.type
   //componente contextAction
   function ContextAction({userToDelete}){
-    console.log('user to delete', userToDelete)
+    // console.log('user to delete', userToDelete)
     const stringUser = userToDelete.toString()
     // console.log('string user',stringUser)
     function onDelete() {
@@ -41,12 +41,15 @@ function LoadCsv(props) {
         console.log('confirmo')
         var newData = data.filter(user => !userToDelete.includes(user.Name))
         setData(newData)
+        userToDelete.splice(0, userToDelete.length)
+        console.log(userToDelete)
+        
       }else{
         console.log('no confirmo')
       }
     }
     return (
-      <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
+      <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
       onClick={onDelete}
       >
       Eliminar
@@ -95,7 +98,6 @@ function LoadCsv(props) {
     }));
 
     setData(list);
-    console.log("Lista:", list)
     setColumns(columns);
   };
 
@@ -123,8 +125,9 @@ function LoadCsv(props) {
     setState({selectedRows: e.selectedRows})
   };
 
+  console.log(state.selectedRows)
   const sendStudentData = () =>{
-    if (state.selectedRows.length == 0){
+    if(state.selectedRows.length == 0){
       alert('No hay alumnos cargados')
     }
     else {
@@ -134,7 +137,7 @@ function LoadCsv(props) {
       switch (type) {
         case "instructores": ruta += "instructores/create"; break;
         case "pms": ruta += "pms/create"; break;
-        case "estudiantes": ruta += "user/create"; break;
+        case "estudiantes": ruta += "user/student/"; break;
         case "cohorte": ruta += "cohorte/create"; break;
         default: ruta += "grupo/create"; break;
       }
@@ -150,9 +153,8 @@ function LoadCsv(props) {
   return (
     <div className="max-w-full mx-full bg-white rounded-lg overflow-hidden md:full">
       <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} style={{margin:'40px'}} />
-      <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
         onClick={sendStudentData}
-        disabled={data.length == 0}
       >
         Cargar CSV</button>
 

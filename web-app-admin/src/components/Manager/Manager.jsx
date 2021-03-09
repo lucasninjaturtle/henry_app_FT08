@@ -28,6 +28,30 @@ export default function Manager(props) {
         }
     }
 
+    function handleClickEdit(e, id){
+        e.preventDefault();
+        switch (id) {
+            case 0: {
+                h.push("/load-data/instructores")
+                break
+            }
+            case 1: {
+                h.push("/load-data/pms")
+                break
+            }
+            case 2: {
+                h.push("/edit-student")
+                break
+            }
+            case 3: {
+                h.push("/load-data/cohorte")
+                break
+            }
+            default: h.push("/load-data/grupo")
+        }
+        
+    }
+
     return (
         <div className="Home">
             <img className="Img" src={henryLogo} alt="Logo"/>
@@ -59,6 +83,7 @@ export default function Manager(props) {
                         <button className="Btn">Estudiante</button>
                         <button className="Btn">Cohorte</button>
                         <button className="Btn">Grupo</button>
+                        <button className="Btn">Evento</button>
                     </div>
                 </div>
 
@@ -66,11 +91,11 @@ export default function Manager(props) {
                     <h1><b>Editar</b></h1>
                     <span className="Texto">Modifica todo lo que tengas que modificar!</span>
                     <div className="Botones">
-                        <button className="Btn">Instructores</button>
-                        <button className="Btn">PMs</button>
-                        <button className="Btn">Estudiante</button>
-                        <button className="Btn">Cohorte</button>
-                        <button className="Btn">Grupo</button>
+                        <button onClick={e => handleClickEdit(e, 0)} className="Btn">Instructores</button>
+                        <button onClick={e => handleClickEdit(e, 1)} className="Btn">PMs</button>
+                        <button onClick={e => handleClickEdit(e, 2)} className="Btn">Estudiante</button>
+                        <button onClick={e => handleClickEdit(e, 3)} className="Btn">Cohorte</button>
+                        <button onClick={e => handleClickEdit(e, 4)} className="Btn">Grupo</button>
                     </div>
                 </div>
 
