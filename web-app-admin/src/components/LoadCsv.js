@@ -16,6 +16,12 @@ function Title({type}) {
   )
 }
 
+function NoDataComponent({type}){
+  return(
+    <h1>No hay {type} para mostrar</h1>
+  )
+}
+
 
 function LoadCsv(props) {
   const [columns, setColumns] = useState([])
@@ -164,7 +170,8 @@ function LoadCsv(props) {
           plural:'alumnos',
           message:'seleccionado'
       }}
-      noDataComponent='No hay nada que mostrar'
+      noDataComponent='No hay data que mostrar'
+      // <NoDataComponent type={type}/>
       />
     </div>
  
