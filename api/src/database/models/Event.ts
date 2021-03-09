@@ -3,7 +3,7 @@ import baseProps from "./baseProps";
 
 export interface eventAttributes extends baseProps {
   name: string;
-  startDay: Date;
+  startDay: string;
   link: string;
   description: string;
 }
@@ -23,7 +23,7 @@ export function EventFactory(sequelize: Sequelize) {
       allowNull: false
     },
     startDay: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false
     },
     link: {
