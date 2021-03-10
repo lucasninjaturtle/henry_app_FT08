@@ -4,6 +4,7 @@ import { db } from "../database/models";
 
 export const studentController = {
   async getStudent(req: Request, res: Response) {
+    console.log(req.params)
     const { id } = req.params;
     db.Student.findAll({
       include: [db.User, db.Cohort, db.Group],
