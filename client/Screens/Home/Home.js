@@ -5,7 +5,6 @@ import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, V
 import {useSelector,useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
-import Nav from '../Navigation/Navigation/Nav';
 import { ScrollView } from 'react-native-gesture-handler';
 import Profile from '../Profile/Profile'
 
@@ -106,21 +105,21 @@ export default function Home({navigation}) {
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem icon>
+          <ListItem onPress={()=>navigation.navigate('Settings')} icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="settings" />
               </Button>
             </Left>
             <Body>
-              <Text>App configuration</Text>
+              <Text>Settings</Text>
             </Body>
             <Right>
             <Text>Edit</Text>
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem onPress={()=>console.log('press')} icon>
+          <ListItem onPress={()=>navigation.navigate('Contact')} icon>
             <Left>
               <Button style={{ backgroundColor: "#007AFF" }}>
                 <Icon active name="paper-plane" />

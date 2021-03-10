@@ -3,6 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack'
 import Home from '../Home/Home'
 import Profile from '../Profile/Profile'
 import Test from '../../Navigators_test/Components/Test'
+import Settings from '../Settings/Settings'
+import Contact from '../Contact/Contact'
 
 const Stack = createStackNavigator()
 
@@ -26,10 +28,17 @@ const MyStack = ()=>{
             }}
             />
             <Stack.Screen
-            name='Test'
-            component={Test}
+            name='Settings'
+            component={Settings}
             options={{
-                title:'Test',
+                title:'Settings',
+            }}
+            />
+            <Stack.Screen
+            name='Contact'
+            component={Contact}
+            options={{
+                title:'Contact us',
             }}
             />
         </Stack.Navigator>

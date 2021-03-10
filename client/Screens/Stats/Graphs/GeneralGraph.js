@@ -48,7 +48,7 @@ const GeneralGraph = (props)=> {
   <List>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={{ uri: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png' }} />
+                <Thumbnail source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}} />
               </Left>
               <Body>
                 <Text>Johndoegithubprofile</Text>
