@@ -40,7 +40,7 @@ export default function Manager(props) {
                 break
             }
             case 2: {
-                h.push("/edit-student")
+                h.push("/edit/student")
                 break
             }
             case 3: {
