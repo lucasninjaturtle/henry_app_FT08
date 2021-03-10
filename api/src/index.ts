@@ -31,7 +31,7 @@ app.use(indexRoutes);
 
 // // INICIO DB
 db.sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => console.log("Se conecto a la base de datos"))
   .catch(() => {
     throw "error";
