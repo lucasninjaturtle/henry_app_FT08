@@ -59,7 +59,7 @@ export default function (passport: PassportStatic) {
   // ( unicamente ) le añade 'user' al req (req.user)
   passport.deserializeUser((obj: any, cb) => {
     if (obj.type === "local-email") {
-      db.Admin.findOne({ where: { id }, include: { all: true } })
+      db.Admin.findOne({ where: { id: obj.data.user.id }, include: { all: true } })
         .then((user) => {
           cb(false, user);
         })
