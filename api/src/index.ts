@@ -4,6 +4,7 @@ import indexRoutes from "./routes/index";
 import session from "express-session";
 import passport from "passport";
 import { db } from "./database/models/index";
+import passportConfig from "./passportConfig";
 import cors from "cors";
 
 // Middlewares
@@ -11,20 +12,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-const SESSION_SECRET = "secret_code_1234";
-
 app.use(session({
   secret: 'henryapp',
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24
+    secure: false
    }
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
-import passportConfig from "./passportConfig";
 passportConfig(passport);
 
 // Rutas

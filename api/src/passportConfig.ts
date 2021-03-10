@@ -19,7 +19,7 @@ export default function (passport: PassportStatic) {
           bcrypt.compare(password, user.password, (err, result) => {
             if (err) throw err;
             if (result === true) {
-              return done(null, user);
+              return done(null, { user: user, type: "local-email"});
             } else {
               return done(null, false);
             }
@@ -29,21 +29,11 @@ export default function (passport: PassportStatic) {
     )
   ),
 
-    // guarda el user.id al cookie enviado al front
-    passport.serializeUser((user: adminAttributes, cb) => {
-      cb(null, user.id);
-    });
+  // guarda el user.id al cookie enviado al front
+  passport.serializeUser((user: adminAttributes, cb) => {
+    cb(null, user.id);
+  });
 
-  // usa el id del cookie y
-  // ( unicamente ) le añade 'user' al req (req.user)
-  passport.deserializeUser((id, cb) => {
-    db.Admin.findOne({ where: { id }, include: { all: true } })
-      .then((user) => {
-        cb(false, user);
-      })
-      .catch((err) => cb(err, false));
-  }
-  );
   let scopes = ['notifications', 'user:email', 'read:org', 'repo']
   passport.use(
     new GitHubStrategy(
@@ -55,15 +45,27 @@ export default function (passport: PassportStatic) {
         scope: scopes.join(' ')
       },
       function (token, tokenSecret, profile, cb) {
-        return cb(null, { profile: profile, token: token })
+        return cb(null, { profile: profile, token: token, type: "github-token" })
       },
-
-      passport.serializeUser(function (user, done) {
-        done(null, user)
-      }),
-      passport.deserializeUser(function (user, done) {
-        done(null, user)
-      })
     )
   );
+
+  passport.serializeUser(function (user, done) {
+    done(null, user.token)
+  }),
+
+  // usa el id del cookie y
+  // ( unicamente ) le añade 'user' al req (req.user)
+  passport.deserializeUser((obj, cb) => {
+    if(obj.type === "local-email") {
+      db.Admin.findOne({ where: { id }, include: { all: true } })
+      .then((user) => {
+        cb(false, user);
+      })
+      .catch((err) => cb(err, false));
+    } else {
+      cb(null, obj)
+    }
+  });
 }
+

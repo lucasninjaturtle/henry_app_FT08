@@ -7,6 +7,7 @@ export const authController = {
     res.sendStatus(401);
   },
   async mobileAppAuth(req: Request, res: Response) {
+    console.log(req.session)
     console.log("El usuario se ha iniciado correctamente")
   },
 };
