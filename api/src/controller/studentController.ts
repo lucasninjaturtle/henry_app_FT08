@@ -11,7 +11,7 @@ export const studentController = {
     const { id } = req.params;
 
     const {
-      user: { lastName, name },
+      user: { lastName, name, cellphone, email },
       github,
       cohort,
       createdAt,
@@ -33,7 +33,9 @@ export const studentController = {
       github,
       cohort: cohort?.name ?? null,
       group: group?.name ?? null,
-      startDay: createdAt
+      startDay: createdAt,
+      cellphone,
+      email
     };
 
     if (cohort) {
@@ -76,7 +78,7 @@ export const studentController = {
             })) ?? [];
       });
     } else {
-      userData.projectMangers = [];
+      userData.projectManagers = [];
     }
 
     res.json(userData);
