@@ -14,6 +14,12 @@ export const getStudentsFromCohort = (cohortId) => {
   return axios.get(`/student/cohort/${cohortId}`).then((resp) => resp.data);
 };
 
+export const searchCohortsByName = (cohortName) => {
+  return axios
+    .get(`/cohort/search?name=${cohortName}`)
+    .then((resp) => resp.data);
+};
+
 export const putStudents = (data) => {
   return axios.put("/student/", data);
 };

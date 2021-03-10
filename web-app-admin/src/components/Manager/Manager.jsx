@@ -47,6 +47,10 @@ export default function Manager(props) {
                 h.push("/load-data/cohorte")
                 break
             }
+            case 5: {
+                h.push("/edit/event")
+                break
+            }
             default: h.push("/load-data/grupo")
         }
         
@@ -96,6 +100,7 @@ export default function Manager(props) {
                         <button onClick={e => handleClickEdit(e, 2)} className="Btn">Estudiante</button>
                         <button onClick={e => handleClickEdit(e, 3)} className="Btn">Cohorte</button>
                         <button onClick={e => handleClickEdit(e, 4)} className="Btn">Grupo</button>
+                        <button onClick={e => handleClickEdit(e, 5)} className="Btn">Evento</button>
                     </div>
                 </div>
 

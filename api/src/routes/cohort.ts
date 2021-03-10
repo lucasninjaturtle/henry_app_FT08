@@ -11,6 +11,9 @@ import { cohortController } from "../controller/cohortController";
 /* Ruta para CREAR un COHORTE. */
 router.post("/", cohortController.createCohort);
 
+/* Ruta para BUSCAR COHORTES por NOMBRE. */
+router.get("/search", cohortController.searchCohortByName);
+
 /* Ruta para BUSCAR todos los COHORTEs */
 router.get("/:id", cohortController.getCohorts);
 
