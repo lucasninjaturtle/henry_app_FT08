@@ -10,6 +10,10 @@ export const getCohorts = () => {
   return axios.get("/cohort").then((resp) => resp.data);
 };
 
+export const getCohortById = (id) => {
+  return axios.get(`/cohort/${id}`).then((resp) => resp.data);
+};
+
 export const getStudentsFromCohort = (cohortId) => {
   return axios.get(`/student/cohort/${cohortId}`).then((resp) => resp.data);
 };

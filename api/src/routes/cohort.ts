@@ -15,7 +15,7 @@ router.post("/", cohortController.createCohort);
 router.get("/search", cohortController.searchCohortByName);
 
 /* Ruta para BUSCAR todos los COHORTEs */
-router.get("/:id", cohortController.getCohorts);
+router.get("/", cohortController.getCohorts);
 
 /* Ruta para BUSCAR un COHORTE x ID  */
 router.get("/:id", cohortController.getCohort);
