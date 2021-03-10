@@ -6,7 +6,7 @@ const DrawerHome = ()=>{
 
     return (
         <Container>
-        <DrawerHomeNavigator/>
+        {/* <DrawerHomeNavigator/> */}
        
         <View>
            <Text>DRAWER HOME</Text>

@@ -17,17 +17,8 @@ router.post("/login/local", passport.authenticate("local"), authController.webap
 
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback',
-  passport.authenticate('github', { successRedirect: '/github/setcookie', failureRedirect: '/auth/github' }),
+  passport.authenticate('github', { failureRedirect: '/auth/github' }),
   authController.mobileAppAuth
 );
-
-router.get('/setcookie', function(req, res) {
-	let data = {
-		user: req.session.passport.user.profile._json,
-		token: req.session.passport.user.token
-	}
-	res.cookie(COOKIE, JSON.stringify(data))
-	res.redirect('/')
-})
 
 export default router;

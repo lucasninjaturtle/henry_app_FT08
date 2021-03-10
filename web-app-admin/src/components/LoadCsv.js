@@ -10,6 +10,12 @@ const customStyles = {
     },
   },
 };
+function Title({type}) {
+  return(
+    <h1 style={{textAlign:'end'}}>Estas subiendo {type}</h1>
+  )
+}
+
 
 function LoadCsv(props) {
   const [columns, setColumns] = useState([])
@@ -19,6 +25,29 @@ function LoadCsv(props) {
   })
 
   let type = props.match.params.type
+  //componente contextAction
+  function ContextAction({userToDelete}){
+    console.log('user to delete', userToDelete)
+    const stringUser = userToDelete.toString()
+    // console.log('string user',stringUser)
+    function onDelete() {
+      if(window.confirm(`Seguro quiere eliminar a: ${stringUser}`)){
+        console.log('confirmo')
+        var newData = data.filter(user => !userToDelete.includes(user.Name))
+        setData(newData)
+      }else{
+        console.log('no confirmo')
+      }
+    }
+    return (
+      <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
+      onClick={onDelete}
+      >
+      Eliminar
+    </button>
+
+  )
+  }
 
   // process CSV data
   const processData = (dataString) => {
@@ -111,7 +140,6 @@ function LoadCsv(props) {
 
   }
 
-  console.log(data)
 
   return (
     <div className="max-w-full mx-full bg-white rounded-lg overflow-hidden md:full">
@@ -127,17 +155,16 @@ function LoadCsv(props) {
         highlightOnHover
         columns={columns}
         data={data}
-        // onRowClicked={() =>console.log('select')} //cuando haces click en una fila
-        //title="Alumnos Henry"
-        title={"Estas subiendo " + type}
+        title={<Title type={type}/>}
         selectableRows // add for checkbox selection
         onSelectedRowsChange={handleChange}
+        contextActions={<ContextAction userToDelete={state.selectedRows.map(user=>  user.Name)}/>}
         contextMessage={{
           singular:'alumno',
           plural:'alumnos',
           message:'seleccionado'
-
       }}
+      noDataComponent='No hay nada que mostrar'
       />
     </div>
  

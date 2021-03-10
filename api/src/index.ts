@@ -13,13 +13,14 @@ app.use(cors());
 
 const SESSION_SECRET = "secret_code_1234";
 
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true
-  })
-);
+app.use(session({
+  secret: 'henryapp',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+   }
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
