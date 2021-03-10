@@ -1,61 +1,86 @@
 import { Request, Response } from "express";
 import { Op } from "sequelize";
 import { db } from "../database/models";
+import { UserAttributes } from "../database/models/User";
+import { StudentAttributes } from "../database/models/Student";
+import { cohortAttributes } from "../database/models/Cohort";
+import { groupAttributes } from "../database/models/Group";
 
 export const studentController = {
   async getStudent(req: Request, res: Response) {
     console.log(req.params)
     const { id } = req.params;
-    db.Student.findAll({
-      include: [db.User, db.Cohort, db.Group],
-      where: { id: id }
-    }).then((getUserGrlData) => {
-      let instructorName = getUserGrlData[0].cohort.dataValues.instructorId;
-      db.Instructor.findOne({
-        instructorName,
-        include: { model: db.User }
-      }).then((getUserInstructor) => {
-        db.ProjectManager.findAll({
-          include: [
-            {
-              model: db.User
-            },
-            {
-              model: db.Group,
-              where: { id: getUserGrlData[0].group.id }
-            }
-          ]
-        }).then((getUserPM) => {
-          db.Module.findAll({
-            include: [
-              {
-                model: db.Cohort,
-                where: { id: getUserGrlData[0].cohort.id }
-              }
-            ]
-          }).then((getUserModule) => {
-            let user = {
-              name: getUserGrlData[0].user.name,
-              lastname: getUserGrlData[0].user.lastName,
-              githubUser: getUserGrlData[0].github,
-              cohort: getUserGrlData[0].cohort.name,
-              instructor: {
-                firstname: getUserInstructor.user.name,
-                lastname: getUserInstructor.user.lastName
-              },
-              group: getUserGrlData[0].group.name,
-              module: getUserModule[0].name,
-              projectManagers: {
-                firstname: getUserPM[0].user.name,
-                lastname: getUserPM[0].user.lastName
-              },
-              startDay: getUserGrlData[0].createdAt
-            };
-            res.json(user);
-          });
-        });
+
+    const {
+      user: { lastName, name },
+      github,
+      cohort,
+      createdAt,
+      group
+    } = ((await db.Student.findByPk(id, {
+      include: [db.User, db.Cohort, db.Group]
+    })) as unknown) as {
+      user: UserAttributes;
+      cohort: cohortAttributes | null;
+      group: groupAttributes | null;
+      userId: number | null;
+      groupId: number | null;
+      cohortId: number | null;
+    } & StudentAttributes;
+
+    let userData: any = {
+      name,
+      lastName,
+      github,
+      cohort: cohort?.name ?? null,
+      group: group?.name ?? null,
+      startDay: createdAt
+    };
+
+    if (cohort) {
+      await db.Instructor.findByPk(cohort.instructorId).then((resp) => {
+        if (resp)
+          userData.instructor = {
+            firstName: resp.user.name,
+            lastName: resp.user.lastName
+          };
+        else userData.instructor = null;
       });
-    });
+
+      await db.Module.findOne({
+        include: [{ model: db.Cohort, where: { id: cohort.id } }]
+      }).then((resp) => {
+        userData.module = resp?.name ?? null;
+      });
+    } else {
+      userData.module = null;
+      userData.instructor = null;
+    }
+
+    if (group) {
+      await db.ProjectManager.findAll({
+        include: [
+          {
+            model: db.User
+          },
+          {
+            model: db.Group,
+            where: { id: group.id }
+          }
+        ]
+      }).then((resp) => {
+        if (resp)
+          userData.projectManagers =
+            resp?.map((pm) => ({
+              firstName: pm.user.name,
+              lastName: pm.user.lastName
+            })) ?? [];
+      });
+    } else {
+      userData.projectMangers = [];
+    }
+
+    res.json(userData);
   },
   async putStudent(req: Request, res: Response) {
     type studentData = {
