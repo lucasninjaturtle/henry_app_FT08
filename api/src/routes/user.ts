@@ -16,7 +16,7 @@ import { adminController } from "../controller/adminController";
 router.post("/student/", studentController.createStudent);
 
 /* Ruta para BUSCAR un ALUMNOS x ID  */
-router.get("/student/:id", studentController.getStudent);
+router.get("/student/:idOrGithub", studentController.getStudent);
 
 /* Ruta para EDITAR un ALUMNOS x ID. */
 router.put("/student/:id", studentController.putStudent);
