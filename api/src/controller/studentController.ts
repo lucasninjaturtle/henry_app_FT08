@@ -8,16 +8,19 @@ import { groupAttributes } from "../database/models/Group";
 
 export const studentController = {
   async getStudent(req: Request, res: Response) {
-    console.log(req.params)
-    const { id } = req.params;
+    const { idOrGithub } = req.params;
+    const query: any = {};
+    if (isNaN(+idOrGithub)) query.github = idOrGithub;
+    else query.id = idOrGithub;
 
     const {
-      user: { lastName, name },
+      user: { lastName, name, cellphone, email },
       github,
       cohort,
       createdAt,
       group
-    } = ((await db.Student.findByPk(id, {
+    } = ((await db.Student.findOne({
+      where: query,
       include: [db.User, db.Cohort, db.Group]
     })) as unknown) as {
       user: UserAttributes;
@@ -34,7 +37,9 @@ export const studentController = {
       github,
       cohort: cohort?.name ?? null,
       group: group?.name ?? null,
-      startDay: createdAt
+      startDay: createdAt,
+      cellphone,
+      email
     };
 
     if (cohort) {
@@ -77,7 +82,7 @@ export const studentController = {
             })) ?? [];
       });
     } else {
-      userData.projectMangers = [];
+      userData.projectManagers = [];
     }
 
     res.json(userData);
