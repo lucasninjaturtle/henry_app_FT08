@@ -8,6 +8,7 @@ import { groupAttributes } from "../database/models/Group";
 
 export const studentController = {
   async getStudent(req: Request, res: Response) {
+    console.log(req.params)
     const { id } = req.params;
 
     const {
