@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { PassportStatic } from "passport";
 import local from "passport-local";
 const localStrategy = local.Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
 import { adminAttributes } from "./database/models/Admin";
 
 import { db } from "./database/models/index";
@@ -26,12 +27,12 @@ export default function (passport: PassportStatic) {
         });
       }
     )
-  );
+  ),
 
-  // guarda el user.id al cookie enviado al front
-  passport.serializeUser((user: adminAttributes, cb) => {
-    cb(null, user.id);
-  });
+    // guarda el user.id al cookie enviado al front
+    passport.serializeUser((user: adminAttributes, cb) => {
+      cb(null, user.id);
+    });
 
   // usa el id del cookie y
   // ( unicamente ) le añade 'user' al req (req.user)
@@ -41,5 +42,28 @@ export default function (passport: PassportStatic) {
         cb(false, user);
       })
       .catch((err) => cb(err, false));
-  });
+  }
+  );
+  let scopes = ['notifications', 'user:email', 'read:org', 'repo']
+  passport.use(
+    new GitHubStrategy(
+      {
+        clientID: '4cf64d15fe0157927482',
+        clientSecret: '29f49913d133a27236e1021e860edd797d398d51',
+        // callbackURL: 'http://localhost:5000',
+        callbackURL: 'http://localhost:5000/auth/github/callback',
+        scope: scopes.join(' ')
+      },
+      function (token, tokenSecret, profile, cb) {
+        return cb(null, { profile: profile, token: token })
+      },
+
+      passport.serializeUser(function (user, done) {
+        done(null, user)
+      }),
+      passport.deserializeUser(function (user, done) {
+        done(null, user)
+      })
+    )
+  );
 }
