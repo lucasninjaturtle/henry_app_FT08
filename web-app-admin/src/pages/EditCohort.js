@@ -8,7 +8,7 @@ import {
   searchCohortsByName,
   getStudentsFromCohort,
   getCohortById
-} from "../../api";
+} from "../api";
 
 const columns = {
   name: "id",
