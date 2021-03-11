@@ -162,4 +162,27 @@ router.post("/group/:amount",async  (req,res) => {
   res.sendStatus(200)
 })
 
+router.post("/pm/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newPm = await db.ProjectManager.create({
+      github: `${first_name}-${uid.substr(0, 4)}`
+    });
+    await newUser.setProjectmanager(newPm);
+  }
+  res.sendStatus(200);
+});
+
+
+
 export default router;
