@@ -26,6 +26,22 @@ const columns = [
   }
 ];
 
+const studentColumns = [
+  {
+    name: "id",
+    minWidth: 70,
+    defaultWidth: 70,
+    header: "Id",
+    editable: false
+  },
+  {
+    name: "name",
+    defaultFlex: 1,
+    header: "Nombre",
+    editable: false
+  }
+];
+
 function EditCohort() {
   const [selectedCohort, setSelectedCohort] = useState({});
   const [cohortData, setCohortData] = useState({});
@@ -55,7 +71,7 @@ function EditCohort() {
     students,
     groups
   } = cohortData;
-  console.log(groups);
+  console.log(students);
 
   const date = new Date(startDay);
   const formattedDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
@@ -98,7 +114,7 @@ function EditCohort() {
           </small>
         </div>
 
-        <div className="flex mt-16 space-y-5 md:space-y-0 flex-col md:flex-row justify-between">
+        <div className="flex mt-16 space-y-5 md:space-y-0 flex-col md:flex-row justify-between xl:justify-evenly">
           <div className="w-auto">
             <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
               Instructor
@@ -168,23 +184,20 @@ function EditCohort() {
         <div className="w-auto">
           <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
             Estudiantes
-            <button className="inline-block ml-4 p-1 text-gray-600">
-              <EditIcon size="29" />
-            </button>
           </h1>
           {/* students */}
-          {groups?.length > 0 ? (
+          {students?.length > 0 ? (
             <ReactDataGrid
               idProperty="id"
               editable={true}
-              columns={columns}
+              columns={studentColumns}
               style={{
                 marginTop: 25,
                 minWidth: 600,
                 minHeight: 500,
                 maxHeight: 750
               }}
-              dataSource={groups}
+              dataSource={students}
             />
           ) : (
             <h3 className="text-3xl text-4xl font-light block text-center">
