@@ -100,7 +100,7 @@ export const studentController = {
       userId: number;
     };
     const data = req.body as studentData[];
-
+    
     await Promise.all(
       data.map(
         async ({
