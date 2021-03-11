@@ -59,6 +59,21 @@ export const cohortController = {
         lastName: student.user.lastName,
         name: student.user.name
       }));
+
+      delete data.instructor;
+
+      data.instructor = {
+        github: resp.instructor.github,
+        id: resp.instructor.id,
+        groupId: resp.instructor.groupId,
+        cohortId: resp.instructor.cohortId,
+        cellphone: resp.instructor.user.cellphone,
+        email: resp.instructor.user.email,
+        userId: resp.instructor.user.userId,
+        lastName: resp.instructor.user.lastName,
+        name: resp.instructor.user.name
+      };
+
       res.json(data);
     });
   },
