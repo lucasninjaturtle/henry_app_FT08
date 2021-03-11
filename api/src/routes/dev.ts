@@ -271,4 +271,15 @@ router.get("/group/set/cohort/all", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.get("/pm/set/group/all", async (req, res) => {
+  const groups = await db.Group.findAll();
+  const randomIdx = () => ~~(Math.random() * groups.length);
+  db.ProjectManager.findAll().then((projectManagers) => {
+    projectManagers.map(async (projectManager) => {
+      await projectManager.setGroup(groups[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
 export default router;
