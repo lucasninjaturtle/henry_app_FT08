@@ -45,9 +45,11 @@ export const cohortController = {
     db.Cohort.findByPk(id, {
       include: [{ all: true, include: [{ all: true }] }]
     }).then((resp) => {
+      console.log(resp)
       const data = resp.toJSON();
       delete data.user;
       delete data.students;
+      if (resp.students.length > 0)
       data.students = resp.students.map((student) => ({
         github: student.github,
         id: student.id,
@@ -59,20 +61,22 @@ export const cohortController = {
         lastName: student.user.lastName,
         name: student.user.name
       }));
+      else data.students = []
 
       delete data.instructor;
-
-      data.instructor = {
-        github: resp.instructor.github,
-        id: resp.instructor.id,
-        groupId: resp.instructor.groupId,
-        cohortId: resp.instructor.cohortId,
-        cellphone: resp.instructor.user.cellphone,
-        email: resp.instructor.user.email,
-        userId: resp.instructor.user.userId,
-        lastName: resp.instructor.user.lastName,
-        name: resp.instructor.user.name
-      };
+      if (data.instructor && Object.keys(data.instructor) > 0)
+        data.instructor = {
+          github: resp.instructor.github,
+          id: resp.instructor.id,
+          groupId: resp.instructor.groupId,
+          cohortId: resp.instructor.cohortId,
+          cellphone: resp.instructor.user.cellphone,
+          email: resp.instructor.user.email,
+          userId: resp.instructor.user.userId,
+          lastName: resp.instructor.user.lastName,
+           name: resp.instructor.user.name
+        };
+      else data.instructor = {};
 
       res.json(data);
     });

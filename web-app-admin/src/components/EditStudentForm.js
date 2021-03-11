@@ -33,7 +33,7 @@ function EditStudentForm() {
       email:"",
       cellphone:"",
       group:"",
-      cohort:"",
+      cohortId:"",
       instructor:"",
       module:"",
       projectMangers:[],
@@ -68,7 +68,7 @@ function EditStudentForm() {
             
             axios.get(`http://localhost:5000/user/student/${value.value}`)
             .then(resp =>{
-              // console.log(resp.data)
+               console.log('resp del back', resp.data)
               setStudent({
                 id:value.value,                                                                                                             
                 name:resp.data.name,
@@ -76,8 +76,8 @@ function EditStudentForm() {
                 email:resp.data.email,
                 cellphone:resp.data.cellphone,
                 instructor:resp.data.instructor,
-                cohort:resp.data.cohort,
-                group:resp.data.group,
+                cohortId:resp.data.cohort,
+                groupId:resp.data.group,
                 github:resp.data.github,
                 projectMangers:resp.data.projectMangers,
                 startDay:resp.data.startDay
