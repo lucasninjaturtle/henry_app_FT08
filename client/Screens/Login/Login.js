@@ -5,6 +5,7 @@ import {View, Text, Button} from 'native-base'
 import {Image} from 'react-native'
 import {StyleSheet} from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
+import axios from 'axios'
 // import { AuthSession } from 'expo';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -31,13 +32,19 @@ const Login = (props) => {
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { code } = response.params;
-            props.test(true)
+            console.log(response)
+            //props.test(true)
 
             // Obtener todos los datos del usuario (get maestro), y corroborar
             // si es la primera vez que ingresa, si no lo es, cargar datos,
             // y si lo es, crear relación con firebase (creandole un usuario)
             // Guardar todos los datos del usuario en redux, para mostrarlo facilmente
             // en el front
+            axios.get('http://192.168.100.13:5000/user/gh/' + code.name)
+                .then(r => {
+                    props.test(true)
+                    // Acá actualizar el estado con la respuesta (r) ...
+                }).catch(e => console.log("Login.js [45]: ", e))
         }
     }, [response]);
 

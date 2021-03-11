@@ -9,15 +9,7 @@ export default function Manager(props) {
         e.preventDefault()
         switch (id) {
             case 0: {
-                h.push("/load-data/instructores")
-                break
-            }
-            case 1: {
-                h.push("/load-data/pms")
-                break
-            }
-            case 2: {
-                h.push("/load-data/estudiantes")
+                h.push("/load-data/usuarios")
                 break
             }
             case 3: {
@@ -42,9 +34,7 @@ export default function Manager(props) {
                         <button className="Btn">Grupo</button>
                         <button className="Btn">Calificaciones</button> */}
                         
-                        <button onClick={e => handleClickCsv(e, 0)} className="Btn">Instructores</button>
-                        <button onClick={e => handleClickCsv(e, 1)} className="Btn">PMs</button>
-                        <button onClick={e => handleClickCsv(e, 2)} className="Btn">Estudiante</button>
+                        <button onClick={e => handleClickCsv(e, 0)} className="Btn">Usuarios</button>
                         <button onClick={e => handleClickCsv(e, 3)} className="Btn">Cohorte</button>
                         <button onClick={e => handleClickCsv(e, 4)} className="Btn">Grupo</button>
                     </div>

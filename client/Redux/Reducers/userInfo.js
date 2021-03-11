@@ -4,7 +4,7 @@ import {
 
 
 let initialState = {
-    usuario:[
+    usuario: null
         // name:'',
         // cohort:'',
         // user:'',
@@ -14,7 +14,6 @@ let initialState = {
         // pm:{},
         // startDay:'',
         // instructor:{},
-    ]
 }
 
 

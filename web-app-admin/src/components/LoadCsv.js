@@ -126,9 +126,9 @@ function LoadCsv(props) {
       console.log("Type: ", type)
       let ruta = 'http://localhost:5000/'
       switch (type) {
-        case "instructores": ruta += "instructores/create"; break;
+        case "usuarios": ruta += "user"; break;
         case "pms": ruta += "pms/create"; break;
-        case "estudiantes": ruta += "user/create"; break;
+        case "estudiantes": ruta += "user/student"; break;
         case "cohorte": ruta += "cohorte/create"; break;
         default: ruta += "grupo/create"; break;
       }

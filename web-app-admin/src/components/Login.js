@@ -34,8 +34,7 @@ function Login(props) {
     postLogin(inputData).then(res => {
       props.history.replace("/manager")
     }).catch(err => {
-      props.history.replace("/manager")
-
+      props.history.replace("/error")
     })
   };
   

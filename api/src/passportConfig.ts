@@ -16,7 +16,7 @@ export default function (passport: PassportStatic) {
         db.User.findOne({ where: { email } }).then((user) => {
           if (!user) return done(null, false);
           bcrypt.compare(password, user.password, (err, result) => {
-            if (err) throw err;
+            if (err) return done(err); // throw err -> esto nop;
             if (result === true) {
               return done(null, user);
             } else {

@@ -5,5 +5,6 @@ const router = Router();
 import { studentController } from "../controller/studentController";
 
 router.get("/search", studentController.searchStudentByName);
+router.get("/", studentController.getStudent);
 
 export default router;
