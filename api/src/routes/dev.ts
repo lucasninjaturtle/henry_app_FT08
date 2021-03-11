@@ -221,4 +221,21 @@ router.post("/module/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/class/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+
+  const data = names.map((name) => ({
+    name: name.first_name + " " + name.uid.substr(0, 4),
+    startDay: new Date(),
+    githubRepo: "testGithubRepoLink",
+    githubFeedback: "testGithubFeedbackLink",
+    githubQuizLink: "testGHQuizLink",
+    recordedVideoURL: "testVideoUrl"
+  }));
+
+  await db.Class.bulkCreate(data);
+  res.sendStatus(200);
+});
+
 export default router;
