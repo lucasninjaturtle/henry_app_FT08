@@ -18,7 +18,6 @@ export default function Home({navigation}) {
 
 
     let Student = useSelector((store) => store.userInfo.usuario)
-    console.log(Student)
 
     Object.keys(Student).length === 0 ? Student =  {name:'test name',
     cohort:'tets cohort',
@@ -42,27 +41,21 @@ export default function Home({navigation}) {
     // instructor:{},
 
     return (
-      
       <ScrollView>
-  
-      
         <Container style={styles.container}>
         <CardItem header bordered style={styles.card}>
-              <Thumbnail style={styles.image} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}
-              />
-            </CardItem>
+        <Thumbnail style={styles.image} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}/>
+        </CardItem>
         <Content   padder>
           <Card style={{}}>
             
             <CardItem bordered>
               <Body>
-                
                 <Text style={styles.titles}>
-                    {Student.name}
+                  {Student.name} {Student.lastName}
                 </Text>
                 <Text style={styles.titles}>
-                    Github:{"\n"}
-                    {Student.email}
+                    Github: {Student.github}{"\n"}
                 </Text>
               </Body>
             </CardItem>
@@ -70,29 +63,26 @@ export default function Home({navigation}) {
               <Text>Datos</Text>
             </CardItem>
             <CardItem  >
-              <Text>Instructor:  </Text>
+              <Text>Instructor: {Student.instructor.firstName} {Student.instructor.lastName} </Text>
             </CardItem>
-            <CardItem  >
-              <Text>PM:  </Text>
-            </CardItem>
+            {/* <CardItem  >
+              <Text>PM: {Student.projectManagers[0].firstName} {Student.projectManagers[0].lastName} </Text>
+            </CardItem> */}
             <CardItem  >
               <Text>Cohorte actual: {Student.cohort}</Text>
-              
             </CardItem>
             <CardItem  >
-              <Text>Fecha Ingreso: {Student.createdAt.slice(0,10)} </Text>
+              <Text>Fecha Ingreso: {Student.startDay.slice(0,10)}</Text>
             </CardItem>
             <CardItem  >
-                <Text>Modulo Actual: {Student.module} </Text>
-                
+                <Text>Modulo Actual {Student.module}</Text>      
             </CardItem>
           </Card>
         </Content>
       </Container>
       <Content style={styles.list}>
-          <List>
-          
-          <ListItem onPress={()=>navigation.navigate('Profile')} icon>
+          <List>   
+          {/* <ListItem onPress={()=>navigation.navigate('Profile')} icon>
             <Left>
               <Button  style={{ backgroundColor: "green" }}>
                 <Icon active name="person" />
@@ -119,8 +109,8 @@ export default function Home({navigation}) {
             <Text>Edit</Text>
               <Icon active name="arrow-forward" />
             </Right>
-          </ListItem>
-          <ListItem onPress={()=>navigation.navigate('Contact')} icon>
+          </ListItem> */}
+          {/* <ListItem onPress={()=>navigation.navigate('Contact')} icon>
             <Left>
               <Button style={{ backgroundColor: "#007AFF" }}>
                 <Icon active name="paper-plane" />
@@ -132,7 +122,7 @@ export default function Home({navigation}) {
             <Right>
               <Icon active name="arrow-forward" />
             </Right>
-          </ListItem>
+          </ListItem> */}
           <ListItem icon>
             <Left>
               <Button style={{ backgroundColor: "red" }}>
@@ -142,8 +132,7 @@ export default function Home({navigation}) {
             <Body>
               <Text>Logout</Text>
             </Body>
-            <Right>
-              
+            <Right>   
               <Icon active name="log-out" />
             </Right>
           </ListItem>
@@ -159,7 +148,7 @@ const styles = StyleSheet.create({
     alignContent:'center',
     alignItems:'center',
     paddingTop:10,
-    backgroundColor:'white',
+    backgroundColor:'#AED6F1',
     height:550
     
     
@@ -167,11 +156,15 @@ const styles = StyleSheet.create({
   card:{
     alignItems:'center',
     alignContent:'center',
-    alignSelf:'center'
+    alignSelf:'center',
+    backgroundColor:'#AED6F1'
+
   },
   image:{
+    borderRadius:50,
     width:80,
     height:80,
+    marginTop:10
   },
   titles:{
     fontFamily:'monospace',
