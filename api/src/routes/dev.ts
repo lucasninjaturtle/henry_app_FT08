@@ -155,4 +155,11 @@ router.get("/student/set/cohort/all", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/group/:amount",async  (req,res) => {
+  const {amount} = req.params;
+  const names = await getRandomNames(+amount);
+  await db.Group.bulkCreate(names.map(name => ({name: name.first_name + " " + name.uid.substr(0,4)})))
+  res.sendStatus(200)
+})
+
 export default router;
