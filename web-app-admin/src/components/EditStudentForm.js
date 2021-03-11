@@ -26,6 +26,7 @@ function EditStudentForm() {
 
     const [query, setQuery] = useState("")
     const [student, setStudent] = useState({
+      id:"",
       name:"",
       lastName:"",
       github:"",
@@ -69,6 +70,7 @@ function EditStudentForm() {
             .then(resp =>{
               // console.log(resp.data)
               setStudent({
+                id:value.value,                                                                                                             
                 name:resp.data.name,
                 lastName:resp.data.lastName,
                 email:resp.data.email,
@@ -110,7 +112,7 @@ function EditStudentForm() {
         </div>
         <div className='flex justify-center'>
 
-        <CardStudents data={student}/>
+        <CardStudents data={student} />
         </div>
         
         </div>

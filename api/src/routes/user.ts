@@ -19,7 +19,7 @@ router.post("/student/", studentController.createStudent);
 router.get("/student/:idOrGithub", studentController.getStudent);
 
 /* Ruta para EDITAR un ALUMNOS x ID. */
-router.put("/student/:id", studentController.putStudent);
+router.put("/student/:id", studentController.putStudent)
 
 /* Ruta para BORRAR un ALUMNOS x ID. */
 router.delete("/student/:id", studentController.deleteStudent);
