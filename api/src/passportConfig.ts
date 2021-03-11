@@ -30,7 +30,7 @@ export default function (passport: PassportStatic) {
   ),
     // guarda el user.id al cookie enviado al front
     passport.serializeUser((obj: any, cb) => {
-      cb(null, obj.data);
+      cb(null, obj);
     });
 
   let scopes = ["notifications", "user:email", "read:org", "repo"];
@@ -46,7 +46,7 @@ export default function (passport: PassportStatic) {
       function (token, tokenSecret, profile, cb) {
         return cb(null, {
           data: {
-            profile: profile,
+            // profile: profile,
             token: token
           },
           type: "github-token"
