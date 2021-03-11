@@ -19,19 +19,20 @@ const discovery = {
 const Login = (props) => {
     const [request, response, promptAsync] = useAuthRequest({
         clientId: '4cf64d15fe0157927482',
-        scopes: ['identity'],
+        scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
         // For usage in managed apps using the proxy
         redirectUri: makeRedirectUri({
         // For usage in bare and standalone
             // native: 'your.app://redirect',
-            native: 'exp://192.168.100.13:19000',
+            native: 'exp://192.168.0.200:19000',
         }),
     }, discovery);
 
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { code } = response.params;
-            props.test(true)
+            // props.test(true)
+            console.log("Respuesta de GH:", response)
 
             // Obtener todos los datos del usuario (get maestro), y corroborar
             // si es la primera vez que ingresa, si no lo es, cargar datos,
@@ -51,7 +52,6 @@ const Login = (props) => {
             <Image
                 source = {henryLogo}
                 style={styles.img}
-                
             />
             <Button disabled={!request}
             onPress={simulateLogin} style={styles.btn}>
