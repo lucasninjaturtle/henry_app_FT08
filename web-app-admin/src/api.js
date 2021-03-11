@@ -27,3 +27,7 @@ export const searchCohortsByName = (cohortName) => {
 export const putStudents = (data) => {
   return axios.put("/student/", data);
 };
+
+export const putCohort = (data, id) => {
+  return axios.put(`/cohort/${id}`, data);
+};
