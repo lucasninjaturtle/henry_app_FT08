@@ -73,9 +73,11 @@ function EditCohort() {
     startDay,
     instructor,
     module,
-    students,
-    groups
+    students = [],
+    groups = []
   } = cohortData;
+
+  console.log(instructor, module);
 
   const date = new Date(startDay);
   const formattedDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
@@ -86,7 +88,11 @@ function EditCohort() {
         selectedCohort?.value ? "" : "items-center"
       }`}
     >
-      <div className="m-auto max-w-7xl w-full">
+      <div
+        className={`${
+          selectedCohort?.value ? "" : "my-auto"
+        } mx-auto max-w-7xl w-full`}
+      >
         <h1
           className={`text-7xl text-center font-light m-auto mb-24 ${
             selectedCohort?.value ? "hidden" : ""
@@ -155,49 +161,36 @@ function EditCohort() {
             Grupos
           </h1>
 
-          {groups?.length > 0 ? (
-            <ReactDataGrid
-              idProperty="id"
-              editable={true}
-              columns={columns}
-              style={{
-                marginTop: 25,
-                minWidth: 600,
-                minHeight: 500,
-                maxHeight: 750
-              }}
-              dataSource={groups}
-            />
-          ) : (
-            <h3 className="text-3xl text-4xl font-light block text-center">
-              {instructor?.name ?? "Ninguno"}
-            </h3>
-          )}
+          <ReactDataGrid
+            idProperty="id"
+            editable={true}
+            columns={columns}
+            style={{
+              marginTop: 25,
+              minWidth: 600,
+              minHeight: 500,
+              maxHeight: 750
+            }}
+            dataSource={groups}
+          />
         </div>
 
         <div className="w-auto">
           <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
             Estudiantes
           </h1>
-          {/* students */}
-          {students?.length > 0 ? (
-            <ReactDataGrid
-              idProperty="id"
-              editable={true}
-              columns={studentColumns}
-              style={{
-                marginTop: 25,
-                minWidth: 600,
-                minHeight: 500,
-                maxHeight: 750
-              }}
-              dataSource={students}
-            />
-          ) : (
-            <h3 className="text-3xl text-4xl font-light block text-center">
-              {instructor?.name ?? "Ninguno"}
-            </h3>
-          )}
+          <ReactDataGrid
+            idProperty="id"
+            editable={true}
+            columns={studentColumns}
+            style={{
+              marginTop: 25,
+              minWidth: 600,
+              minHeight: 500,
+              maxHeight: 750
+            }}
+            dataSource={students}
+          />
         </div>
       </div>
     </div>
