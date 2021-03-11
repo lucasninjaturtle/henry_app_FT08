@@ -1,16 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import { MdEdit as EditIcon } from "react-icons/md";
 import SearchBarAsync from "react-select/async";
 import "@inovua/reactdatagrid-community/index.css";
 import { useQuery } from "react-query";
 import CohortName from "./CohortName";
-import {
-  putStudents,
-  searchCohortsByName,
-  getStudentsFromCohort,
-  getCohortById
-} from "../../api";
+import { searchCohortsByName, getCohortById } from "../../api";
+import InstructorName from "./InstructorName";
 
 const columns = [
   {
@@ -77,8 +73,6 @@ function EditCohort() {
     groups = []
   } = cohortData;
 
-  console.log(instructor, module);
-
   const date = new Date(startDay);
   const formattedDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
 
@@ -115,17 +109,7 @@ function EditCohort() {
         <CohortName name={name} id={id} />
 
         <div className="flex mt-16 space-y-5 md:space-y-0 flex-col md:flex-row justify-between xl:justify-evenly">
-          <div className="w-auto">
-            <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
-              Instructor
-              <button className="inline-block ml-4 p-1 text-gray-600">
-                <EditIcon size="29" />
-              </button>
-            </h1>
-            <h3 className="text-3xl text-4xl font-light block text-center">
-              {instructor?.name ?? "Ninguno"}
-            </h3>
-          </div>
+          <InstructorName instructor={instructor} id={id} />
           <div className="w-auto">
             <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
               Fecha de Inicio

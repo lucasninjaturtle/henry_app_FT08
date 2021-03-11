@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { db } from "../database/models";
 import { UserAttributes } from "../database/models/User";
 import { instructorAttributes } from "../database/models/Instructor";
+import { Op } from "sequelize";
 
 type userAndInstructor = UserAttributes &
   instructorAttributes & {
@@ -58,5 +59,31 @@ export const instructorController = {
     await db.User.destroy({ where: { id: instructorData.userId } });
     await db.Instructor.destroy({ where: { id: instructorId } });
     return res.sendStatus(200);
+  },
+  async searchInstructorByName(req: Request, res: Response) {
+    const { limit = 15, name } = (req.query as unknown) as {
+      name: string;
+      limit: number;
+    };
+
+    if (!name || isNaN(limit)) return res.sendStatus(400);
+    db.Instructor.findAll({
+      include: [
+        {
+          model: db.User,
+          where: {
+            [Op.or]: {
+              name: { [Op.iLike]: `%${name}%` },
+              lastName: { [Op.iLike]: `%${name}%` }
+            }
+          }
+        }
+      ],
+      limit
+    }).then((instructorData) => {
+      res.json(
+        instructorData.sort((prev, next) => prev.user.name - next.user.name)
+      );
+    });
   }
 };
