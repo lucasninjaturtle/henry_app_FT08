@@ -48,26 +48,10 @@ export const cohortController = {
     db.Cohort.findByPk(id, {
       include: [{ all: true, include: [{ all: true }] }]
     }).then((resp) => {
-      console.log(resp)
       const data = resp.toJSON();
       delete data.user;
       delete data.students;
       if (resp.students.length > 0)
-      data.students = resp.students.map((student) => ({
-        github: student.github,
-        id: student.id,
-        groupId: student.groupId,
-        cohortId: student.cohortId,
-        cellphone: student.user.cellphone,
-        email: student.user.email,
-        userId: student.user.userId,
-        lastName: student.user.lastName,
-        name: student.user.name
-      }));
-      else data.students = []
-
-      delete data.instructor;
-      if (data.instructor && Object.keys(data.instructor) > 0)
         data.students = resp.students.map((student) => ({
           github: student.github,
           id: student.id,
