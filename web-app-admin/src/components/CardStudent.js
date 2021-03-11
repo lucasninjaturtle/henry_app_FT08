@@ -5,15 +5,14 @@ import axios from "axios";
 
 function CardStudent({ data }) {
 
-  console.log("data props", data);
   
   const [userData, setUserData] = useState({
     name: "",
     lastName: "",
     email: "",
     cellphone: "",
-    group: "",
-    cohort: "",
+    groupId: "",
+    cohortId: "",
     instructor: "",
     module: "",
   });
@@ -22,9 +21,10 @@ function CardStudent({ data }) {
     lastName: false,
     email: false,
     cellphone: false,
-    cohort: false,
+    cohortId: false,
     instructor: false,
-    group: false,
+    groupId: false,
+
   });
   // console.log('data student', userData)
 
@@ -34,20 +34,25 @@ function CardStudent({ data }) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    data({ ...data, [name]: value });
+
+    console.log(name)
+     data[name] = value
+    setUserData({ ...userData, [name]: value });
   };
-   console.log('after hande',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         data)
+   console.log('data en los input (data)',data)
   const editField = (field) => {
   
     
-    // axios.put(`http://localhost:5000/user/student/${data.id}`)
-    // .then(resp =>{                                         
-    //   console.log(resp)
-    // })
-    // .catch(e =>{
-    //   console.log('error', e)
-    // })
+    axios.put(`http://localhost:5000/user/student/${data.id}`,data)
+    .then(resp =>{                                         
+      console.log(resp)
+      // window.location.reload()
+    })
+    .catch(e =>{
+      console.log('error', e)
+    })
     setEdit({ ...edit, [field]: false });
+    setUserData({...userData,[field]:""})
   };
 
   // console.log("user data", userData);
@@ -61,23 +66,29 @@ function CardStudent({ data }) {
         </div>
         <div className="text-l text-primary mb-2 mt-10  w-full h-16 flex flex-wrap justify-center ">
           <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
-            {!edit.cohort ? (
+
+            {!edit.cohortId ? (
               <>
-                <GoPencil onClick={() => showEdit("cohort")} />
+                <GoPencil onClick={() => showEdit("cohortId")} />
                 <div className="flex flex-col">
                   <p>Cohorte:</p>{" "}
-                  {data.cohort === null ? "No tiene cohorte" : data.cohort}
+                  {data.cohortId === null ? "No tiene cohorte" : data.cohortId}
+
                 </div>
               </>
             ) : (
               <>
-                <AiOutlineCheck onClick={() => editField("cohort")} />
+
+                <AiOutlineCheck onClick={() => editField("cohortId")} />
+
                 <div className="flex flex-col">
                   <p>Cohorte:</p>{" "}
                   <input
                     type="text"
-                    name="cohort"
-                    value={userData.cohort}
+
+                    name="cohortId"
+                    value={userData.cohortId}
+
                     onChange={handleChange}
                     className="w-20"
                   />
@@ -86,51 +97,40 @@ function CardStudent({ data }) {
             )}
             {/* <GoPencil className="m-1" onClick={() => console.log("click")} /> */}
           </div>
-          <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
-            {!edit.instructor ? (
-              <>
-                <GoPencil onClick={() => showEdit("instructor")} />
+         <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
                 <div className="flex flex-col">
                   <p>Instructor:</p>{" "}
                   {data.instructor === null
                     ? "No tiene instructor"
                     : data.instructor}
                 </div>
-              </>
-            ) : (
-              <>
-                <AiOutlineCheck onClick={() => editField("instructor")} />
-                <div className="flex flex-col">
-                  <p>Instructor:</p>{" "}
-                  <input
-                    type="text"
-                    value={userData.instructor}
-                    nam="instructor"
-                    onChange={handleChange}
-                    className="w-20"
-                  />
-                </div>
-              </>
-            )}
+
+             
+           
           </div>
           <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
-            {!edit.group ? (
+            {!edit.groupId ? (
               <>
-                <GoPencil onClick={() => showEdit("group")} />
+                <GoPencil onClick={() => showEdit("groupId")} />
                 <div className="flex flex-col">
                   <p>Grupo:</p>{" "}
-                  {data.group === null ? "No tiene grupo" : data.group}
+                  {data.groupId === null ? "No tiene grupo" : data.groupId}
+
                 </div>
               </>
             ) : (
               <>
-                <AiOutlineCheck onClick={() => editField("group")} />
+
+                <AiOutlineCheck onClick={() => editField("groupId")} />
+
                 <div className="flex flex-col">
                   <p>Grupo:</p>{" "}
                   <input
                     type="text"
-                    name="group"
-                    value={userData.group}
+
+                    name="groupId"
+                    value={userData.groupId}
+
                     className="w-20"
                     onChange={handleChange}
                   />
