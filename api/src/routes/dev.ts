@@ -146,10 +146,10 @@ router.post("/student/add/:amount", async (req, res) => {
 
 router.get("/student/set/cohort/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
-  const randomCohortIdx = () => ~~(Math.random() * cohorts.length);
+  const randomIdx = () => ~~(Math.random() * cohorts.length);
   db.Student.findAll().then((students) => {
     students.map(async (student) => {
-      await student.setCohort(cohorts[randomCohortIdx()]);
+      await student.setCohort(cohorts[randomIdx()]);
     });
   });
   res.sendStatus(200);
@@ -235,6 +235,17 @@ router.post("/class/:amount", async (req, res) => {
   }));
 
   await db.Class.bulkCreate(data);
+  res.sendStatus(200);
+});
+
+router.get("/cohort/set/instructor/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  db.Instructor.findAll().then(async (instructors) => {
+    const randomIdx = () => ~~(Math.random() * instructors.length);
+    await cohorts.forEach((cohort) =>
+      cohort.setInstructor(instructors[randomIdx()])
+    );
+  });
   res.sendStatus(200);
 });
 
