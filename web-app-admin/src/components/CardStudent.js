@@ -34,18 +34,18 @@ function CardStudent({ data }) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
+    console.log(name)
+     data[name] = value
     setUserData({ ...userData, [name]: value });
   };
-   console.log('data en los input (userData)',userData)
+   console.log('data en los input (data)',data)
   const editField = (field) => {
   
     
-    axios.put(`http://localhost:5000/user/student/${data.id}`,{
-      name:'Luis',
-      lastName:'Diaz'
-    })
+    axios.put(`http://localhost:5000/user/student/${data.id}`,data)
     .then(resp =>{                                         
       console.log(resp)
+      // window.location.reload()
     })
     .catch(e =>{
       console.log('error', e)
