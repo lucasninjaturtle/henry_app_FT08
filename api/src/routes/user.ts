@@ -80,6 +80,6 @@ router.delete("/admin/:id", adminController.deleteAdmin);
 router.post("/", users.getUsers);
 
 /* Ruta para BUSCAR un USUARIO x ID */
-router.post("/:id", users.getUserById);
+router.get("/:id", users.getUserById);
 
 export default router;
