@@ -5,7 +5,7 @@ import axios from "axios";
 
 function CardStudent({ data }) {
 
-  console.log("data props", data);
+  console.log("data que viene desde el search", data);
   
   const [userData, setUserData] = useState({
     name: "",
@@ -34,19 +34,22 @@ function CardStudent({ data }) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    data({ ...data, [name]: value });
+    setUserData({ ...userData, [name]: value });
   };
-   console.log('after hande',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         data)
+   console.log('data en los input (userData)',userData)
   const editField = (field) => {
   
     
-    // axios.put(`http://localhost:5000/user/student/${data.id}`)
-    // .then(resp =>{                                         
-    //   console.log(resp)
-    // })
-    // .catch(e =>{
-    //   console.log('error', e)
-    // })
+    axios.put(`http://localhost:5000/user/student/${data.id}`,{
+      name:'Luis',
+      lastName:'Diaz'
+    })
+    .then(resp =>{                                         
+      console.log(resp)
+    })
+    .catch(e =>{
+      console.log('error', e)
+    })
     setEdit({ ...edit, [field]: false });
   };
 
