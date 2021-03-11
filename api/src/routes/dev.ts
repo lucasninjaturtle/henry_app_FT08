@@ -155,12 +155,16 @@ router.get("/student/set/cohort/all", async (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/group/:amount",async  (req,res) => {
-  const {amount} = req.params;
+router.post("/group/:amount", async (req, res) => {
+  const { amount } = req.params;
   const names = await getRandomNames(+amount);
-  await db.Group.bulkCreate(names.map(name => ({name: name.first_name + " " + name.uid.substr(0,4)})))
-  res.sendStatus(200)
-})
+  await db.Group.bulkCreate(
+    names.map((name) => ({
+      name: name.first_name + " " + name.uid.substr(0, 4)
+    }))
+  );
+  res.sendStatus(200);
+});
 
 router.post("/pm/:amount", async (req, res) => {
   const { amount } = req.params;
@@ -183,7 +187,7 @@ router.post("/pm/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/instructor/:amount", async (req,res) => {
+router.post("/instructor/:amount", async (req, res) => {
   const { amount } = req.params;
   const numbers = await getRandomNumbers(+amount);
   const names = await getRandomNames(+amount);
@@ -202,8 +206,19 @@ router.post("/instructor/:amount", async (req,res) => {
     await newUser.setInstructor(newInstructor);
   }
   res.sendStatus(200);
-})
+});
 
-
+router.post("/module/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+  const today = new Date();
+  const data = names.map((name) => ({
+    name: name.first_name + " " + name.uid.substr(0, 4),
+    startDay: today,
+    checkpointDay: new Date(today.setMonth(today.getMonth() + 1))
+  }));
+  await db.Module.bulkCreate(data);
+  res.sendStatus(200);
+});
 
 export default router;
