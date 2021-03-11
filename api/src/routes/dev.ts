@@ -282,4 +282,15 @@ router.get("/pm/set/group/all", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.get("/class/set/module/all", async (req, res) => {
+  const modules = await db.Module.findAll();
+  const randomIdx = () => ~~(Math.random() * modules.length);
+  db.Class.findAll().then((classes) => {
+    classes.map(async (classData) => {
+      await classData.setModule(modules[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
 export default router;
