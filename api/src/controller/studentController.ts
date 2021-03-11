@@ -42,9 +42,10 @@ export const studentController = {
       email
     };
 
-
     if (cohort) {
-      await db.Instructor.findByPk(cohort.instructorId, {include: [{ model: db.User,}] }).then((resp) => {
+      await db.Instructor.findByPk(cohort.instructorId, {
+        include: [{ model: db.User }]
+      }).then((resp) => {
         if (resp)
           userData.instructor = {
             firstName: resp.user.name,
@@ -99,32 +100,56 @@ export const studentController = {
       cellphone: string;
       userId: number;
     };
-    const data = req.body as studentData[];
-    
-    await Promise.all(
-      data.map(
-        async ({
-          cellphone,
-          cohortId,
-          email,
-          github,
-          groupId,
-          id,
-          lastName,
-          name,
-          userId
-        }) => {
-          await db.Student.update(
-            { github, groupId, cohortId },
-            { where: { id } }
-          );
-          await db.User.update(
-            { cellphone, email, lastName, name },
-            { where: { id: userId } }
-          );
-        }
-      )
-    );
+    let data;
+    if (Array.isArray(req.body)) {
+      data = req.body as studentData[];
+
+      await Promise.all(
+        data.map(
+          async ({
+            cellphone,
+            cohortId,
+            email,
+            github,
+            groupId,
+            id,
+            lastName,
+            name,
+            userId
+          }) => {
+            await db.Student.update(
+              { github, groupId, cohortId },
+              { where: { id } }
+            );
+            await db.User.update(
+              { cellphone, email, lastName, name },
+              { where: { id: userId } }
+            );
+          }
+        )
+      );
+    } else {
+      data = req.body as studentData;
+      const { id } = req.params;
+      const {
+        cellphone,
+        cohortId,
+        email,
+        github,
+        groupId,
+        lastName,
+        name,
+        userId
+      } = data;
+      const userData = await db.User.findOne({
+        include: [{ model: db.Student, where: { id } }]
+      });
+      for (var [key, value] of Object.entries(data)) {
+        userData[key] = value;
+      }
+      await userData.save();
+      await db.Student.update({ github, groupId, cohortId }, { where: { id } });
+    }
 
     res.sendStatus(200);
   },

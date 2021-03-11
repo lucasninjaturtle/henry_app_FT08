@@ -268,13 +268,11 @@ router.get("/cohort/set/instructor/all", async (req, res) => {
   res.sendStatus(200);
 });
 
-router.get("/module/set/cohort/all", async (req, res) => {
+router.get("/cohort/set/module/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
-  const randomIdx = () => ~~(Math.random() * cohorts.length);
-  db.Module.findAll().then((modules) => {
-    modules.map(async (module) => {
-      await module.setCohort(cohorts[randomIdx()]);
-    });
+  db.Module.findAll().then(async (modules) => {
+    const randomIdx = () => ~~(Math.random() * modules.length);
+    await cohorts.forEach((cohort) => cohort.setModule(modules[randomIdx()]));
   });
   res.sendStatus(200);
 });

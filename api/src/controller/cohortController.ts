@@ -7,7 +7,34 @@ export const cohortController = {
     /* Codigo */
   },
   async putCohort(req: Request, res: Response) {
-    /* Codigo */
+    const { id } = req.params;
+
+    const {
+      name,
+      startDay,
+      instructorId,
+      moduleId,
+      groups,
+      students
+    } = req.body as {
+      name: string;
+      startDay: string;
+      instructorId: string;
+      moduleId: string;
+      students: null | [];
+      groups: null | [];
+    };
+    //TODO: add startDay
+    let cohort;
+    if (name || startDay)
+      cohort = await db.Cohort.update(
+        { name },
+        { where: { id }, returning: true }
+      )[1][1];
+    else cohort = await db.Cohort.findByPk(id);
+    if (moduleId) await cohort.setModule(moduleId);
+    if (instructorId) await cohort.setInstructor(instructorId);
+    res.sendStatus(200);
   },
   async deleteCohort(req: Request, res: Response) {
     /* Codigo */
@@ -24,17 +51,35 @@ export const cohortController = {
       const data = resp.toJSON();
       delete data.user;
       delete data.students;
-      data.students = resp.students.map((student) => ({
-        github: student.github,
-        id: student.id,
-        groupId: student.groupId,
-        cohortId: student.cohortId,
-        cellphone: student.user.cellphone,
-        email: student.user.email,
-        userId: student.user.userId,
-        lastName: student.user.lastName,
-        name: student.user.name
-      }));
+      if (resp.students.length > 0)
+        data.students = resp.students.map((student) => ({
+          github: student.github,
+          id: student.id,
+          groupId: student.groupId,
+          cohortId: student.cohortId,
+          cellphone: student.user.cellphone,
+          email: student.user.email,
+          userId: student.user.userId,
+          lastName: student.user.lastName,
+          name: student.user.name
+        }));
+      else data.students = [];
+
+      delete data.instructor;
+      if (resp.instructor)
+        data.instructor = {
+          github: resp.instructor.github,
+          id: resp.instructor.id,
+          groupId: resp.instructor.groupId,
+          cohortId: resp.instructor.cohortId,
+          cellphone: resp.instructor.user.cellphone,
+          email: resp.instructor.user.email,
+          userId: resp.instructor.user.userId,
+          lastName: resp.instructor.user.lastName,
+          name: resp.instructor.user.name
+        };
+      else data.instructor = {};
+
       res.json(data);
     });
   },
