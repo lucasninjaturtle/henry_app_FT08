@@ -7,7 +7,31 @@ export const cohortController = {
     /* Codigo */
   },
   async putCohort(req: Request, res: Response) {
-    /* Codigo */
+    const { id } = req.params;
+
+    const {
+      name,
+      startDay,
+      instructorId,
+      moduleId,
+      groups,
+      students
+    } = req.body as {
+      name: string;
+      startDay: string;
+      instructorId: string;
+      moduleId: string;
+      students: null | [];
+      groups: null | [];
+    };
+    //TODO: add startDay
+    const cohort = await db.Cohort.update(
+      { name },
+      { where: { id }, returning: true }
+    );
+    if (moduleId) await cohort.setModule(moduleId);
+    if (instructorId) await cohort.setInstructor(instructorId);
+    res.sendStatus(200);
   },
   async deleteCohort(req: Request, res: Response) {
     /* Codigo */

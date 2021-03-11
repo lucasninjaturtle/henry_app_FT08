@@ -1,14 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
-import SearchBarAsync from "react-select/async";
 import { MdEdit as EditIcon } from "react-icons/md";
+import SearchBarAsync from "react-select/async";
 import "@inovua/reactdatagrid-community/index.css";
+import { useQuery } from "react-query";
+import CohortName from "./CohortName";
 import {
   putStudents,
   searchCohortsByName,
   getStudentsFromCohort,
   getCohortById
-} from "../api";
+} from "../../api";
 
 const columns = [
   {
@@ -44,11 +46,14 @@ const studentColumns = [
 
 function EditCohort() {
   const [selectedCohort, setSelectedCohort] = useState({});
-  const [cohortData, setCohortData] = useState({});
+  const { data: cohortData = {}, refetch } = useQuery(
+    ["cohort", selectedCohort?.value],
+    () => getCohortById(selectedCohort.value),
+    { enabled: !!selectedCohort?.value }
+  );
 
   useEffect(() => {
-    if (selectedCohort?.value)
-      getCohortById(selectedCohort.value).then((resp) => setCohortData(resp));
+    if (selectedCohort?.value) refetch();
   }, [selectedCohort]);
 
   const loadOptions = (inputValue, callback) => {
@@ -71,7 +76,6 @@ function EditCohort() {
     students,
     groups
   } = cohortData;
-  console.log(students);
 
   const date = new Date(startDay);
   const formattedDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
@@ -102,17 +106,7 @@ function EditCohort() {
           selectedCohort?.value ? "" : "hidden"
         } flex flex-col mt-16`}
       >
-        <div className="w-auto">
-          <h1 className="text-6xl underline text-center font-semibold">
-            {name}
-            <button className="inline-block ml-4 p-1 text-gray-600">
-              <EditIcon size="29" />
-            </button>
-          </h1>
-          <small className="text-4xl font-light block text-center">
-            ID: {id}
-          </small>
-        </div>
+        <CohortName name={name} id={id} />
 
         <div className="flex mt-16 space-y-5 md:space-y-0 flex-col md:flex-row justify-between xl:justify-evenly">
           <div className="w-auto">
