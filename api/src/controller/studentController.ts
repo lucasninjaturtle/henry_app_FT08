@@ -141,12 +141,14 @@ export const studentController = {
         name,
         userId
       } = data;
+      const userData = await db.User.findOne({
+        include: [{ model: db.Student, where: { id } }]
+      });
+      for (var [key, value] of Object.entries(data)) {
+        userData[key] = value;
+      }
+      await userData.save();
       await db.Student.update({ github, groupId, cohortId }, { where: { id } });
-      if (userId)
-        await db.User.update(
-          { cellphone, email, lastName, name },
-          { where: { id: userId } }
-        );
     }
 
     res.sendStatus(200);
