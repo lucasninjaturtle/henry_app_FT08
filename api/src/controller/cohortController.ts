@@ -25,10 +25,13 @@ export const cohortController = {
       groups: null | [];
     };
     //TODO: add startDay
-    const cohort = await db.Cohort.update(
-      { name },
-      { where: { id }, returning: true }
-    );
+    let cohort;
+    if (name || startDay)
+      cohort = await db.Cohort.update(
+        { name },
+        { where: { id }, returning: true }
+      )[1][1];
+    else cohort = await db.Cohort.findByPk(id);
     if (moduleId) await cohort.setModule(moduleId);
     if (instructorId) await cohort.setInstructor(instructorId);
     res.sendStatus(200);
@@ -65,6 +68,21 @@ export const cohortController = {
 
       delete data.instructor;
       if (data.instructor && Object.keys(data.instructor) > 0)
+        data.students = resp.students.map((student) => ({
+          github: student.github,
+          id: student.id,
+          groupId: student.groupId,
+          cohortId: student.cohortId,
+          cellphone: student.user.cellphone,
+          email: student.user.email,
+          userId: student.user.userId,
+          lastName: student.user.lastName,
+          name: student.user.name
+        }));
+      else data.students = [];
+
+      delete data.instructor;
+      if (resp.instructor)
         data.instructor = {
           github: resp.instructor.github,
           id: resp.instructor.id,
@@ -74,7 +92,7 @@ export const cohortController = {
           email: resp.instructor.user.email,
           userId: resp.instructor.user.userId,
           lastName: resp.instructor.user.lastName,
-           name: resp.instructor.user.name
+          name: resp.instructor.user.name
         };
       else data.instructor = {};
 

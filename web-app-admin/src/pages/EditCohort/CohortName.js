@@ -28,21 +28,28 @@ function CohortName({ name, id }) {
 
   if (isEditing)
     return (
-      <div
-        onKeyUp={(e) => e.key === "Enter" && onMutate()}
-        className="w-auto flex flex-row justify-center items-center"
-      >
-        <button onClick={closeEdit} className="mr-5">
-          <CancelIcon size="45" />
-        </button>
-        <input
-          value={newCohortName}
-          onChange={(e) => setNewCohortName(e.target.value)}
-          className="block text-5xl font-normal"
-        />
-        <button onClick={onMutate} className="ml-5">
-          <ConfirmIcon size="45" />
-        </button>
+      <div onKeyUp={(e) => e.key === "Enter" && onMutate()}>
+        <div className="w-auto flex flex-row justify-center items-center">
+          <button onClick={closeEdit} className="mr-5 invisible md:visible">
+            <CancelIcon size="45" />
+          </button>
+          <input
+            value={newCohortName}
+            onChange={(e) => setNewCohortName(e.target.value)}
+            className="block text-5xl font-normal"
+          />
+          <button onClick={onMutate} className="ml-5 invisible md:visible">
+            <ConfirmIcon size="45" />
+          </button>
+        </div>
+        <div className="md:hidden mt-5 flex flex-row justify-evenly">
+          <button onClick={closeEdit} className="mr-5">
+            <CancelIcon size="45" />
+          </button>
+          <button onClick={onMutate} className="ml-5">
+            <ConfirmIcon size="45" />
+          </button>
+        </div>
       </div>
     );
 
