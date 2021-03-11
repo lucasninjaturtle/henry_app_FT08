@@ -130,13 +130,13 @@ export const studentController = {
       );
     } else {
       data = req.body as studentData;
+      const { id } = req.params;
       const {
         cellphone,
         cohortId,
         email,
         github,
         groupId,
-        id,
         lastName,
         name,
         userId
