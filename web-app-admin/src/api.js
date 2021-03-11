@@ -17,3 +17,19 @@ export const getStudentsFromCohort = (cohortId) => {
 export const putStudents = (data) => {
   return axios.put("/student/", data);
 };
+
+export const createEvent = (data) => {
+  return axios.post("/event", data);
+};
+
+export const editEvent = (id) => {
+  return axios.put(`/event/${id}`);
+};
+
+export const deleteEvent = (id) => {
+  return axios.delete(`/event${id}`);
+};
+
+export const allEvent = () => {
+  return axios.get("/event")
+}

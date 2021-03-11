@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/react": "^5.5.0",
     "@inovua/reactdatagrid-community": "^4.0.29",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
@@ -11,7 +13,7 @@
     "axios": "^0.21.1",
     "craco": "0.0.3",
     "react": "^17.0.1",
-    "react-csv-to-table": "^0.0.1",
+    "react-csv-to-table": "0.0.4",
     "react-data-table-component": "^6.11.7",
     "react-dom": "^17.0.1",
     "react-github-login": "^1.0.3",
