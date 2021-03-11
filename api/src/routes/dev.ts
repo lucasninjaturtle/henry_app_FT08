@@ -260,4 +260,15 @@ router.get("/module/set/cohort/all", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.get("/group/set/cohort/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  const randomIdx = () => ~~(Math.random() * cohorts.length);
+  db.Group.findAll().then((groups) => {
+    groups.map(async (group) => {
+      await group.setCohort(cohorts[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
 export default router;
