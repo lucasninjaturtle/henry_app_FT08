@@ -46,7 +46,7 @@ export default function (passport: PassportStatic) {
       function (token, tokenSecret, profile, cb) {
         return cb(null, {
           data: {
-            // profile: profile,
+            profile: profile,
             token: token
           },
           type: "github-token"
@@ -65,7 +65,16 @@ export default function (passport: PassportStatic) {
         })
         .catch((err) => cb(err, false));
     } else {
-      cb(null, obj.data);
+      // cb(null, obj.data);
+      console.log(obj.data)
+      db.Student.findOne({ where: { github: obj.data.user.username } })
+        .then(user => {
+          cb(null, user)
+        })
+        .catch((err) => {
+          console.log(err)
+          cb(err, false)
+        });
     }
   });
 }

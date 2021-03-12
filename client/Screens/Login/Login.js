@@ -1,38 +1,46 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import {View, Text, Button} from 'native-base'
-import {Image} from 'react-native'
-import {StyleSheet} from 'react-native'
+import { View, Text, Button, Item, Input } from 'native-base'
+import { Image } from 'react-native'
+import { StyleSheet } from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
-// import { AuthSession } from 'expo';
+import axios from 'axios';
+import { WebView } from 'react-native-webview';
+import { AuthSession } from 'expo';
 
 WebBrowser.maybeCompleteAuthSession();
 
-// Endpoint
 const discovery = {
-  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-  tokenEndpoint: 'https://github.com/login/oauth/access_token',
-  revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+    tokenEndpoint: 'https://github.com/login/oauth/access_token',
+    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
 };
 
 const Login = (props) => {
     const [request, response, promptAsync] = useAuthRequest({
         clientId: '4cf64d15fe0157927482',
-        scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
+        clientSecret: "29f49913d133a27236e1021e860edd797d398d51",
+        scopes: ['user', 'repo'].join(" "),
+        // scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
         // For usage in managed apps using the proxy
         redirectUri: makeRedirectUri({
-        // For usage in bare and standalone
+            // For usage in bare and standalone
             // native: 'your.app://redirect',
-            native: 'exp://192.168.0.200:19000',
+            native: 'exp://192.168.0.145:19000',
+            // Web: "http://localhost:5000/auth/github/callback",
         }),
     }, discovery);
+    // console.log('Hola', code)
 
     React.useEffect(() => {
         if (response?.type === 'success') {
+            console.log("Respuesta de GH  ", response.params)
             const { code } = response.params;
-            // props.test(true)
-            console.log("Respuesta de GH:", response)
+            if (code) {
+                props.test(true);
+            }
+            // console.log("Respuesta de GH:", code)
 
             // Obtener todos los datos del usuario (get maestro), y corroborar
             // si es la primera vez que ingresa, si no lo es, cargar datos,
@@ -42,19 +50,25 @@ const Login = (props) => {
         }
     }, [response]);
 
-    function simulateLogin() {
-        console.log("Login!")
+    function authLogin() {
+
+
+        console.log(request)
         promptAsync();
+
     }
 
     return (
         <View style={styles.view}>
             <Image
-                source = {henryLogo}
+                source={henryLogo}
                 style={styles.img}
             />
-            <Button disabled={!request}
-            onPress={simulateLogin} style={styles.btn}>
+            {/* <Text style={{ padding: 15 }}>
+                {JSON.stringify(response, null, 2)}
+            </Text> */}
+            <Button
+                onPress={authLogin} style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>

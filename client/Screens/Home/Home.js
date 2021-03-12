@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import 'react-native-gesture-handler';
-import {Image, StyleSheet} from 'react-native'
-import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right} from "native-base";
-import {useSelector,useDispatch } from 'react-redux'
+import { Image, StyleSheet } from 'react-native'
+import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right } from "native-base";
+import { useSelector, useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -10,48 +10,49 @@ import Profile from '../Profile/Profile'
 
 
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getUserInfo())
   }, [])
 
 
-    let Student = useSelector((store) => store.userInfo.usuario)
-    console.log(Student)
+  let Student = useSelector((store) => store.userInfo.usuario)
+  console.log(Student)
 
-    Object.keys(Student).length === 0 ? Student =  {name:'test name',
-    cohort:'tets cohort',
-    user:'GITHUBUSER',
-    group:'grupo test',
-    lastname:'apellido test',
-    module:'modulo test',
-    pm:{lucas:'PM test'},
-    startDay:'start',
-    instructor:{firstname: 'primer nombre', lastname: 'apellido'},
-}   : Student;
-    
-    // name:'',
-    // cohort:'',
-    // user:'',
-    // group:'',
-    // lastname:'',
-    // module:'',
-    // pm:{},
-    // startDay:'',
-    // instructor:{},
+  Object.keys(Student).length === 0 ? Student = {
+    name: 'test name',
+    cohort: 'tets cohort',
+    user: 'GITHUBUSER',
+    group: 'grupo test',
+    lastname: 'apellido test',
+    module: 'modulo test',
+    pm: { lucas: 'PM test' },
+    startDay: 'start',
+    instructor: { firstname: 'primer nombre', lastname: 'apellido' },
+  } : Student;
 
-    return (
-      
-      <ScrollView>
-  
-      
-        <Container style={styles.container}>
+  // name:'',
+  // cohort:'',
+  // user:'',
+  // group:'',
+  // lastname:'',
+  // module:'',
+  // pm:{},
+  // startDay:'',
+  // instructor:{},
+
+  return (
+
+    <ScrollView>
+
+
+      <Container style={styles.container}>
         <CardItem header bordered style={styles.card}>
-              <Thumbnail style={styles.image} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}
-              />
-            </CardItem>
-        <Content   padder>
+          <Thumbnail style={styles.image} source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png' }}
+          />
+        </CardItem>
+        {/* <Content   padder>
           <Card style={{}}>
             
             <CardItem bordered>
@@ -87,14 +88,14 @@ export default function Home({navigation}) {
                 
             </CardItem>
           </Card>
-        </Content>
+        </Content> */}
       </Container>
       <Content style={styles.list}>
-          <List>
-          
-          <ListItem onPress={()=>navigation.navigate('Profile')} icon>
+        <List>
+
+          <ListItem onPress={() => navigation.navigate('Profile')} icon>
             <Left>
-              <Button  style={{ backgroundColor: "green" }}>
+              <Button style={{ backgroundColor: "green" }}>
                 <Icon active name="person" />
               </Button>
             </Left>
@@ -106,7 +107,7 @@ export default function Home({navigation}) {
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem onPress={()=>navigation.navigate('Settings')} icon>
+          <ListItem onPress={() => navigation.navigate('Settings')} icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="settings" />
@@ -116,11 +117,11 @@ export default function Home({navigation}) {
               <Text>Settings</Text>
             </Body>
             <Right>
-            <Text>Edit</Text>
+              <Text>Edit</Text>
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem onPress={()=>navigation.navigate('Contact')} icon>
+          <ListItem onPress={() => navigation.navigate('Contact')} icon>
             <Left>
               <Button style={{ backgroundColor: "#007AFF" }}>
                 <Icon active name="paper-plane" />
@@ -143,43 +144,43 @@ export default function Home({navigation}) {
               <Text>Logout</Text>
             </Body>
             <Right>
-              
+
               <Icon active name="log-out" />
             </Right>
           </ListItem>
-          </List>
-        </Content>
-      </ScrollView>
-      
-    )
+        </List>
+      </Content>
+    </ScrollView>
+
+  )
 }
 
 const styles = StyleSheet.create({
-  container :{
-    alignContent:'center',
-    alignItems:'center',
-    paddingTop:10,
-    backgroundColor:'white',
-    height:550
-    
-    
+  container: {
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
+    backgroundColor: 'white',
+    height: 550
+
+
   },
-  card:{
-    alignItems:'center',
-    alignContent:'center',
-    alignSelf:'center'
+  card: {
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center'
   },
-  image:{
-    width:80,
-    height:80,
+  image: {
+    width: 80,
+    height: 80,
   },
-  titles:{
-    fontFamily:'monospace',
-    fontStyle:'normal',
-    fontSize:20,
+  titles: {
+    fontFamily: 'monospace',
+    fontStyle: 'normal',
+    fontSize: 20,
   },
-  list:{
-    paddingTop:-100
+  list: {
+    paddingTop: -100
   }
-  
+
 })

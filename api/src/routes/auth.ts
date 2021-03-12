@@ -17,6 +17,17 @@ router.post("/login/local", passport.authenticate("local"), authController.webap
 
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github',
-{ successRedirect: "/github/test", failureRedirect: '/auth/github' }));
+    {
+        successRedirect: "/github/redirect",
+        // successRedirect: "exp://192.168.0.145:19000",
+        failureRedirect: '/auth/github'
+
+    }),
+);
+
+router.get('/github/redirect', async (req, res, next) => {
+    console.log(req.user)
+    res.redirect("exp://192.168.0.145:19000")
+})
 
 export default router;
