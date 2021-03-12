@@ -38,14 +38,14 @@ function LoadCsv(props) {
     // console.log('string user',stringUser)
     function onDelete() {
       if(window.confirm(`Seguro quiere eliminar a: ${stringUser}`)){
-        console.log('confirmo')
-        var newData = data.filter(user => !userToDelete.includes(user.Name))
+        // console.log('confirmo')
+        var newData = data.filter(user => !userToDelete.includes(user.name))
         setData(newData)
-        userToDelete.splice(0, userToDelete.length)
-        console.log(userToDelete)
+        // userToDelete.splice(0, userToDelete.length)
+        // console.log(userToDelete)
         
       }else{
-        console.log('no confirmo')
+        // console.log('no confirmo')
       }
     }
     return (
@@ -121,18 +121,18 @@ function LoadCsv(props) {
 
   const handleChange = (e) => {
     // You can use setState or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", e.selectedRows);
+    // console.log("Selected Rows: ", e.selectedRows);
     setState({selectedRows: e.selectedRows})
   };
 
-  console.log(state.selectedRows)
+  // console.log(state.selectedRows)
   const sendStudentData = () =>{
     if(state.selectedRows.length == 0){
       alert('No hay alumnos cargados')
     }
     else {
-      console.log("Seleccionados: ", state.selectedRows)
-      console.log("Type: ", type)
+      // console.log("Seleccionados: ", state.selectedRows)
+      // console.log("Type: ", type)
       let ruta = 'http://localhost:5000/'
       switch (type) {
         case "instructores": ruta += "instructores/create"; break;
@@ -144,6 +144,7 @@ function LoadCsv(props) {
       axios.post(ruta, state.selectedRows)
       .then(res => {
         console.log("Res: ", res)
+        alert(`Se han creado ${type} exisotamente`)
       }).catch(e => console.log("Error: ", e))
     }
 
@@ -166,7 +167,7 @@ function LoadCsv(props) {
         title={<Title type={type}/>}
         selectableRows // add for checkbox selection
         onSelectedRowsChange={handleChange}
-        contextActions={<ContextAction userToDelete={state.selectedRows.map(user=>  user.Name)}/>}
+        contextActions={<ContextAction userToDelete={state.selectedRows.map(user=>  user.name)}/>} //state.selectedRows.map(user=>  user.Name)
         contextMessage={{
           singular:'alumno',
           plural:'alumnos',

@@ -88,7 +88,7 @@ export const studentController = {
       userData.projectManagers = [];
     }
 
-    console.log(userData);
+    // console.log(userData);
 
     res.json(userData);
   },
@@ -163,23 +163,25 @@ export const studentController = {
   async createStudent(req: Request, res: Response) {
     //let data = req.body.map(obj => delete obj.github)
     let data = req.body;
-    console.log("Data: ", data);
+    // console.log('llego el post del front')
+    // console.log("Data: ", data);
 
     try {
       let users = await db.User.bulkCreate(data, {
         fields: ["name", "lastName", "email", "cellphone"]
       });
 
-      console.log("Usuarios registra2: ", users);
+      // console.log("Usuarios registra2: ", users);
       users.forEach(async (inst, i) => {
         try {
           let u = await db.Student.create({
             github: data[i].github
           });
 
-          inst.setStudent(u);
+          inst.setStudent(u)
+          res.sendStatus(200)
         } catch (e) {
-          console.log("Error linea 91: ", e);
+          // console.log("Error linea 91: ", e);
         }
         //.then(r => console.log("Se hizo la relación user/student"))
       });
