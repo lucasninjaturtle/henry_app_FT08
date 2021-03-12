@@ -38,6 +38,12 @@ const studentColumns = [
     defaultFlex: 1,
     header: "Nombre",
     editable: false
+  },
+  {
+    name: "lastName",
+    defaultFlex: 1,
+    header: "Apellido",
+    editable: false
   }
 ];
 

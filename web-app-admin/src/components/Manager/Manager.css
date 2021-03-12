@@ -1,4 +1,9 @@
-.Home {
+.action-manager-link:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* .Home {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,9 +20,9 @@
     font-size: 50px
 }
 
-/* .Titulo:hover {
-    background-color: #41ff00;
-} */
+//.Titulo:hover {
+    //background-color: #41ff00;
+//} 
 
 .Container {
     width: 80%;
@@ -73,4 +78,4 @@
 
 .Btn:hover {
     color: floralwhite;
-}
+} */
