@@ -37,7 +37,11 @@ export const cohortController = {
     res.sendStatus(200);
   },
   async deleteCohort(req: Request, res: Response) {
-    /* Codigo */
+    const { id } = req.params;
+    const CohortData = await db.Cohort.findByPk(id);
+    
+    await db.Cohort.destroy({ where: { id: CohortData.id } });
+    return res.sendStatus(200);
   },
   async getCohorts(req: Request, res: Response) {
     db.Cohort.findAll().then((data) => res.json(data));
