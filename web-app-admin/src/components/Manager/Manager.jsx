@@ -106,6 +106,7 @@ export default function Manager(props) {
             }
             case 5: {
                 h.push("/delete/event")
+                h.push("/edit/event")
                 break
             }
             default: h.push("/load-data/grupo")
@@ -197,6 +198,18 @@ export default function Manager(props) {
             </button>
           </div>
         </div>
+                <div className="Card">
+                    <h1><b>Editar</b></h1>
+                    <span className="Texto">Modifica todo lo que tengas que modificar!</span>
+                    <div className="Botones">
+                        <button onClick={e => handleClickEdit(e, 0)} className="Btn">Instructores</button>
+                        <button onClick={e => handleClickEdit(e, 1)} className="Btn">PMs</button>
+                        <button onClick={e => handleClickEdit(e, 2)} className="Btn">Estudiante</button>
+                        <button onClick={e => handleClickEdit(e, 3)} className="Btn">Cohorte</button>
+                        <button onClick={e => handleClickEdit(e, 4)} className="Btn">Grupo</button>
+                        <button onClick={e => handleClickEdit(e, 5)} className="Btn">Evento</button>
+                    </div>
+                </div>
 
         <div className="Card">
           <h1>

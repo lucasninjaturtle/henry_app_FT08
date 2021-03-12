@@ -16,10 +16,10 @@ import { adminController } from "../controller/adminController";
 router.post("/student/", studentController.createStudent);
 
 /* Ruta para BUSCAR un ALUMNOS x ID  */
-router.get("/student/:id", studentController.getStudent);
+router.get("/student/:idOrGithub", studentController.getStudent);
 
 /* Ruta para EDITAR un ALUMNOS x ID. */
-router.put("/student/:id", studentController.putStudent);
+router.put("/student/:id", studentController.putStudent)
 
 /* Ruta para BORRAR un ALUMNOS x ID. */
 router.delete("/student/:id", studentController.deleteStudent);
@@ -80,6 +80,18 @@ router.delete("/admin/:id", adminController.deleteAdmin);
 router.post("/", users.getUsers);
 
 /* Ruta para BUSCAR un USUARIO x ID */
-router.post("/:id", users.getUserById);
+router.get("/:id", users.getUserById);
+
+/* Ruta para BUSCAR USUARIOS x ID COHORT. */
+router.get("/usersByCohort/:id", users.getUsersByCohort);
+
+/* Ruta para ACTUALIZAR USUARIO X ID */
+router.put("/:id", users.putUserById);
+
+/* Ruta para BUSCAR USUARIOS x TIPO. */
+router.get("/type/:typeName", users.getUsersByType);
+
+/* Ruta para BUSCAR USUARIOS x grupo */
+router.get("/group/:id", users.getUsersByGroup);
 
 export default router;

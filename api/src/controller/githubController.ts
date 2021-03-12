@@ -2,25 +2,51 @@ import { Request, Response } from "express";
 import { QueryResult } from "pg";
 import axios from "axios";
 
-const github = {
-  getgithub: function (req: Request, res: Response) {
-    try {
-      /* const response: QueryResult = await db.query('SELECT * FROM users');
-            console.log(response.rows) */
-      console.log("Hola");
-      return res.status(200).json("Hola");
-    } catch (e) {
-      console.log(e);
-      return res.status(500).json("Error");
-    }
-  },
-  test: async function (req: Request, res: Response) {
-    axios
-      .get("http://api.github.com/users/MarcosGrizzuti/repos")
-      .then((res) => {
-        console.log(res);
-      });
-  }
-};
+export const githubController = {
+  async getUserGHRepo(req: Request, res: Response) {
+    axios.get("https://api.github.com/user/repos", {
+      headers: {
+        "Authorization": `Bearer 9bf31ce262244fece1b4b5633c841f56c367abf8`
+        }
+      })
+        .then((getUserAllGHRepos) => {
+          var privateRepos = []
+          var commitsArray = []
+          var arrayPromises = []
 
-export default github;
+          getUserAllGHRepos.data.forEach((UserGHRep) => {
+            if(UserGHRep.fork == true) {
+              if(UserGHRep.name == "Curso.Prep.Henry" ||UserGHRep.name == "FT-M1" || UserGHRep.name == "FT-M2" || UserGHRep.name == "FT-M3" || UserGHRep.name == "FT-M4" ||
+              UserGHRep.name.slice(0, 12) == "ecommerce-ft") {
+                arrayPromises.push(axios.get(`https://api.github.com/repos/${UserGHRep.owner.login}/${UserGHRep.name}/commits`, {
+                  headers: {
+                    "Authorization": `Bearer 9bf31ce262244fece1b4b5633c841f56c367abf8`
+                    }
+                }))
+
+                privateRepos.push({
+                  name: UserGHRep.name,
+                  data: null
+                })
+                }
+              }
+            })
+
+            Promise.all(arrayPromises).then(r => { // r = array de promesas (repos)
+              r.forEach((obj, i) => { // por cada repo (obj = array de commits)
+                commitsArray = []
+                obj.data.forEach(commit => {
+                  commitsArray.push({
+                  author: commit.commit.author.name,
+                  date: commit.commit.author.date,
+                  message: commit.commit.message,
+                  commitHash: commit.sha
+                  })
+                })
+                privateRepos[i].data = commitsArray
+              })
+              res.json(privateRepos)
+            })
+        })
+  },
+};
