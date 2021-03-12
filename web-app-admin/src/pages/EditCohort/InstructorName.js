@@ -8,12 +8,13 @@ function InstructorName({ instructor, id }) {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const mutation = useMutation((data) => putCohort(data, id));
+  if (!instructor) return null;
   const loadOptions = (inputValue, callback) => {
     if (!inputValue) return;
     searchInstructorsByName(inputValue).then((data) => {
       callback(
         data.map((instructor) => ({
-          label: instructor.user.name,
+          label: instructor.user.name + " " + instructor.user.lastName,
           value: instructor.id
         }))
       );
@@ -26,6 +27,8 @@ function InstructorName({ instructor, id }) {
       queryClient.invalidateQueries(["cohort", id]);
     });
   };
+
+  const { name, lastName } = instructor;
 
   return (
     <div>
@@ -41,7 +44,7 @@ function InstructorName({ instructor, id }) {
                 <EditIcon size="29" />
               </button>
               <h3 className="text-3xl text-4xl font-light block text-center">
-                {instructor?.name ?? "Ninguno"}
+                {name ? `${name} ${lastName}` : "Ninguno"}
               </h3>
             </>
           )}
