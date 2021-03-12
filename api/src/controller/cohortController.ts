@@ -26,18 +26,32 @@ export const cohortController = {
     };
     //TODO: add startDay
     let cohort;
-    if (name || startDay)
-      cohort = await db.Cohort.update(
-        { name },
-        { where: { id }, returning: true }
-      )[1][1];
-    else cohort = await db.Cohort.findByPk(id);
+    if (name || startDay) {
+      const mod: any = {};
+      if (name) mod.name = name;
+      if (startDay) {
+        mod.startDay = new Date(
+          +startDay.substr(0, 4),
+          +startDay.substr(5, 2) - 1,
+          +startDay.substr(8, 2)
+        );
+      }
+      cohort = await db.Cohort.update(mod, {
+        where: { id },
+        returning: true
+      });
+      cohort = cohort[1][0];
+    } else cohort = await db.Cohort.findByPk(id);
     if (moduleId) await cohort.setModule(moduleId);
     if (instructorId) await cohort.setInstructor(instructorId);
     res.sendStatus(200);
   },
   async deleteCohort(req: Request, res: Response) {
-    /* Codigo */
+    const { id } = req.params;
+    const CohortData = await db.Cohort.findByPk(id);
+    
+    await db.Cohort.destroy({ where: { id: CohortData.id } });
+    return res.sendStatus(200);
   },
   async getCohorts(req: Request, res: Response) {
     db.Cohort.findAll().then((data) => res.json(data));

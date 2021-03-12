@@ -33,12 +33,12 @@ export default function (passport: PassportStatic) {
       cb(null, obj);
     });
 
-  let scopes = ["notifications", "user:email", "read:org", "repo"];
+  let scopes = ["notifications", "user:email", "read:org", "repo", "repo:invite", "repo:status"];
   passport.use(
     new GitHubStrategy(
       {
-        clientID: "4cf64d15fe0157927482",
-        clientSecret: "29f49913d133a27236e1021e860edd797d398d51",
+        clientID: "6dda93ca783635d2e702",
+        clientSecret: "8726e3f30ad82a914e06052d716f6b95691c1460",
         // callbackURL: 'http://localhost:5000',
         callbackURL: "http://localhost:5000/auth/github/callback",
         scope: scopes.join(" ")

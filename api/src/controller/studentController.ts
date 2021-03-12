@@ -14,6 +14,7 @@ export const studentController = {
     else query.id = idOrGithub;
 
     const {
+      id,
       user: { lastName, name, cellphone, email },
       github,
       cohort,
@@ -33,6 +34,7 @@ export const studentController = {
 
     let userData: any = {
       name,
+      id,
       lastName,
       github,
       cohort: cohort?.name ?? null,
@@ -85,6 +87,8 @@ export const studentController = {
     } else {
       userData.projectManagers = [];
     }
+
+    console.log(userData);
 
     res.json(userData);
   },
