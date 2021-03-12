@@ -34,7 +34,8 @@ function Login(props) {
     postLogin(inputData).then(res => {
       props.history.replace("/manager")
     }).catch(err => {
-      props.history.replace("/manager")
+      alert("Usuario o Contraseña incorrecta")
+      // props.history.replace("/manager")
 
     })
   };
