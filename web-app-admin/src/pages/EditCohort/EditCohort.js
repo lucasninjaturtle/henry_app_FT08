@@ -5,6 +5,7 @@ import SearchBarAsync from "react-select/async";
 import "@inovua/reactdatagrid-community/index.css";
 import { useQuery } from "react-query";
 import CohortName from "./CohortName";
+import StartDate from "./StartDate";
 import { searchCohortsByName, getCohortById } from "../../api";
 import InstructorName from "./InstructorName";
 
@@ -110,7 +111,8 @@ function EditCohort() {
 
         <div className="flex mt-16 space-y-5 md:space-y-0 flex-col md:flex-row justify-between xl:justify-evenly">
           <InstructorName instructor={instructor} id={id} />
-          <div className="w-auto">
+          <StartDate startDay={startDay} id={id} />
+          {/* <div className="w-auto">
             <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
               Fecha de Inicio
               <button className="inline-block ml-4 p-1 text-gray-600">
@@ -120,7 +122,7 @@ function EditCohort() {
             <h3 className="text-3xl text-4xl font-light block text-center">
               {formattedDate}
             </h3>
-          </div>
+          </div> */}
           <div className="w-auto">
             <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
               Modulo
