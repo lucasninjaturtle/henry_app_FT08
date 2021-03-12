@@ -44,7 +44,7 @@ export default function Manager(props) {
                 break
             }
             case 3: {
-                h.push("/load-data/cohorte")
+                h.push("/edit/cohort")
                 break
             }
             case 5: {

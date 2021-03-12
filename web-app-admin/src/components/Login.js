@@ -100,7 +100,7 @@ function Login(props) {
               value="Log In"
               class="bg-black text-white font-bold text-lg  hover:bg-gray-700 p-2 mt-8"
             />
-            <div class="flex md:justify-between justify-center items-center mt-10">
+            {/* <div class="flex md:justify-between justify-center items-center mt-10">
               <div
                 style={{ height: "1px" }}
                 class="bg-black md:block hidden w-4/12"
@@ -110,14 +110,14 @@ function Login(props) {
                 style={{ height: "1px" }}
                 class="bg-black md:block hidden w-4/12"
               ></div>
-            </div>
+            </div> */}
           </form>
 
-          <input
+          {/* <input
             type="submit"
             value="Log In GitHub"
             class="bg-black text-white font-bold text-lg  hover:bg-gray-700 p-2 mt-8"
-          />
+          /> */}
         </div>
       </div>
 
