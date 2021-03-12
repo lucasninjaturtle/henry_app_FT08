@@ -2,10 +2,9 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import baseProps from "./baseProps";
 
 export interface classAttributes extends baseProps {
-  ordinal: number;
   name: string;
   startDay: Date;
-  githubRep: string;
+  githubRepo: string;
   githubFeedback: string;
   githubQuizLink: string;
   recordedVideoURL: string;
@@ -27,7 +26,7 @@ export function ClassFactory(sequelize: Sequelize) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    githubRep: {
+    githubRepo: {
       type: DataTypes.STRING,
       allowNull: false
     },

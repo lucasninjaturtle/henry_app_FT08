@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { PassportStatic } from "passport";
 import local from "passport-local";
 const localStrategy = local.Strategy;
-var GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy = require("passport-github").Strategy;
 import { adminAttributes } from "./database/models/Admin";
 
 import { db } from "./database/models/index";
@@ -19,7 +19,7 @@ export default function (passport: PassportStatic) {
           bcrypt.compare(password, user.password, (err, result) => {
             if (err) throw err;
             if (result === true) {
-              return done(null, { user: user, type: "local-email"});
+              return done(null, { data: { user: user }, type: "local-email" });
             } else {
               return done(null, false);
             }
@@ -28,44 +28,44 @@ export default function (passport: PassportStatic) {
       }
     )
   ),
+    // guarda el user.id al cookie enviado al front
+    passport.serializeUser((obj: any, cb) => {
+      cb(null, obj);
+    });
 
-  // guarda el user.id al cookie enviado al front
-  passport.serializeUser((user: adminAttributes, cb) => {
-    cb(null, user.id);
-  });
-
-  let scopes = ['notifications', 'user:email', 'read:org', 'repo']
+  let scopes = ["notifications", "user:email", "read:org", "repo", "repo:invite", "repo:status"];
   passport.use(
     new GitHubStrategy(
       {
-        clientID: '4cf64d15fe0157927482',
-        clientSecret: '29f49913d133a27236e1021e860edd797d398d51',
+        clientID: "6dda93ca783635d2e702",
+        clientSecret: "8726e3f30ad82a914e06052d716f6b95691c1460",
         // callbackURL: 'http://localhost:5000',
-        callbackURL: 'http://localhost:5000/auth/github/callback',
-        scope: scopes.join(' ')
+        callbackURL: "http://localhost:5000/auth/github/callback",
+        scope: scopes.join(" ")
       },
       function (token, tokenSecret, profile, cb) {
-        return cb(null, { profile: profile, token: token, type: "github-token" })
-      },
+        return cb(null, {
+          data: {
+            // profile: profile,
+            token: token
+          },
+          type: "github-token"
+        });
+      }
     )
   );
 
-  passport.serializeUser(function (user, done) {
-    done(null, user.token)
-  }),
-
   // usa el id del cookie y
   // ( unicamente ) le añade 'user' al req (req.user)
-  passport.deserializeUser((obj, cb) => {
-    if(obj.type === "local-email") {
-      db.Admin.findOne({ where: { id }, include: { all: true } })
-      .then((user) => {
-        cb(false, user);
-      })
-      .catch((err) => cb(err, false));
+  passport.deserializeUser((obj: any, cb) => {
+    if (obj.type === "local-email") {
+      db.Admin.findOne({ where: { id: obj.data.user.id }, include: { all: true } })
+        .then((user) => {
+          cb(false, user);
+        })
+        .catch((err) => cb(err, false));
     } else {
-      cb(null, obj)
+      cb(null, obj.data);
     }
   });
 }
-

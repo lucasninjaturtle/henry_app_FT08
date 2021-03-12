@@ -12,14 +12,15 @@ import Profile from '../Profile/Profile'
 
 export default function Home({navigation}) {
   const dispatch = useDispatch()
-    useEffect(() => {
-      dispatch(getUserInfo())
+  useEffect(() => {
+    dispatch(getUserInfo())
   }, [])
 
 
-    let User = useSelector((store) => store.userInfo.usuario)
+    let Student = useSelector((store) => store.userInfo.usuario)
+    console.log(Student)
 
-    Object.keys(User).length === 0 ? User =  {name:'test name',
+    Object.keys(Student).length === 0 ? Student =  {name:'test name',
     cohort:'tets cohort',
     user:'GITHUBUSER',
     group:'grupo test',
@@ -28,7 +29,7 @@ export default function Home({navigation}) {
     pm:{lucas:'PM test'},
     startDay:'start',
     instructor:{firstname: 'primer nombre', lastname: 'apellido'},
-}   : User;
+}   : Student;
     
     // name:'',
     // cohort:'',
@@ -57,11 +58,11 @@ export default function Home({navigation}) {
               <Body>
                 
                 <Text style={styles.titles}>
-                    {User.name}
+                    {Student.name}
                 </Text>
                 <Text style={styles.titles}>
                     Github:{"\n"}
-                    {User.user}
+                    {Student.email}
                 </Text>
               </Body>
             </CardItem>
@@ -75,14 +76,14 @@ export default function Home({navigation}) {
               <Text>PM:  </Text>
             </CardItem>
             <CardItem  >
-              <Text>Cohorte actual: {User.cohort}</Text>
+              <Text>Cohorte actual: {Student.cohort}</Text>
               
             </CardItem>
             <CardItem  >
-              <Text>Fecha Ingreso: {User.startDay.slice(0,10)} </Text>
+              <Text>Fecha Ingreso: {Student.createdAt.slice(0,10)} </Text>
             </CardItem>
             <CardItem  >
-                <Text>Modulo Actual: {User.module} </Text>
+                <Text>Modulo Actual: {Student.module} </Text>
                 
             </CardItem>
           </Card>

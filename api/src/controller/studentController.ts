@@ -42,8 +42,9 @@ export const studentController = {
       email
     };
 
+
     if (cohort) {
-      await db.Instructor.findByPk(cohort.instructorId).then((resp) => {
+      await db.Instructor.findByPk(cohort.instructorId, {include: [{ model: db.User,}] }).then((resp) => {
         if (resp)
           userData.instructor = {
             firstName: resp.user.name,
@@ -51,7 +52,6 @@ export const studentController = {
           };
         else userData.instructor = null;
       });
-
       await db.Module.findOne({
         include: [{ model: db.Cohort, where: { id: cohort.id } }]
       }).then((resp) => {
@@ -100,7 +100,7 @@ export const studentController = {
       userId: number;
     };
     const data = req.body as studentData[];
-
+    
     await Promise.all(
       data.map(
         async ({

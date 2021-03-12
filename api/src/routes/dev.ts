@@ -144,12 +144,169 @@ router.post("/student/add/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/pm/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newPm = await db.ProjectManager.create({
+      github: `${first_name}-${uid.substr(0, 4)}`
+    });
+    await newUser.setProjectmanager(newPm);
+  }
+  res.sendStatus(200);
+});
+
+router.post("/instructor/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newInstructor = await db.Instructor.create({
+      github: `${first_name}-${uid.substr(0, 4)}`
+    });
+    await newUser.setInstructor(newInstructor);
+  }
+  res.sendStatus(200);
+});
+
+router.post("/module/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+  const today = new Date();
+  const data = names.map((name) => ({
+    name: name.first_name + " " + name.uid.substr(0, 4),
+    startDay: today,
+    checkpointDay: new Date(today.setMonth(today.getMonth() + 1))
+  }));
+  await db.Module.bulkCreate(data);
+  res.sendStatus(200);
+});
+
+router.post("/class/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+
+  const data = names.map((name) => ({
+    name: name.first_name + " " + name.uid.substr(0, 4),
+    startDay: new Date(),
+    githubRepo: "testGithubRepoLink",
+    githubFeedback: "testGithubFeedbackLink",
+    githubQuizLink: "testGHQuizLink",
+    recordedVideoURL: "testVideoUrl"
+  }));
+
+  await db.Class.bulkCreate(data);
+  res.sendStatus(200);
+});
+
+router.post("/admin/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newAdmin = await db.Admin.create({});
+    await newUser.setAdmin(newAdmin);
+  }
+  res.sendStatus(200);
+});
+
+router.post("/group/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+  await db.Group.bulkCreate(
+    names.map((name) => ({
+      name: name.first_name + " " + name.uid.substr(0, 4)
+    }))
+  );
+  res.sendStatus(200);
+});
+
 router.get("/student/set/cohort/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
-  const randomCohortIdx = () => ~~(Math.random() * cohorts.length);
+  const randomIdx = () => ~~(Math.random() * cohorts.length);
   db.Student.findAll().then((students) => {
     students.map(async (student) => {
-      await student.setCohort(cohorts[randomCohortIdx()]);
+      await student.setCohort(cohorts[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
+router.get("/cohort/set/instructor/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  db.Instructor.findAll().then(async (instructors) => {
+    const randomIdx = () => ~~(Math.random() * instructors.length);
+    await cohorts.forEach((cohort) =>
+      cohort.setInstructor(instructors[randomIdx()])
+    );
+  });
+  res.sendStatus(200);
+});
+
+router.get("/module/set/cohort/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  const randomIdx = () => ~~(Math.random() * cohorts.length);
+  db.Module.findAll().then((modules) => {
+    modules.map(async (module) => {
+      await module.setCohort(cohorts[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
+router.get("/group/set/cohort/all", async (req, res) => {
+  const cohorts = await db.Cohort.findAll();
+  const randomIdx = () => ~~(Math.random() * cohorts.length);
+  db.Group.findAll().then((groups) => {
+    groups.map(async (group) => {
+      await group.setCohort(cohorts[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
+router.get("/pm/set/group/all", async (req, res) => {
+  const groups = await db.Group.findAll();
+  const randomIdx = () => ~~(Math.random() * groups.length);
+  db.ProjectManager.findAll().then((projectManagers) => {
+    projectManagers.map(async (projectManager) => {
+      await projectManager.setGroup(groups[randomIdx()]);
+    });
+  });
+  res.sendStatus(200);
+});
+
+router.get("/class/set/module/all", async (req, res) => {
+  const modules = await db.Module.findAll();
+  const randomIdx = () => ~~(Math.random() * modules.length);
+  db.Class.findAll().then((classes) => {
+    classes.map(async (classData) => {
+      await classData.setModule(modules[randomIdx()]);
     });
   });
   res.sendStatus(200);
