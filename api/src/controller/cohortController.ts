@@ -26,12 +26,22 @@ export const cohortController = {
     };
     //TODO: add startDay
     let cohort;
-    if (name || startDay)
-      cohort = await db.Cohort.update(
-        { name },
-        { where: { id }, returning: true }
-      )[1][1];
-    else cohort = await db.Cohort.findByPk(id);
+    if (name || startDay) {
+      const mod: any = {};
+      if (name) mod.name = name;
+      if (startDay) {
+        mod.startDay = new Date(
+          +startDay.substr(0, 4),
+          +startDay.substr(5, 2) - 1,
+          +startDay.substr(8, 2)
+        );
+      }
+      cohort = await db.Cohort.update(mod, {
+        where: { id },
+        returning: true
+      });
+      cohort = cohort[1][0];
+    } else cohort = await db.Cohort.findByPk(id);
     if (moduleId) await cohort.setModule(moduleId);
     if (instructorId) await cohort.setInstructor(instructorId);
     res.sendStatus(200);
@@ -48,26 +58,10 @@ export const cohortController = {
     db.Cohort.findByPk(id, {
       include: [{ all: true, include: [{ all: true }] }]
     }).then((resp) => {
-      console.log(resp)
       const data = resp.toJSON();
       delete data.user;
       delete data.students;
       if (resp.students.length > 0)
-      data.students = resp.students.map((student) => ({
-        github: student.github,
-        id: student.id,
-        groupId: student.groupId,
-        cohortId: student.cohortId,
-        cellphone: student.user.cellphone,
-        email: student.user.email,
-        userId: student.user.userId,
-        lastName: student.user.lastName,
-        name: student.user.name
-      }));
-      else data.students = []
-
-      delete data.instructor;
-      if (data.instructor && Object.keys(data.instructor) > 0)
         data.students = resp.students.map((student) => ({
           github: student.github,
           id: student.id,
