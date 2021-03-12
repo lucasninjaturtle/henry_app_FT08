@@ -98,7 +98,7 @@ export default function Manager(props) {
                         <button onClick={e => handleClickEdit(e, 0)} className="Btn">Instructores</button>
                         <button onClick={e => handleClickEdit(e, 1)} className="Btn">PMs</button>
                         <button onClick={e => handleClickEdit(e, 2)} className="Btn">Estudiante</button>
-                        <button onClick={e => handleClickEdit(e, 3)} className="Btn">Cohorte</button>
+                        <button onClick={e => props.history.push("/edit/cohort")} className="Btn">Cohorte</button>
                         <button onClick={e => handleClickEdit(e, 4)} className="Btn">Grupo</button>
                         <button onClick={e => handleClickEdit(e, 5)} className="Btn">Evento</button>
                     </div>
