@@ -82,4 +82,16 @@ router.post("/", users.getUsers);
 /* Ruta para BUSCAR un USUARIO x ID */
 router.get("/:id", users.getUserById);
 
+/* Ruta para BUSCAR USUARIOS x ID COHORT. */
+router.get("/usersByCohort/:id", users.getUsersByCohort);
+
+/* Ruta para ACTUALIZAR USUARIO X ID */
+router.put("/:id", users.putUserById);
+
+/* Ruta para BUSCAR USUARIOS x TIPO. */
+router.get("/type/:typeName", users.getUsersByType);
+
+/* Ruta para BUSCAR USUARIOS x grupo */
+router.get("/group/:id", users.getUsersByGroup);
+
 export default router;
