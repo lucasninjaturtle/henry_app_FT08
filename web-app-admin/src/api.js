@@ -43,6 +43,9 @@ export const searchModulesByName = (instructorName) => {
 export const putStudents = (data) => {
   return axios.put("/student/", data);
 };
+export const putInstructor = (data, id) => {
+  return axios.put(`/instructor/${id}`, data);
+};
 
 export const putCohort = (data, id) => {
   return axios.put(`/cohort/${id}`, data);

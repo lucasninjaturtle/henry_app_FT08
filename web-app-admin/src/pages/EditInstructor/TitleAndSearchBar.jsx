@@ -2,7 +2,7 @@ import { useState } from "react";
 import SearchBarAsync from "react-select/async";
 import { searchInstructorsByName } from "../../api";
 
-function TitleAndSearchBar({ onSelect, onSearch }) {
+function TitleAndSearchBar({ onSelect, onSearch, thing }) {
   const [selectedThing, setSelectedThing] = useState({});
 
   const loadOptions = (inputValue, callback) => {
@@ -30,12 +30,11 @@ function TitleAndSearchBar({ onSelect, onSearch }) {
             selectedThing?.value ? "hidden" : ""
           }`}
         >
-          Buscar Instructor
+          Editar {thing}
         </h1>
         <SearchBarAsync
-          cacheOptions
           value=""
-          placeholder="Buscar instructor..."
+          placeholder={`Buscar ${thing}...`}
           onChange={handleChange}
           isClearable={false}
           loadOptions={loadOptions}
