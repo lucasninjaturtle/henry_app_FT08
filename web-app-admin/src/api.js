@@ -14,6 +14,10 @@ export const getCohortById = (id) => {
   return axios.get(`/cohort/${id}`).then((resp) => resp.data);
 };
 
+export const getInstructorById = (id) => {
+  return axios.get(`/instructor/${id}`).then((resp) => resp.data);
+};
+
 export const getStudentsFromCohort = (cohortId) => {
   return axios.get(`/student/cohort/${cohortId}`).then((resp) => resp.data);
 };

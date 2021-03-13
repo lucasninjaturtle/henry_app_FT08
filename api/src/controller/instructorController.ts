@@ -80,10 +80,25 @@ export const instructorController = {
         }
       ],
       limit
-    }).then((instructorData) => {
-      res.json(
-        instructorData.sort((prev, next) => prev.user.name - next.user.name)
+    }).then((instructors) => {
+      let data = instructors.map((instructor) => {
+        const {
+          id,
+          user: { lastName, name, cellphone, email }
+        } = instructor;
+        return {
+          id,
+          lastName,
+          name,
+          cellphone,
+          email,
+          github: instructor.github
+        };
+      });
+      data = data.sort((prev, next) =>
+        prev.name === next.name ? 0 : prev.name > next.name ? 1 : -1
       );
+      res.json(data);
     });
   }
 };
