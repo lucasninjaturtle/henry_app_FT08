@@ -13,26 +13,8 @@ import StudentCard from "./StudentCard"
 
 
 export default function Home({ navigation }) {
-  // const dispatch = useDispatch()
-  // useEffect(() => {
-  //   dispatch(getUserInfo())
-  // }, [])
-
 
   let student = useSelector((store) => store.userInfo.usuario)
-
-  // Object.keys(Student).length === 0 ? Student = {
-  //   name: 'test name',
-  //   cohort: 'tets cohort',
-  //   user: 'GITHUBUSER',
-  //   group: 'grupo test',
-  //   lastname: 'apellido test',
-  //   module: 'modulo test',
-  //   pm: { lucas: 'PM test' },
-  //   startDay: 'start',
-  //   instructor: { firstname: 'primer nombre', lastname: 'apellido' },
-  // } : Student;
-
 
   return (
     <ScrollView>
