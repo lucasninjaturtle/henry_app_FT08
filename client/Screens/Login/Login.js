@@ -45,7 +45,8 @@ const Login = (props) => {
                     'code': code
                 };
                 axios.post('http://192.168.0.145:5000/auth/githubcode', data).then(resp => {
-                    console.log(resp.data);
+                    console.log(resp.data)
+                        .then(axios)
                 }).catch(err => {
                     console.log('err', err)
                 });
