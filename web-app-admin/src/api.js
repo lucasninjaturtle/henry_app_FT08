@@ -30,6 +30,12 @@ export const searchInstructorsByName = (instructorName) => {
     .then((resp) => resp.data);
 };
 
+export const searchModulesByName = (instructorName) => {
+  return axios
+    .get(`/module/search?name=${instructorName}`)
+    .then((resp) => resp.data);
+};
+
 export const putStudents = (data) => {
   return axios.put("/student/", data);
 };

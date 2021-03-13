@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
-import { MdEdit as EditIcon } from "react-icons/md";
 import SearchBarAsync from "react-select/async";
 import "@inovua/reactdatagrid-community/index.css";
 import { useQuery } from "react-query";
@@ -9,6 +8,7 @@ import StartDate from "./StartDate";
 import { searchCohortsByName, getCohortById } from "../../api";
 import InstructorName from "./InstructorName";
 import Loader from "react-loader-spinner";
+import ModuleName from "./ModuleName";
 
 const columns = [
   {
@@ -115,17 +115,7 @@ function EditCohort() {
               <div className="flex mt-16 gap-y-10 md:space-y-0 flex-col md:flex-row justify-between xl:justify-evenly">
                 <InstructorName instructor={instructor} id={id} />
                 <StartDate startDay={startDay} id={id} />
-                <div className="w-auto">
-                  <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
-                    Modulo
-                    <button className="inline-block ml-4 p-1 text-gray-600">
-                      <EditIcon size="29" />
-                    </button>
-                  </h1>
-                  <h3 className="text-3xl lg:text-4xl font-light block text-center">
-                    {module?.name ?? "Ninguno"}
-                  </h3>
-                </div>
+                <ModuleName module={module} id={id} />
               </div>
             </div>
             <div
