@@ -24,6 +24,16 @@ export const searchCohortsByName = (cohortName) => {
     .then((resp) => resp.data);
 };
 
+export const searchInstructorsByName = (instructorName) => {
+  return axios
+    .get(`/instructor/search?name=${instructorName}`)
+    .then((resp) => resp.data);
+};
+
 export const putStudents = (data) => {
   return axios.put("/student/", data);
+};
+
+export const putCohort = (data, id) => {
+  return axios.put(`/cohort/${id}`, data);
 };

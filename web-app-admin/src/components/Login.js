@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import GitHubLogin from "react-github-login";
 import henrylogo from "../logo_henry.png";
-import adminbg from "../admin.png";
+import programmingImg from "../assets/undraw_programming_2svr.svg";
 import { postLogin } from "../api";
-
 
 function Login(props) {
   const [inputData, setInputData] = useState({
@@ -31,14 +30,15 @@ function Login(props) {
     setErrorForm({
       email: ""
     });
-    postLogin(inputData).then(res => {
-      props.history.replace("/manager")
-    }).catch(err => {
-      props.history.replace("/manager")
-
-    })
+    postLogin(inputData)
+      .then((res) => {
+        props.history.replace("/manager");
+      })
+      .catch((err) => {
+        alert("Usuario o Contraseña incorrecta");
+        // props.history.replace("/manager")
+      });
   };
-  
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -49,11 +49,13 @@ function Login(props) {
   return (
     <div class="w-full flex flex-wrap">
       <div class="w-full md:w-1/2 flex flex-col">
-        <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-          <img src={henrylogo} class="text-white font-bold text-xl p-2 w-24" />
-        </div>
-
         <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+          <div class="flex justify-center mb-10">
+            <img
+              src={henrylogo}
+              class="text-white font-bold text-xl p-2 w-24"
+            />
+          </div>
           <p class="text-center text-3xl">Admin Web App</p>
           <form class="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit}>
             <div class="flex flex-col pt-4">
@@ -100,7 +102,7 @@ function Login(props) {
               value="Log In"
               class="bg-black text-white font-bold text-lg  hover:bg-gray-700 p-2 mt-8"
             />
-            <div class="flex md:justify-between justify-center items-center mt-10">
+            {/* <div class="flex md:justify-between justify-center items-center mt-10">
               <div
                 style={{ height: "1px" }}
                 class="bg-black md:block hidden w-4/12"
@@ -110,21 +112,21 @@ function Login(props) {
                 style={{ height: "1px" }}
                 class="bg-black md:block hidden w-4/12"
               ></div>
-            </div>
+            </div> */}
           </form>
 
-          <input
+          {/* <input
             type="submit"
             value="Log In GitHub"
             class="bg-black text-white font-bold text-lg  hover:bg-gray-700 p-2 mt-8"
-          />
+          /> */}
         </div>
       </div>
 
-      <div class="w-1/2 shadow-2xl">
+      <div class="w-1/2 h-full ">
         <img
           class="object-cover w-screen h-screen hidden md:block"
-          src={adminbg}
+          src={programmingImg}
         />
       </div>
     </div>

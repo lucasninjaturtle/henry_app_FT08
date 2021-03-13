@@ -30,7 +30,7 @@ export default function App() {
     default: return (
       <Provider store={store}>
       <NavigationContainer>
-        <NavigationMain/>
+        <DrawerHomeNavigator/>
       </NavigationContainer>
       </Provider>
     )
