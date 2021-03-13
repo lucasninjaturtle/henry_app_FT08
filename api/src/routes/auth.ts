@@ -15,6 +15,8 @@ router.post("/login/local", passport.authenticate("local"), authController.webap
 //// LOGIN APP MOBILE /////
 ///////////////////////////
 
+router.post('/githubcode', authController.githubCode)
+
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github',
     {

@@ -18,7 +18,7 @@ export default function Home({ navigation }) {
 
 
   let Student = useSelector((store) => store.userInfo.usuario)
-  console.log(Student)
+  console.log('...Home.js:Student :', Student)
 
   Object.keys(Student).length === 0 ? Student = {
     name: 'test name',

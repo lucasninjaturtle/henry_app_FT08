@@ -21,27 +21,36 @@ const Login = (props) => {
     const [request, response, promptAsync] = useAuthRequest({
         clientId: '4cf64d15fe0157927482',
         clientSecret: "29f49913d133a27236e1021e860edd797d398d51",
-        scopes: ['user', 'repo'].join(" "),
+        scopes: ['user', 'repo'],
         // scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
         // For usage in managed apps using the proxy
         redirectUri: makeRedirectUri({
             // For usage in bare and standalone
             // native: 'your.app://redirect',
             native: 'exp://192.168.0.145:19000',
-            // Web: "http://localhost:5000/auth/github/callback",
         }),
     }, discovery);
-    // console.log('Hola', code)
+
+
 
     React.useEffect(() => {
         if (response?.type === 'success') {
+            console.log(response.type)
             console.log("Respuesta de GH  ", response.params)
             const { code } = response.params;
             if (code) {
+                const data = {
+                    'client_id': '4cf64d15fe0157927482',
+                    'client_secret': '29f49913d133a27236e1021e860edd797d398d51',
+                    'code': code
+                };
+                axios.post('http://192.168.0.145:5000/auth/githubcode', data).then(resp => {
+                    console.log(resp.data);
+                }).catch(err => {
+                    console.log('err', err)
+                });
                 props.test(true);
             }
-            // console.log("Respuesta de GH:", code)
-
             // Obtener todos los datos del usuario (get maestro), y corroborar
             // si es la primera vez que ingresa, si no lo es, cargar datos,
             // y si lo es, crear relación con firebase (creandole un usuario)
@@ -50,13 +59,9 @@ const Login = (props) => {
         }
     }, [response]);
 
-    function authLogin() {
-
-
-        console.log(request)
-        promptAsync();
-
-    }
+    // function authLogin() {
+    //     promptAsync();
+    // }
 
     return (
         <View style={styles.view}>
@@ -68,7 +73,7 @@ const Login = (props) => {
                 {JSON.stringify(response, null, 2)}
             </Text> */}
             <Button
-                onPress={authLogin} style={styles.btn}>
+                onPress={promptAsync()} style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>
