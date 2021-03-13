@@ -9,22 +9,7 @@ import { searchCohortsByName, getCohortById } from "../../api";
 import InstructorName from "./InstructorName";
 import Loader from "react-loader-spinner";
 import ModuleName from "./ModuleName";
-
-const columns = [
-  {
-    name: "id",
-    minWidth: 70,
-    defaultWidth: 70,
-    header: "Id",
-    editable: false
-  },
-  {
-    name: "name",
-    defaultFlex: 1,
-    header: "Nombre",
-    editable: false
-  }
-];
+import Groups from "./Groups.jsx";
 
 const studentColumns = [
   {
@@ -123,24 +108,7 @@ function EditCohort() {
                 "flex flex-col space-y-6 xl:space-y-0 xl:flex-row justify-evenly mt-16"
               }
             >
-              <div className="w-auto">
-                <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
-                  Grupos
-                </h1>
-
-                <ReactDataGrid
-                  idProperty="id"
-                  editable={true}
-                  columns={columns}
-                  style={{
-                    marginTop: 25,
-                    minWidth: 500,
-                    minHeight: 500,
-                    maxHeight: 750
-                  }}
-                  dataSource={groups}
-                />
-              </div>
+              <Groups data={groups} />
 
               <div className="w-auto">
                 <h1 className="text-5xl md:text-4xl lg:text-5xl text-center font-semibold">
@@ -149,7 +117,22 @@ function EditCohort() {
                 <ReactDataGrid
                   idProperty="id"
                   editable={true}
+                  // checkboxColumn
                   columns={studentColumns}
+                  defaultFilterValue={[
+                    {
+                      name: "name",
+                      operator: "contains",
+                      type: "string",
+                      value: ""
+                    },
+                    {
+                      name: "lastName",
+                      operator: "contains",
+                      type: "string",
+                      value: ""
+                    }
+                  ]}
                   style={{
                     marginTop: 25,
                     minWidth: 500,
