@@ -8,6 +8,7 @@ export interface UserAttributes extends baseProps {
   email: string;
   cellphone: string;
   password?: string;
+  githubToken: string;
 }
 
 export interface UserModel extends Model<UserAttributes>, UserAttributes {}
@@ -41,6 +42,11 @@ export function UserFactory(sequelize: Sequelize) {
     password: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    githubToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true
     }
   });
 }

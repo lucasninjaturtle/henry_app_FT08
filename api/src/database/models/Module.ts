@@ -2,7 +2,6 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import baseProps from "./baseProps";
 
 export interface moduleAttributes extends baseProps {
-  ordinal: number;
   name: string;
   startDay: Date;
   checkpointDay: Date;

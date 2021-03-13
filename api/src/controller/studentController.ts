@@ -14,6 +14,7 @@ export const studentController = {
     else query.id = idOrGithub;
 
     const {
+      id,
       user: { lastName, name, cellphone, email },
       github,
       cohort,
@@ -33,6 +34,7 @@ export const studentController = {
 
     let userData: any = {
       name,
+      id,
       lastName,
       github,
       cohort: cohort?.name ?? null,
@@ -42,9 +44,10 @@ export const studentController = {
       email
     };
 
-
     if (cohort) {
-      await db.Instructor.findByPk(cohort.instructorId, {include: [{ model: db.User,}] }).then((resp) => {
+      await db.Instructor.findByPk(cohort.instructorId, {
+        include: [{ model: db.User }]
+      }).then((resp) => {
         if (resp)
           userData.instructor = {
             firstName: resp.user.name,
@@ -85,6 +88,8 @@ export const studentController = {
       userData.projectManagers = [];
     }
 
+    // console.log(userData);
+
     res.json(userData);
   },
   async putStudent(req: Request, res: Response) {
@@ -99,32 +104,56 @@ export const studentController = {
       cellphone: string;
       userId: number;
     };
-    const data = req.body as studentData[];
+    let data;
+    if (Array.isArray(req.body)) {
+      data = req.body as studentData[];
 
-    await Promise.all(
-      data.map(
-        async ({
-          cellphone,
-          cohortId,
-          email,
-          github,
-          groupId,
-          id,
-          lastName,
-          name,
-          userId
-        }) => {
-          await db.Student.update(
-            { github, groupId, cohortId },
-            { where: { id } }
-          );
-          await db.User.update(
-            { cellphone, email, lastName, name },
-            { where: { id: userId } }
-          );
-        }
-      )
-    );
+      await Promise.all(
+        data.map(
+          async ({
+            cellphone,
+            cohortId,
+            email,
+            github,
+            groupId,
+            id,
+            lastName,
+            name,
+            userId
+          }) => {
+            await db.Student.update(
+              { github, groupId, cohortId },
+              { where: { id } }
+            );
+            await db.User.update(
+              { cellphone, email, lastName, name },
+              { where: { id: userId } }
+            );
+          }
+        )
+      );
+    } else {
+      data = req.body as studentData;
+      const { id } = req.params;
+      const {
+        cellphone,
+        cohortId,
+        email,
+        github,
+        groupId,
+        lastName,
+        name,
+        userId
+      } = data;
+      const userData = await db.User.findOne({
+        include: [{ model: db.Student, where: { id } }]
+      });
+      for (var [key, value] of Object.entries(data)) {
+        userData[key] = value;
+      }
+      await userData.save();
+      await db.Student.update({ github, groupId, cohortId }, { where: { id } });
+    }
 
     res.sendStatus(200);
   },
@@ -132,31 +161,38 @@ export const studentController = {
     /* CODIGO */
   },
   async createStudent(req: Request, res: Response) {
-    //let data = req.body.map(obj => delete obj.github)
-    let data = req.body;
-    console.log("Data: ", data);
+    const { github, ...userData } = req.body;
+    const newUser = await db.User.create(userData);
+    const newStudent = await db.Student.create({ github });
+    await newUser.setStudent(newStudent);
+    res.sendStatus(200);
+    // //let data = req.body.map(obj => delete obj.github)
+    // let data = req.body;
+    // // console.log('llego el post del front')
+    // // console.log("Data: ", data);
 
-    try {
-      let users = await db.User.bulkCreate(data, {
-        fields: ["name", "lastName", "email", "cellphone"]
-      });
+    // try {
+    //   let users = await db.User.bulkCreate(data, {
+    //     fields: ["name", "lastName", "email", "cellphone"]
+    //   });
 
-      console.log("Usuarios registra2: ", users);
-      users.forEach(async (inst, i) => {
-        try {
-          let u = await db.Student.create({
-            github: data[i].github
-          });
+    //   // console.log("Usuarios registra2: ", users);
+    //   users.forEach(async (inst, i) => {
+    //     try {
+    //       let u = await db.Student.create({
+    //         github: data[i].github
+    //       });
 
-          inst.setStudent(u);
-        } catch (e) {
-          console.log("Error linea 91: ", e);
-        }
-        //.then(r => console.log("Se hizo la relación user/student"))
-      });
-    } catch (e) {
-      console.log("Error: ", e);
-    }
+    //       inst.setStudent(u)
+    //       res.sendStatus(200)
+    //     } catch (e) {
+    //       // console.log("Error linea 91: ", e);
+    //     }
+    //     //.then(r => console.log("Se hizo la relación user/student"))
+    //   });
+    // } catch (e) {
+    //   console.log("Error: ", e);
+    // }
   },
   async searchStudentByName(req: Request, res: Response) {
     const { limit = 15, name } = (req.query as unknown) as {

@@ -8,8 +8,17 @@ import henryLogo from '../../assets/logo_henry.png'
 import axios from 'axios';
 import { WebView } from 'react-native-webview';
 import { AuthSession } from 'expo';
+import { Alert } from "react-native"
+
 
 WebBrowser.maybeCompleteAuthSession();
+
+const envTrucho = {
+    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
+    EXPO_CLIENT_SECRET: "ebcba9237c6d275cd6c5f46c0074d3fec49862a6",
+    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
+    EXPO_HTTP_IP: "192.168.0.200"
+}
 
 const discovery = {
     authorizationEndpoint: 'https://github.com/login/oauth/authorize',
@@ -19,49 +28,58 @@ const discovery = {
 
 const Login = (props) => {
     const [request, response, promptAsync] = useAuthRequest({
-        clientId: '4cf64d15fe0157927482',
-        clientSecret: "29f49913d133a27236e1021e860edd797d398d51",
+        clientId: `${envTrucho.EXPO_CLIENT_ID}`,
+        clientSecret: `${envTrucho.EXPO_CLIENT_SECRET}`,
         scopes: ['user', 'repo'],
-        // scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
-        // For usage in managed apps using the proxy
         redirectUri: makeRedirectUri({
-            // For usage in bare and standalone
-            // native: 'your.app://redirect',
-            native: 'exp://192.168.0.145:19000',
+            native: `${envTrucho.EXPO_NATIVE_URI}`,
         }),
     }, discovery);
 
 
-
     React.useEffect(() => {
+        console.log(process.env)
         if (response?.type === 'success') {
-            console.log(response.type)
-            console.log("Respuesta de GH  ", response.params)
             const { code } = response.params;
             if (code) {
-                const data = {
-                    'client_id': '4cf64d15fe0157927482',
-                    'client_secret': '29f49913d133a27236e1021e860edd797d398d51',
+                axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubcode`, {
+                    'client_id': `${envTrucho.EXPO_CLIENT_ID}`,
+                    'client_secret': `${envTrucho.EXPO_CLIENT_SECRET}`,
                     'code': code
-                };
-                axios.post('http://192.168.0.145:5000/auth/githubcode', data).then(resp => {
-                    console.log(resp.data);
-                }).catch(err => {
+                })
+                .then(getUserToken => {
+                    axios.get('https://api.github.com/user', {
+                        headers: {
+                          "Authorization": `Bearer ${getUserToken.data}`
+                          }
+                        })
+                    .then((getGHUser) => {
+                        axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
+                            data: getGHUser.data.login
+                        })
+                        .then(() => {
+                            props.test(true);
+                        })
+                        .catch((err) => {
+                            Alert.alert(
+                                "Error FATAL",
+                                "No existe ese usuario",
+                                [
+                                  { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ]
+                            );
+                        })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                })
+                .catch(err => {
                     console.log('err', err)
                 });
-                props.test(true);
             }
-            // Obtener todos los datos del usuario (get maestro), y corroborar
-            // si es la primera vez que ingresa, si no lo es, cargar datos,
-            // y si lo es, crear relación con firebase (creandole un usuario)
-            // Guardar todos los datos del usuario en redux, para mostrarlo facilmente
-            // en el front
         }
     }, [response]);
-
-    // function authLogin() {
-    //     promptAsync();
-    // }
 
     return (
         <View style={styles.view}>
@@ -69,11 +87,10 @@ const Login = (props) => {
                 source={henryLogo}
                 style={styles.img}
             />
-            {/* <Text style={{ padding: 15 }}>
-                {JSON.stringify(response, null, 2)}
-            </Text> */}
             <Button
-                onPress={promptAsync()} style={styles.btn}>
+                onPress={(() => {
+                    promptAsync()
+                })} style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>
