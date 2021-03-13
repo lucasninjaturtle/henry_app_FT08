@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { MdEdit as EditIcon, MdClear as CancelIcon } from "react-icons/md";
-import { searchInstructorsByName, putCohort } from "../../api";
+import { searchModulesByName, putCohort } from "../../api";
 import SearchBarAsync from "react-select/async";
 import { useMutation, useQueryClient } from "react-query";
 
-function InstructorName({ instructor, id }) {
+function ModuleName({ module, id }) {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const mutation = useMutation((data) => putCohort(data, id));
-  if (!instructor) return null;
+  if (!module) return null;
   const loadOptions = (inputValue, callback) => {
     if (!inputValue) return;
-    searchInstructorsByName(inputValue).then((data) => {
+    searchModulesByName(inputValue).then((data) => {
       callback(
-        data.map((instructor) => ({
-          label: instructor.user.name + " " + instructor.user.lastName,
-          value: instructor.id
+        data.map((module) => ({
+          label: module.name,
+          value: module.id
         }))
       );
     });
@@ -23,18 +23,18 @@ function InstructorName({ instructor, id }) {
 
   const handleChange = (selectedOption) => {
     setIsEditing(false);
-    mutation.mutateAsync({ instructorId: selectedOption.value }).then(() => {
+    mutation.mutateAsync({ moduleId: selectedOption.value }).then(() => {
       queryClient.invalidateQueries(["cohort", id]);
     });
   };
 
-  const { name, lastName } = instructor;
+  const { name } = module;
 
   return (
     <div>
       <div className="flex flex-row justify-center items-baseline">
         <h1 className="text-5xl inline-block md:text-4xl lg:text-5xl text-center font-semibold">
-          Instructor
+          Modulo
           {!isEditing && (
             <>
               <button
@@ -44,7 +44,7 @@ function InstructorName({ instructor, id }) {
                 <EditIcon size="29" />
               </button>
               <span className="text-3xl text-4xl font-light block text-center">
-                {name ? `${name} ${lastName}` : "Ninguno"}
+                {name || "Ninguno"}
               </span>
             </>
           )}
@@ -71,4 +71,4 @@ function InstructorName({ instructor, id }) {
   );
 }
 
-export default InstructorName;
+export default ModuleName;

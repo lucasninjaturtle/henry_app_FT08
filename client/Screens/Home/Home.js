@@ -1,178 +1,104 @@
-import React, {useEffect} from 'react'
-import 'react-native-gesture-handler';
-import {Image, StyleSheet} from 'react-native'
-import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right} from "native-base";
-import {useSelector,useDispatch } from 'react-redux'
-import { getUserInfo } from '../../Redux/Actions/userActions';
-import store from '../../Redux/store';
-import { ScrollView } from 'react-native-gesture-handler';
-import Profile from '../Profile/Profile'
+import * as React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { View, Text, Button, Item, Input } from 'native-base'
+import { Image } from 'react-native'
+import { StyleSheet } from 'react-native'
+import henryLogo from '../../assets/logo_henry.png'
+import axios from 'axios';
+import { WebView } from 'react-native-webview';
+import { AuthSession } from 'expo';
+
+WebBrowser.maybeCompleteAuthSession();
+
+const discovery = {
+    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+    tokenEndpoint: 'https://github.com/login/oauth/access_token',
+    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+};
+
+const Login = (props) => {
+    const [request, response, promptAsync] = useAuthRequest({
+        clientId: '4cf64d15fe0157927482',
+        clientSecret: "29f49913d133a27236e1021e860edd797d398d51",
+        scopes: ['user', 'repo'],
+        // scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
+        // For usage in managed apps using the proxy
+        redirectUri: makeRedirectUri({
+            // For usage in bare and standalone
+            // native: 'your.app://redirect',
+            native: 'exp://192.168.0.145:19000',
+        }),
+    }, discovery);
 
 
 
-export default function Home({navigation}) {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getUserInfo())
-  }, [])
+    React.useEffect(() => {
+        if (response?.type === 'success') {
+            console.log(response.type)
+            console.log("Respuesta de GH  ", response.params)
+            const { code } = response.params;
+            if (code) {
+                const data = {
+                    'client_id': '4cf64d15fe0157927482',
+                    'client_secret': '29f49913d133a27236e1021e860edd797d398d51',
+                    'code': code
+                };
+                axios.post('http://192.168.0.145:5000/auth/githubcode', data).then(resp => {
+                    console.log(resp.data);
+                    .then(axios)
+            }).catch(err => {
+                console.log('err', err)
+            });
+    props.test(true);
+}
+            // Obtener todos los datos del usuario (get maestro), y corroborar
+            // si es la primera vez que ingresa, si no lo es, cargar datos,
+            // y si lo es, crear relación con firebase (creandole un usuario)
+            // Guardar todos los datos del usuario en redux, para mostrarlo facilmente
+            // en el front
+        }
+    }, [response]);
 
+// function authLogin() {
+//     promptAsync();
+// }
 
-    let Student = useSelector((store) => store.userInfo.usuario)
-
-    Object.keys(Student).length === 0 ? Student =  {name:'test name',
-    cohort:'tets cohort',
-    user:'GITHUBUSER',
-    group:'grupo test',
-    lastname:'apellido test',
-    module:'modulo test',
-    pm:{lucas:'PM test'},
-    startDay:'start',
-    instructor:{firstname: 'primer nombre', lastname: 'apellido'},
-}   : Student;
-    
-    // name:'',
-    // cohort:'',
-    // user:'',
-    // group:'',
-    // lastname:'',
-    // module:'',
-    // pm:{},
-    // startDay:'',
-    // instructor:{},
-
-    return (
-      <ScrollView>
-        <Container style={styles.container}>
-        <CardItem header bordered style={styles.card}>
-        <Thumbnail style={styles.image} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}/>
-        </CardItem>
-        <Content   padder>
-          <Card style={{}}>
-            
-            <CardItem bordered>
-              <Body>
-                <Text style={styles.titles}>
-                  {Student.name} {Student.lastName}
+return (
+    <View style={styles.view}>
+        <Image
+            source={henryLogo}
+            style={styles.img}
+        />
+        {/* <Text style={{ padding: 15 }}>
+                {JSON.stringify(response, null, 2)}
+            </Text> */}
+        <Button
+            onPress={promptAsync()} style={styles.btn}>
+            <Text>
+                Ingresar con Github!
                 </Text>
-                <Text style={styles.titles}>
-                    Github: {Student.github}{"\n"}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem footer bordered >
-              <Text>Datos</Text>
-            </CardItem>
-            <CardItem  >
-              <Text>Instructor: {Student.instructor.firstName} {Student.instructor.lastName} </Text>
-            </CardItem>
-            {/* <CardItem  >
-              <Text>PM: {Student.projectManagers[0].firstName} {Student.projectManagers[0].lastName} </Text>
-            </CardItem> */}
-            <CardItem  >
-              <Text>Cohorte actual: {Student.cohort}</Text>
-            </CardItem>
-            <CardItem  >
-              <Text>Fecha Ingreso: {Student.startDay.slice(0,10)}</Text>
-            </CardItem>
-            <CardItem  >
-                <Text>Modulo Actual {Student.module}</Text>      
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
-      <Content style={styles.list}>
-          <List>   
-          {/* <ListItem onPress={()=>navigation.navigate('Profile')} icon>
-            <Left>
-              <Button  style={{ backgroundColor: "green" }}>
-                <Icon active name="person" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Profile</Text>
-            </Body>
-            <Right>
-              <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem onPress={()=>navigation.navigate('Settings')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="settings" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Settings</Text>
-            </Body>
-            <Right>
-            <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          {/* <ListItem onPress={()=>navigation.navigate('Contact')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="paper-plane" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Contact us</Text>
-            </Body>
-            <Right>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          <ListItem icon>
-            <Left>
-              <Button style={{ backgroundColor: "red" }}>
-                <Icon active name="log-out" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Logout</Text>
-            </Body>
-            <Right>   
-              <Icon active name="log-out" />
-            </Right>
-          </ListItem>
-          </List>
-        </Content>
-      </ScrollView>
-      
-    )
+        </Button>
+    </View>
+)
 }
 
 const styles = StyleSheet.create({
-  container :{
-    alignContent:'center',
-    alignItems:'center',
-    paddingTop:10,
-    backgroundColor:'#AED6F1',
-    height:550
-    
-    
-  },
-  card:{
-    alignItems:'center',
-    alignContent:'center',
-    alignSelf:'center',
-    backgroundColor:'#AED6F1'
-
-  },
-  image:{
-    borderRadius:50,
-    width:80,
-    height:80,
-    marginTop:10
-  },
-  titles:{
-    fontFamily:'monospace',
-    fontStyle:'normal',
-    fontSize:20,
-  },
-  list:{
-    paddingTop:-100
-  }
-  
+    view: {
+        flex: 1,
+        alignItems: "center",
+        backgroundColor: "#f7f701"
+    },
+    img: {
+        width: "90%",
+        height: 161,
+        resizeMode: "contain",
+        marginTop: 100
+    },
+    btn: {
+        alignSelf: "center",
+        marginTop: 100
+    }
 })
+
+export default Login;

@@ -14,6 +14,10 @@ export const getCohortById = (id) => {
   return axios.get(`/cohort/${id}`).then((resp) => resp.data);
 };
 
+export const getInstructorById = (id) => {
+  return axios.get(`/instructor/${id}`).then((resp) => resp.data);
+};
+
 export const getStudentsFromCohort = (cohortId) => {
   return axios.get(`/student/cohort/${cohortId}`).then((resp) => resp.data);
 };
@@ -30,8 +34,17 @@ export const searchInstructorsByName = (instructorName) => {
     .then((resp) => resp.data);
 };
 
+export const searchModulesByName = (instructorName) => {
+  return axios
+    .get(`/module/search?name=${instructorName}`)
+    .then((resp) => resp.data);
+};
+
 export const putStudents = (data) => {
   return axios.put("/student/", data);
+};
+export const putInstructor = (data, id) => {
+  return axios.put(`/instructor/${id}`, data);
 };
 
 export const putCohort = (data, id) => {
