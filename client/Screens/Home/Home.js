@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import 'react-native-gesture-handler';
-import {Image, StyleSheet} from 'react-native'
-import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right} from "native-base";
-import {useSelector,useDispatch } from 'react-redux'
+import { Image, StyleSheet } from 'react-native'
+import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right } from "native-base";
+import { useSelector, useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -10,7 +10,7 @@ import Profile from '../Profile/Profile'
 
 
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getUserInfo())
@@ -81,10 +81,10 @@ export default function Home({navigation}) {
         </Content>
       </Container>
       <Content style={styles.list}>
-          <List>   
+          <List>
           {/* <ListItem onPress={()=>navigation.navigate('Profile')} icon>
             <Left>
-              <Button  style={{ backgroundColor: "green" }}>
+              <Button style={{ backgroundColor: "green" }}>
                 <Icon active name="person" />
               </Button>
             </Left>
@@ -96,7 +96,7 @@ export default function Home({navigation}) {
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem onPress={()=>navigation.navigate('Settings')} icon>
+          <ListItem onPress={() => navigation.navigate('Settings')} icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="settings" />
@@ -106,7 +106,7 @@ export default function Home({navigation}) {
               <Text>Settings</Text>
             </Body>
             <Right>
-            <Text>Edit</Text>
+              <Text>Edit</Text>
               <Icon active name="arrow-forward" />
             </Right>
           </ListItem> */}
@@ -136,11 +136,11 @@ export default function Home({navigation}) {
               <Icon active name="log-out" />
             </Right>
           </ListItem>
-          </List>
-        </Content>
-      </ScrollView>
-      
-    )
+        </List>
+      </Content>
+    </ScrollView>
+
+  )
 }
 
 const styles = StyleSheet.create({
@@ -166,13 +166,13 @@ const styles = StyleSheet.create({
     height:80,
     marginTop:10
   },
-  titles:{
-    fontFamily:'monospace',
-    fontStyle:'normal',
-    fontSize:20,
+  titles: {
+    fontFamily: 'monospace',
+    fontStyle: 'normal',
+    fontSize: 20,
   },
-  list:{
-    paddingTop:-100
+  list: {
+    paddingTop: -100
   }
-  
+
 })

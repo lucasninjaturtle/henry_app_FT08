@@ -1,60 +1,96 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import {View, Text, Button} from 'native-base'
-import {Image} from 'react-native'
-import {StyleSheet} from 'react-native'
+import { View, Text, Button, Item, Input } from 'native-base'
+import { Image } from 'react-native'
+import { StyleSheet } from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
-// import { AuthSession } from 'expo';
+import axios from 'axios';
+import { WebView } from 'react-native-webview';
+import { AuthSession } from 'expo';
+import { Alert } from "react-native"
+
 
 WebBrowser.maybeCompleteAuthSession();
 
-// Endpoint
+const envTrucho = {
+    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
+    EXPO_CLIENT_SECRET: "ebcba9237c6d275cd6c5f46c0074d3fec49862a6",
+    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
+    EXPO_HTTP_IP: "192.168.0.200"
+}
+
 const discovery = {
-  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-  tokenEndpoint: 'https://github.com/login/oauth/access_token',
-  revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+    tokenEndpoint: 'https://github.com/login/oauth/access_token',
+    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
 };
 
 const Login = (props) => {
     const [request, response, promptAsync] = useAuthRequest({
-        clientId: '4cf64d15fe0157927482',
-        scopes: ['identity', 'notifications', 'user:email', 'read:org', 'repo'],
-        // For usage in managed apps using the proxy
+        clientId: `${envTrucho.EXPO_CLIENT_ID}`,
+        clientSecret: `${envTrucho.EXPO_CLIENT_SECRET}`,
+        scopes: ['user', 'repo'],
         redirectUri: makeRedirectUri({
-        // For usage in bare and standalone
-            // native: 'your.app://redirect',
-            native: 'exp://192.168.0.200:19000',
+            native: `${envTrucho.EXPO_NATIVE_URI}`,
         }),
     }, discovery);
 
+
     React.useEffect(() => {
+        console.log(process.env)
         if (response?.type === 'success') {
             const { code } = response.params;
-            // props.test(true)
-            console.log("Respuesta de GH:", response)
-
-            // Obtener todos los datos del usuario (get maestro), y corroborar
-            // si es la primera vez que ingresa, si no lo es, cargar datos,
-            // y si lo es, crear relación con firebase (creandole un usuario)
-            // Guardar todos los datos del usuario en redux, para mostrarlo facilmente
-            // en el front
+            if (code) {
+                axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubcode`, {
+                    'client_id': `${envTrucho.EXPO_CLIENT_ID}`,
+                    'client_secret': `${envTrucho.EXPO_CLIENT_SECRET}`,
+                    'code': code
+                })
+                .then(getUserToken => {
+                    axios.get('https://api.github.com/user', {
+                        headers: {
+                          "Authorization": `Bearer ${getUserToken.data}`
+                          }
+                        })
+                    .then((getGHUser) => {
+                        axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
+                            data: getGHUser.data.login
+                        })
+                        .then(() => {
+                            props.test(true);
+                        })
+                        .catch((err) => {
+                            Alert.alert(
+                                "Error FATAL",
+                                "No existe ese usuario",
+                                [
+                                  { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ]
+                            );
+                        })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                })
+                .catch(err => {
+                    console.log('err', err)
+                });
+            }
         }
     }, [response]);
-
-    function simulateLogin() {
-        console.log("Login!")
-        promptAsync();
-    }
 
     return (
         <View style={styles.view}>
             <Image
-                source = {henryLogo}
+                source={henryLogo}
                 style={styles.img}
             />
-            <Button disabled={!request}
-            onPress={simulateLogin} style={styles.btn}>
+            <Button
+                onPress={(() => {
+                    promptAsync()
+                })} style={styles.btn}>
                 <Text>
                     Ingresar con Github!
                 </Text>
