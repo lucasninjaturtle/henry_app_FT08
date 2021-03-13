@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import EditCohort from "./pages/EditCohort/EditCohort";
 import Manager from "./components/Manager/Manager";
 import EditUser from "./pages/EditUser";
+import EditInstructor from "./pages/EditInstructor/EditInstructor";
 import DeleteStudent from "./components/DeleteStudent";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/load-data/:type" component={LoadCsv} />
       <Route exact path="/edit/cohort" component={EditCohort} />
+      <Route exact path="/edit/instructor" component={EditInstructor} />
       <Route exact path="/edit/student" component={EditUser} />
       <Route exact path="/delete/student" component={DeleteStudent} />
       <Route exact path="/manager" component={Manager} />

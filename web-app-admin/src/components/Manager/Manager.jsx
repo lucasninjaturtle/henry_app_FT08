@@ -33,7 +33,7 @@ export default function Manager(props) {
 
           <Card
             action="edit"
-            title={"Crear"}
+            title={"Editar"}
             description={"Modifica todo lo que tengas que modificar!"}
           />
 
