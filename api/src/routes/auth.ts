@@ -15,8 +15,8 @@ router.post("/login/local", passport.authenticate("local"), authController.webap
 //// LOGIN APP MOBILE /////
 ///////////////////////////
 
-router.get('/github', passport.authenticate('github'));
-router.get('/github/callback', passport.authenticate('github',
-{ successRedirect: "/github/test", failureRedirect: '/auth/github' }));
+router.post('/githubcode', authController.githubCode)
+router.post('/githubUser', authController.githubUser)
+
 
 export default router;

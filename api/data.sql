@@ -1,5 +1,5 @@
 INSERT INTO users VALUES
-    (1, 'marcos', 'grizzuti', 'marcos.grizzuti@gmail.com', 541137775964, 'hash', '3236a72578f6e2ff4b37cc5d5301f76553847e84' ,now(), now()),
+    (1, 'marcos', 'grizzuti', 'marcos.grizzuti@gmail.com', 541137775964, 'hash', '3236a72578f6e2ff4b37cc5d5301f76553847e84' ,now(), now());
     (2, 'Rodolfo', 'Estefania ', 'Rodolfo.Rodríguez@gmail.com', 541189775488, 'hash', now(), now()),
     (3, 'Manuel', 'Chen', 'Manuel.Chen@gmail.com', 541172411070, 'hash', now(), now()),
     (4, 'Aaron', 'Conde', 'Aaron.Conde@gmail.com', 541135909686, 'hash', now(), now()),
@@ -65,7 +65,7 @@ INSERT INTO classes VALUES
     (8, 'class42', '18/05/2021', 'link', 'link', 'link', 'link', now(), now(), 4);
 
 INSERT INTO students VALUES
-    (1, 'GaizkaFerreiro', now(), now(), 10, 1, 5),
+    (1, 'MarcosGrizzuti', now(), now(), 0, 1, 5);
     (2, 'MartinSánchez', now(), now(), 11, 1, 5),
     (3, 'BartolomeSoriano', now(), now(), 12, 2, 5),
     (4, 'JesusLatorre', now(), now(), 13, 2, 5),
