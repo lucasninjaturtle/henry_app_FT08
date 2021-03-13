@@ -5,23 +5,26 @@ import {
     EDIT_USER_INFO
 } from '../constants'
 
-export function getUserInfo(id) {
+export function getUserInfo(userId) {
+
     return function (dispatch) {
-        axios.get(`http://192.168.0.103:5000/user/student/1`)
-            .then((res) => res.data )
-            .then ( data => {
-                dispatch({ type: GET_USER_INFO, payload:data})
+        axios.get(`http://192.168.0.145:5000/user/student/${userId}`)
+            .then((res) => res.data)
+            .then(data => {
+                dispatch({ type: GET_USER_INFO, payload: data })
+                console.log(data)
             })
-            .catch(error => alert(error))
+            .catch(error => console.log(error))
     }
 }
 
 export function editUserInfo(id, input) {
     let { cellphone } = input
-    return function(dispatch) {
-        axios.put(`http://192.168.0.103:5000/user/student/${id}`, { cellphone })
-        .then(data => 
-            dispatch({ type: EDIT_USER_INFO, payload:data })
-            )}
-            .catch(error => alert(error))
+    return function (dispatch) {
+        axios.put(`http://192.168.0.145:5000/user/student/${id}`, { cellphone })
+            .then(data =>
+                dispatch({ type: EDIT_USER_INFO, payload: data })
+            )
+    }
+        .catch(error => alert(error))
 }

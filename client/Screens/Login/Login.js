@@ -9,15 +9,18 @@ import axios from 'axios';
 import { WebView } from 'react-native-webview';
 import { AuthSession } from 'expo';
 import { Alert } from "react-native"
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserInfo } from '../../Redux/Actions/userActions';
+import store from '../../Redux/store';
 
 
 WebBrowser.maybeCompleteAuthSession();
 
 const envTrucho = {
-    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
-    EXPO_CLIENT_SECRET: "ebcba9237c6d275cd6c5f46c0074d3fec49862a6",
-    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
-    EXPO_HTTP_IP: "192.168.0.200"
+    EXPO_CLIENT_ID: "4cf64d15fe0157927482",
+    EXPO_CLIENT_SECRET: "29f49913d133a27236e1021e860edd797d398d51",
+    EXPO_NATIVE_URI: "exp://192.168.0.145:19000",
+    EXPO_HTTP_IP: "192.168.0.145"
 }
 
 const discovery = {
@@ -27,6 +30,8 @@ const discovery = {
 };
 
 const Login = (props) => {
+    const dispatch = useDispatch();
+
     const [request, response, promptAsync] = useAuthRequest({
         clientId: `${envTrucho.EXPO_CLIENT_ID}`,
         clientSecret: `${envTrucho.EXPO_CLIENT_SECRET}`,
@@ -46,48 +51,44 @@ const Login = (props) => {
                     'client_id': `${envTrucho.EXPO_CLIENT_ID}`,
                     'client_secret': `${envTrucho.EXPO_CLIENT_SECRET}`,
                     'code': code
-<<<<<<< HEAD
-                };
-                axios.post('http://192.168.0.145:5000/auth/githubcode', data).then(resp => {
-                    console.log(resp.data)
-                        .then(axios)
-                }).catch(err => {
-=======
                 })
-                .then(getUserToken => {
-                    axios.get('https://api.github.com/user', {
-                        headers: {
-                          "Authorization": `Bearer ${getUserToken.data}`
-                          }
+                    .then(getUserToken => {
+                        axios.get('https://api.github.com/user', {
+                            headers: {
+                                "Authorization": `Bearer ${getUserToken.data}`
+                            }
                         })
-                    .then((getGHUser) => {
-                        axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
-                            data: getGHUser.data.login
-                        })
-                        .then(() => {
-                            props.test(true);
-                        })
-                        .catch((err) => {
-                            Alert.alert(
-                                "Error FATAL",
-                                "No existe ese usuario",
-                                [
-                                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                                ]
-                            );
-                        })
+                            .then((getGHUser) => {
+                                axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
+                                    data: getGHUser.data.login,
+                                })
+                                    .then(() => {
+                                        // console.log('dataa :', getGHUser.data.login)
+                                        dispatch(getUserInfo(getGHUser.data.login))
+                                        props.test(true);
+                                    })
+                                    .catch((err) => {
+                                        Alert.alert(
+                                            "Error FATAL",
+                                            "No existe ese usuario",
+                                            [
+                                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                                            ]
+                                        );
+                                    })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
                     })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                })
-                .catch(err => {
->>>>>>> 29c4d45d58b66fa56fdf7abb3cc6b8418b43963a
-                    console.log('err', err)
-                });
+                    .catch(err => {
+                        console.log('err', err)
+                    });
             }
         }
     }, [response]);
+
+
 
     return (
         <View style={styles.view}>
