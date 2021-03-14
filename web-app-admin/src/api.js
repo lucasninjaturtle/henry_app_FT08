@@ -18,6 +18,10 @@ export const createGroup = (data) => {
   return axios.post("/group/", data);
 };
 
+export const createCohort = (data) => {
+  return axios.post("/cohort/", data);
+};
+
 export const createUserAndInstructor = (data) => {
   return axios.post("/user/instructor", data);
 };
@@ -44,22 +48,26 @@ export const searchCohortsByName = (cohortName) => {
     .then((resp) => resp.data);
 };
 
+export const searchPmsByName = (pmName) => {
+  return axios
+    .get(`/projectmanager/search?name=${pmName}`)
+    .then((resp) => resp.data);
+};
+
 export const searchInstructorsByName = (instructorName) => {
   return axios
     .get(`/instructor/search?name=${instructorName}`)
     .then((resp) => resp.data);
 };
 
-export const searchModulesByName = (instructorName) => {
+export const searchModulesByName = (moduleName) => {
   return axios
-    .get(`/module/search?name=${instructorName}`)
+    .get(`/module/search?name=${moduleName}`)
     .then((resp) => resp.data);
 };
 
-export const searchGroupsByName = (instructorName) => {
-  return axios
-    .get(`/group/search?name=${instructorName}`)
-    .then((resp) => resp.data);
+export const searchGroupsByName = (groupName) => {
+  return axios.get(`/group/search?name=${groupName}`).then((resp) => resp.data);
 };
 
 export const putStudents = (data) => {

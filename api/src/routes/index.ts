@@ -7,10 +7,11 @@ import authRouter from "./auth";
 import devRouter from "./dev";
 import cohortRouter from "./cohort";
 import groupRouter from "./group";
-import eventRouter from "./event";
 import instructorRouter from "./instructor";
 import studentRouter from "./student";
 import moduleRouter from "./module";
+import eventRouter from "./event";
+import projectManagerRouter from "./projectManager";
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.use("/group", groupRouter);
 router.use("/student", studentRouter);
 router.use("/instructor", instructorRouter);
 router.use("/module", moduleRouter);
+router.use("/projectManager", projectManagerRouter);
 router.use("/event", eventRouter);
 
 // dev testing
