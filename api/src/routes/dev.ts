@@ -165,6 +165,17 @@ router.post("/pm/:amount", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/eventType/:amount", async (req, res) => {
+  const { amount } = req.params;
+  const names = await getRandomNames(+amount);
+  await db.EventType.bulkCreate(
+    names.map((name) => ({
+      name: name.first_name + " " + name.uid.substr(0, 4)
+    }))
+  );
+  res.sendStatus(200);
+});
+
 router.post("/instructor/:amount", async (req, res) => {
   const { amount } = req.params;
   const numbers = await getRandomNumbers(+amount);
