@@ -7,6 +7,7 @@ import EditCohort from "./pages/EditCohort/EditCohort";
 import Manager from "./components/Manager/Manager";
 import EditUser from "./pages/EditUser";
 import DeleteStudent from "./components/DeleteStudent";
+import EditEvent from './components/EditEvent/EditEvent';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       <Route exact path="/edit/student" component={EditUser} />
       <Route exact path="/delete/student" component={DeleteStudent}/>
       <Route exact path="/manager" component={Manager} />
+      <Route exact path="/edit/event" component={EditEvent} />
+
     </div>
   );
 }

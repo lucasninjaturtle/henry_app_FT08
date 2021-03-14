@@ -37,3 +37,15 @@ export const putStudents = (data) => {
 export const putCohort = (data, id) => {
   return axios.put(`/cohort/${id}`, data);
 };
+
+export const editEvent = (data) => {
+  return axios.put('/event', data);
+};
+
+export const newEvent = (data) => {
+  return axios.post('/event', data)
+};
+
+export const allEvent = (data) => {
+  return axios.get('/event', data);
+};
