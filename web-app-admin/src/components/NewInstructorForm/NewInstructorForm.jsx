@@ -5,26 +5,26 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
-import { searchGroupsByName, createUserAndStudent } from "../../api";
+import { searchCohortsByName, createUserAndInstructor } from "../../api";
 
 function NewStudentForm() {
   const { register, handleSubmit, reset } = useForm();
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedCohort, setSelectedCohort] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
 
   useEffect(() => {
-    document.title = "Crear Estudiante";
+    document.title = "Crear Instructor";
   }, []);
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createUserAndStudent({ ...data, groupId: selectedGroup.id })
+    createUserAndInstructor({ ...data, cohortId: selectedCohort.id })
       .then(() => {
         reset();
-        setSelectedGroup(null);
+        setSelectedCohort(null);
         setMessage({
           type: "success",
-          content: "Estudiante creado exitosamente"
+          content: "Instructor creado exitosamente"
         });
       })
       .catch((err) => {
@@ -39,13 +39,15 @@ function NewStudentForm() {
 
   const loadOptions = (inputValue, callback) => {
     if (!inputValue) return;
-    searchGroupsByName(inputValue).then((data) => {
-      callback(data.map((group) => ({ value: group.id, label: group.name })));
+    searchCohortsByName(inputValue).then((data) => {
+      callback(
+        data.map((cohort) => ({ value: cohort.id, label: cohort.name }))
+      );
     });
   };
 
   const handleChange = (selectedOption) => {
-    setSelectedGroup(
+    setSelectedCohort(
       selectedOption
         ? { id: selectedOption.value, name: selectedOption.label }
         : null
@@ -69,7 +71,7 @@ function NewStudentForm() {
             <p className="ml-2">{message.content}</p>
           </div>
         ))}
-      <h2 className="text-center text-3xl font-semibold">Crear Estudiante</h2>
+      <h2 className="text-center text-3xl font-semibold">Crear Instructor</h2>
       <div className="w-full flex flex-col gap-1">
         <label>Nombre*:</label>
         <input
@@ -128,7 +130,7 @@ function NewStudentForm() {
       </div>
 
       <label className="w-full flex flex-col gap-1">
-        Grupo:
+        Cohorte:
         <SearchBarAsync
           styles={{
             container: (provided, state) => ({
@@ -138,11 +140,11 @@ function NewStudentForm() {
             })
           }}
           value={
-            selectedGroup
-              ? { label: selectedGroup.name, value: selectedGroup.id }
+            selectedCohort
+              ? { label: selectedCohort.name, value: selectedCohort.id }
               : null
           }
-          placeholder={`Buscar grupos...`}
+          placeholder={`Buscar cohortes...`}
           onChange={handleChange}
           isClearable={true}
           loadOptions={loadOptions}
@@ -150,7 +152,7 @@ function NewStudentForm() {
       </label>
 
       <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white">
-        Crear Estudiante
+        Crear Instructor
       </button>
     </form>
   );

@@ -9,6 +9,7 @@ import EditUser from "./pages/EditUser";
 import EditInstructor from "./pages/EditInstructor/EditInstructor";
 import DeleteStudent from "./components/DeleteStudent";
 import CreateStudent from "./pages/CreateStudent/CreateStudent";
+import CreateInstructor from "./pages/CreateInstructor/CreateInstructor";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route exact path="/" component={Login} />
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/create/student" component={CreateStudent} />
+      <Route exact path="/create/instructor" component={CreateInstructor} />
       <Route exact path="/upload/:type" component={LoadCsv} />
       <Route exact path="/edit/cohort" component={EditCohort} />
       <Route exact path="/edit/instructor" component={EditInstructor} />

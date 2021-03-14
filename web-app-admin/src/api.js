@@ -10,6 +10,10 @@ export const createUserAndStudent = (data) => {
   return axios.post("/user/student", data);
 };
 
+export const createUserAndInstructor = (data) => {
+  return axios.post("/user/instructor", data);
+};
+
 export const getCohorts = () => {
   return axios.get("/cohort").then((resp) => resp.data);
 };
