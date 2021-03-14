@@ -161,38 +161,17 @@ export const studentController = {
     /* CODIGO */
   },
   async createStudent(req: Request, res: Response) {
-    const { github, ...userData } = req.body;
-    const newUser = await db.User.create(userData);
-    const newStudent = await db.Student.create({ github });
-    await newUser.setStudent(newStudent);
+    const { github, groupId, ...userData } = req.body;
+    try {
+      const newUser = await db.User.create(userData);
+      const newStudent = await db.Student.create({ github });
+      await newUser.setStudent(newStudent);
+      if (groupId) await newStudent.setGroup(groupId);
+    } catch (e) {
+      return res.status(400).json(e);
+    }
+
     res.sendStatus(200);
-    // //let data = req.body.map(obj => delete obj.github)
-    // let data = req.body;
-    // // console.log('llego el post del front')
-    // // console.log("Data: ", data);
-
-    // try {
-    //   let users = await db.User.bulkCreate(data, {
-    //     fields: ["name", "lastName", "email", "cellphone"]
-    //   });
-
-    //   // console.log("Usuarios registra2: ", users);
-    //   users.forEach(async (inst, i) => {
-    //     try {
-    //       let u = await db.Student.create({
-    //         github: data[i].github
-    //       });
-
-    //       inst.setStudent(u)
-    //       res.sendStatus(200)
-    //     } catch (e) {
-    //       // console.log("Error linea 91: ", e);
-    //     }
-    //     //.then(r => console.log("Se hizo la relación user/student"))
-    //   });
-    // } catch (e) {
-    //   console.log("Error: ", e);
-    // }
   },
   async searchStudentByName(req: Request, res: Response) {
     const { limit = 15, name } = (req.query as unknown) as {

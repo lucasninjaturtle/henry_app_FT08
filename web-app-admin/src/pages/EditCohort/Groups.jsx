@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+// import { useState, useCallback } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 
 const columns = [
@@ -18,11 +18,11 @@ const columns = [
 ];
 
 function Groups({ data }) {
-  const [selected, setSelected] = useState();
+  // const [selected, setSelected] = useState();
 
-  const onSelectionChange = useCallback(({ selected }) => {
-    setSelected(selected);
-  }, []);
+  // const onSelectionChange = useCallback(({ selected }) => {
+  //   setSelected(selected);
+  // }, []);
 
   return (
     <div className="w-auto">
@@ -33,7 +33,7 @@ function Groups({ data }) {
         idProperty="id"
         editable={true}
         // checkboxColumn
-        onSelectionChange={onSelectionChange}
+        // onSelectionChange={onSelectionChange}
         columns={columns}
         defaultFilterValue={[
           {

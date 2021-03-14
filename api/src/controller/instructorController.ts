@@ -4,11 +4,6 @@ import { UserAttributes } from "../database/models/User";
 import { instructorAttributes } from "../database/models/Instructor";
 import { Op } from "sequelize";
 
-type userAndInstructor = UserAttributes &
-  instructorAttributes & {
-    instructorId: number | null;
-  };
-
 export const instructorController = {
   async createInstructor(req: Request, res: Response) {
     try {
@@ -17,8 +12,9 @@ export const instructorController = {
         lastName,
         email,
         cellphone,
-        github
-      } = req.body as userAndInstructor;
+        github,
+        cohortId
+      } = req.body as any;
       const newUser = await db.User.create({
         name,
         lastName,
@@ -27,6 +23,9 @@ export const instructorController = {
       });
       const newInstructor = await db.Instructor.create({ github });
       await newUser.setInstructor(newInstructor);
+      if (cohortId) {
+        await newInstructor.addCohort(cohortId);
+      }
       return res.sendStatus(200);
     } catch (e) {
       console.error(e);

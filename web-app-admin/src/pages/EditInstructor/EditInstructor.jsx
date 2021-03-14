@@ -30,8 +30,6 @@ function EditInstructor() {
         }
         onSelect={(obj) => setSelectedInstructor(obj.value)}
       />
-      {/* {JSON.stringify(instructorData)} */}
-
       {!isLoading && Object.keys(instructorData).length > 0 ? (
         <div className="flex flex-col gap-2 mt-5 justify-items-stretch">
           <NonEditableTitle
