@@ -14,7 +14,7 @@ function NewStudentForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createUserAndInstructor({ ...data, cohortId: selectedCohort.id })
+    createUserAndInstructor({ ...data, cohortId: selectedCohort?.id })
       .then(() => {
         reset();
         setSelectedCohort(null);

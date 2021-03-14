@@ -14,7 +14,7 @@ function NewPMForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createUserAndPm({ ...data, groupId: selectedCohort.id })
+    createUserAndPm({ ...data, groupId: selectedCohort?.id })
       .then(() => {
         reset();
         setSelectedCohort(null);

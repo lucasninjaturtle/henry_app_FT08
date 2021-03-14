@@ -14,7 +14,7 @@ function NewGroupForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createGroup({ ...data, cohortId: selectedCohort.id })
+    createGroup({ ...data, cohortId: selectedCohort?.id })
       .then(() => {
         reset();
         setSelectedCohort(null);

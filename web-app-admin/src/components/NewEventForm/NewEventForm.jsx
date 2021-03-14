@@ -14,7 +14,7 @@ function NewEventForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createEvent({ ...data, eventTypeId: selectedEventType.id })
+    createEvent({ ...data, eventTypeId: selectedEventType?.id })
       .then(() => {
         reset();
         setSelectedEventType(null);

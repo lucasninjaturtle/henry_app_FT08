@@ -14,7 +14,7 @@ function NewStudentForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createUserAndStudent({ ...data, groupId: selectedGroup.id })
+    createUserAndStudent({ ...data, groupId: selectedGroup?.id })
       .then(() => {
         reset();
         setSelectedGroup(null);
