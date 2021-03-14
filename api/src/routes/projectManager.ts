@@ -5,5 +5,6 @@ const router = Router();
 import { projectManagerController } from "../controller/projectManager";
 
 router.get("/search", projectManagerController.searchPmByName);
+router.post("/bulk", projectManagerController.bulkCreate);
 
 export default router;

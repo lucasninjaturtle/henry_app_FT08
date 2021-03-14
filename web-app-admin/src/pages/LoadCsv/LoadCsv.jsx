@@ -135,7 +135,12 @@ function LoadCsv(props) {
     } else {
       let baseUrl = "http://localhost:5000";
       axios
-        .post(`${baseUrl}/${props.match.params.type}/bulk`, selectedRows)
+        .post(
+          `${baseUrl}/${
+            props.match.params.type === "pm" ? "projectmanager" : "pm"
+          }/bulk`,
+          selectedRows
+        )
         .then((res) => {
           alert(`${uploadType}(s) creado(s)`);
           setClearRows(true);

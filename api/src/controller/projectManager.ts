@@ -90,5 +90,31 @@ export const projectManagerController = {
         }))
       );
     });
-  }
+  },
+  async bulkCreate(req: Request, res: Response){
+    const pmsData = req.body as any[];
+    
+    const usersData = await pmsData.forEach(async (pm) => {
+      const {
+        cellphone,
+        email,
+        github,
+        name,
+        lastName,
+        groupId
+      } = pm
+
+      const newUser = await db.User.create({
+        name,
+        lastName,
+        cellphone,
+        email
+      });
+
+      const newPM = await db.ProjectManager.create({ github });
+      await newUser.setProjectmanager(newPM);
+      if (groupId) await newPM.setGroup(groupId);
+    })
+    
+    return res.sendStatus(200);
 };
