@@ -5,22 +5,22 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
-import { searchCohortsByName, createUserAndInstructor } from "../../api";
+import { searchEventTypesByName, createEvent } from "../../api";
 
-function NewStudentForm() {
+function NewEventForm() {
   const { register, handleSubmit, reset } = useForm();
-  const [selectedCohort, setSelectedCohort] = useState(null);
+  const [selectedEventType, setSelectedEventType] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    createUserAndInstructor({ ...data, cohortId: selectedCohort.id })
+    createEvent({ ...data, eventTypeId: selectedEventType.id })
       .then(() => {
         reset();
-        setSelectedCohort(null);
+        setSelectedEventType(null);
         setMessage({
           type: "success",
-          content: "Instructor creado exitosamente"
+          content: "Evento creado exitosamente"
         });
       })
       .catch((err) => {
@@ -35,7 +35,7 @@ function NewStudentForm() {
 
   const loadOptions = (inputValue, callback) => {
     if (!inputValue) return;
-    searchCohortsByName(inputValue).then((data) => {
+    searchEventTypesByName(inputValue).then((data) => {
       callback(
         data.map((cohort) => ({ value: cohort.id, label: cohort.name }))
       );
@@ -43,7 +43,7 @@ function NewStudentForm() {
   };
 
   const handleChange = (selectedOption) => {
-    setSelectedCohort(
+    setSelectedEventType(
       selectedOption
         ? { id: selectedOption.value, name: selectedOption.label }
         : null
@@ -67,7 +67,7 @@ function NewStudentForm() {
             <p className="ml-2">{message.content}</p>
           </div>
         ))}
-      <h2 className="text-center text-3xl font-semibold">Crear Instructor</h2>
+      <h2 className="text-center text-3xl font-semibold">Crear Evento</h2>
       <div className="w-full flex flex-col gap-1">
         <label>Nombre*:</label>
         <input
@@ -78,55 +78,37 @@ function NewStudentForm() {
         />
       </div>
       <div className="w-full flex flex-col gap-1">
-        <label>Apellido*:</label>
-        <input
-          className="border-black border-2 rounded-md p-1"
+        <label>Descripción*:</label>
+        <textarea
           ref={register({ required: true })}
+          className="border-black border-2 rounded-md p-1 h-40"
           required
-          name="lastName"
+          name="description"
         />
       </div>
       <div className="w-full flex flex-col gap-1">
-        <label>Email*:</label>
+        <label>Link*:</label>
         <input
-          className="border-black border-2 rounded-md p-1"
           ref={register({ required: true })}
-          type="email"
+          className="border-black border-2 rounded-md p-1"
           required
-          name="email"
+          type="url"
+          name="link"
         />
       </div>
       <div className="w-full flex flex-col gap-1">
-        <label>Github*:</label>
+        <label>Fecha de inicio*:</label>
         <input
-          className="border-black border-2 rounded-md p-1"
           ref={register({ required: true })}
+          className="border-black border-2 rounded-md p-1"
           required
-          name="github"
-        />
-      </div>
-      <div className="w-full flex flex-col gap-1">
-        <label>Numero de Celular*:</label>
-        <input
-          className="border-black border-2 rounded-md p-1"
-          ref={register({ required: true })}
-          pattern="\d+"
-          required
-          name="cellphone"
-        />
-      </div>
-
-      <div className="w-full flex flex-col gap-1">
-        <label>Contraseña:</label>
-        <input
-          className="border-black border-2 rounded-md p-1"
-          ref={register({ required: true })}
-          name="password"
+          type="date"
+          name="startDay"
         />
       </div>
 
       <label className="w-full flex flex-col gap-1">
-        Cohorte:
+        Tipo de evento:
         <SearchBarAsync
           styles={{
             container: (provided, state) => ({
@@ -136,11 +118,11 @@ function NewStudentForm() {
             })
           }}
           value={
-            selectedCohort
-              ? { label: selectedCohort.name, value: selectedCohort.id }
+            selectedEventType
+              ? { label: selectedEventType.name, value: selectedEventType.id }
               : null
           }
-          placeholder={`Buscar cohortes...`}
+          placeholder={`Buscar tipos...`}
           onChange={handleChange}
           isClearable={true}
           loadOptions={loadOptions}
@@ -148,10 +130,10 @@ function NewStudentForm() {
       </label>
 
       <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white">
-        Crear Instructor
+        Crear Evento
       </button>
     </form>
   );
 }
 
-export default NewStudentForm;
+export default NewEventForm;

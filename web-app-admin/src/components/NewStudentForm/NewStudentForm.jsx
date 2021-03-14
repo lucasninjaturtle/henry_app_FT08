@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SearchBarAsync from "react-select/async";
 import {
@@ -11,10 +11,6 @@ function NewStudentForm() {
   const { register, handleSubmit, reset } = useForm();
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
-
-  useEffect(() => {
-    document.title = "Crear Estudiante";
-  }, []);
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });

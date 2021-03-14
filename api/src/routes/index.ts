@@ -11,6 +11,7 @@ import instructorRouter from "./instructor";
 import studentRouter from "./student";
 import moduleRouter from "./module";
 import eventRouter from "./event";
+import eventTypeRouter from "./eventType";
 import projectManagerRouter from "./projectManager";
 
 const router = Router();
@@ -24,6 +25,7 @@ router.use("/student", studentRouter);
 router.use("/instructor", instructorRouter);
 router.use("/module", moduleRouter);
 router.use("/projectManager", projectManagerRouter);
+router.use("/eventType", eventTypeRouter);
 router.use("/event", eventRouter);
 
 // dev testing

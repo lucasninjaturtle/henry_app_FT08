@@ -13,7 +13,6 @@ export const cohortController = {
     };
 
     db.Cohort.create({ name, startDay }).then(async (cohort) => {
-      // console.log(Object.keys(Object.getPrototypeOf(cohort)));
       if (instructorId) await cohort.setInstructor(+instructorId);
 
       if (moduleId)

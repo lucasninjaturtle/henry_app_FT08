@@ -18,6 +18,10 @@ export const createGroup = (data) => {
   return axios.post("/group/", data);
 };
 
+export const createEvent = (data) => {
+  return axios.post("/event/", data);
+};
+
 export const createCohort = (data) => {
   return axios.post("/cohort/", data);
 };
@@ -51,6 +55,11 @@ export const searchCohortsByName = (cohortName) => {
 export const searchPmsByName = (pmName) => {
   return axios
     .get(`/projectmanager/search?name=${pmName}`)
+    .then((resp) => resp.data);
+};
+export const searchEventTypesByName = (eventTypeName) => {
+  return axios
+    .get(`/eventType/search?name=${eventTypeName}`)
     .then((resp) => resp.data);
 };
 

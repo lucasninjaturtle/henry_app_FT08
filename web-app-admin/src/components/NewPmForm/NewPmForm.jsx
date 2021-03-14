@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SearchBarAsync from "react-select/async";
 import {
@@ -12,10 +12,6 @@ function NewPMForm() {
   const [selectedCohort, setSelectedCohort] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
 
-  useEffect(() => {
-    document.title = "Crear Pm";
-  }, []);
-
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
     createUserAndPm({ ...data, groupId: selectedCohort.id })
@@ -24,7 +20,7 @@ function NewPMForm() {
         setSelectedCohort(null);
         setMessage({
           type: "success",
-          content: "Instructor creado exitosamente"
+          content: "PM creado exitosamente"
         });
       })
       .catch((err) => {

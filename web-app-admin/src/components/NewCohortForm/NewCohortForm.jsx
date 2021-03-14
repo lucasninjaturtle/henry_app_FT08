@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SearchBarAsync from "react-select/async";
 import {
@@ -19,10 +19,6 @@ function NewCohortForm() {
   const [selectedPm, setSelectedPm] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
 
-  useEffect(() => {
-    document.title = "Crear Cohorte";
-  }, []);
-
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
     createCohort({
@@ -38,7 +34,7 @@ function NewCohortForm() {
         setSelectedPm(null);
         setMessage({
           type: "success",
-          content: "Grupo creado exitosamente"
+          content: "Cohorte creado exitosamente"
         });
       })
       .catch((err) => {

@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import NewStudentForm from "../../components/NewStudentForm/NewStudentForm";
+import NewEventForm from "../../components/NewEventForm/NewEventForm";
 
-function CreateStudent() {
+function CreateEvent() {
   useEffect(() => {
-    document.title = "Crear Estudiante";
+    document.title = "Crear Evento";
   }, []);
 
   return (
     <div className="h-full w-full flex">
       <div className="m-auto w-full max-w-lg shadow-md">
-        <NewStudentForm />
+        <NewEventForm />
       </div>
     </div>
   );
 }
 
-export default CreateStudent;
+export default CreateEvent;
