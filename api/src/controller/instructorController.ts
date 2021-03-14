@@ -4,11 +4,6 @@ import { UserAttributes } from "../database/models/User";
 import { instructorAttributes } from "../database/models/Instructor";
 import { Op } from "sequelize";
 
-type userAndInstructor = UserAttributes &
-  instructorAttributes & {
-    instructorId: number | null;
-  };
-
 export const instructorController = {
   async createInstructor(req: Request, res: Response) {
     try {
@@ -17,8 +12,9 @@ export const instructorController = {
         lastName,
         email,
         cellphone,
-        github
-      } = req.body as userAndInstructor;
+        github,
+        cohortId
+      } = req.body as any;
       const newUser = await db.User.create({
         name,
         lastName,
@@ -27,13 +23,35 @@ export const instructorController = {
       });
       const newInstructor = await db.Instructor.create({ github });
       await newUser.setInstructor(newInstructor);
+      if (cohortId) {
+        await newInstructor.addCohort(cohortId);
+      }
       return res.sendStatus(200);
     } catch (e) {
       console.error(e);
       res.status(500).json(e);
     }
   },
-  async getInstructor(req: Request, res: Response) {},
+  async getInstructor(req: Request, res: Response) {
+    const { id } = req.params;
+    db.Instructor.findByPk(id, { include: [{ all: true }] }).then((resp) => {
+      const {
+        id,
+        user: { lastName, name, cellphone, email },
+        github,
+        cohorts
+      } = resp;
+      res.json({
+        id,
+        lastName,
+        name,
+        cellphone,
+        email,
+        github,
+        cohorts
+      });
+    });
+  },
   async putInstructor(req: Request, res: Response) {
     const { id: instructorId } = req.params;
     const {
@@ -41,15 +59,20 @@ export const instructorController = {
       lastName,
       email,
       cellphone,
-      github,
-      id
+      github
     } = req.body as userAndInstructor;
 
-    await db.User.update(
-      { name, lastName, email, cellphone },
-      { where: { id } }
-    );
+    await db.User.findOne({
+      include: [{ model: db.Instructor, where: { id: instructorId } }]
+    }).then(async (resp) => {
+      if (name) resp.name = name;
+      if (email) resp.email = email;
+      if (lastName) resp.lastName = lastName;
+      if (cellphone) resp.cellphone = cellphone;
+      await resp.save();
+    });
     await db.Instructor.update({ github }, { where: { id: instructorId } });
+
     res.sendStatus(200);
   },
   async deleteInstructor(req: Request, res: Response) {
@@ -80,10 +103,25 @@ export const instructorController = {
         }
       ],
       limit
-    }).then((instructorData) => {
-      res.json(
-        instructorData.sort((prev, next) => prev.user.name - next.user.name)
+    }).then((instructors) => {
+      let data = instructors.map((instructor) => {
+        const {
+          id,
+          user: { lastName, name, cellphone, email }
+        } = instructor;
+        return {
+          id,
+          lastName,
+          name,
+          cellphone,
+          email,
+          github: instructor.github
+        };
+      });
+      data = data.sort((prev, next) =>
+        prev.name === next.name ? 0 : prev.name > next.name ? 1 : -1
       );
+      res.json(data);
     });
   }
 };

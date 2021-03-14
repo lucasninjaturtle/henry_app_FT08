@@ -3,14 +3,18 @@ import { db } from "../database/models";
 
 export const eventController = {
   async createEvent(req: Request, res: Response) {
-    const eventData = req.body;
+    const { name, startDay, link, description, eventTypeId } = req.body as {
+      [key: string]: string;
+    };
     db.Event.create({
-      name: eventData.name,
-      startDay: eventData.startDay,
-      link: eventData.link,
-      description: eventData.description,
-      eventTypeId: eventData.eventTypeId
-    }).then(() => res.sendStatus(200));
+      name,
+      startDay,
+      link,
+      description
+    }).then(async (event) => {
+      if (eventTypeId) await event.setEventType(+eventTypeId);
+      res.sendStatus(200);
+    });
   },
   async getEvent(req: Request, res: Response) {
     const eventId = req.params.id;

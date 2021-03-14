@@ -6,56 +6,50 @@ import axios from "axios";
 const customStyles = {
   rows: {
     style: {
-      backgroundColor: "red",
-    },
-  },
+      backgroundColor: "red"
+    }
+  }
 };
-function Title({type}) {
-  return(
-    <h1 style={{textAlign:'end'}}>Estas subiendo {type}</h1>
-  )
+function Title({ type }) {
+  return <h1 style={{ textAlign: "end" }}>Estas subiendo {type}</h1>;
 }
 
-function NoDataComponent({type}){
-  return(
-    <h1>No hay {type} para mostrar</h1>
-  )
+function NoDataComponent({ type }) {
+  return <h1>No hay {type} para mostrar</h1>;
 }
-
 
 function LoadCsv(props) {
-  const [columns, setColumns] = useState([])
+  const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [state, setState] = useState({
-    selectedRows:[]
-  })
+    selectedRows: []
+  });
 
-  let type = props.match.params.type
+  let type = props.match.params.type;
   //componente contextAction
-  function ContextAction({userToDelete}){
+  function ContextAction({ userToDelete }) {
     // console.log('user to delete', userToDelete)
-    const stringUser = userToDelete.toString()
+    const stringUser = userToDelete.toString();
     // console.log('string user',stringUser)
     function onDelete() {
-      if(window.confirm(`Seguro quiere eliminar a: ${stringUser}`)){
+      if (window.confirm(`Seguro quiere eliminar a: ${stringUser}`)) {
         // console.log('confirmo')
-        var newData = data.filter(user => !userToDelete.includes(user.name))
-        setData(newData)
+        var newData = data.filter((user) => !userToDelete.includes(user.name));
+        setData(newData);
         // userToDelete.splice(0, userToDelete.length)
         // console.log(userToDelete)
-        
-      }else{
+      } else {
         // console.log('no confirmo')
       }
     }
     return (
-      <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
-      onClick={onDelete}
+      <button
+        className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
+        onClick={onDelete}
       >
-      Eliminar
-    </button>
-
-  )
+        Eliminar
+      </button>
+    );
   }
 
   // process CSV data
@@ -70,13 +64,13 @@ function LoadCsv(props) {
       const row = dataStringLines[i].split(
         /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
       );
-      if (headers && row.length == headers.length) {
+      if (headers && row.length === headers.length) {
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
           let d = row[j];
           if (d.length > 0) {
-            if (d[0] == '"') d = d.substring(1, d.length - 1);
-            if (d[d.length - 1] == '"') d = d.substring(d.length - 2, 1);
+            if (d[0] === '"') d = d.substring(1, d.length - 1);
+            if (d[d.length - 1] === '"') d = d.substring(d.length - 2, 1);
           }
           if (headers[j]) {
             obj[headers[j]] = d;
@@ -122,62 +116,81 @@ function LoadCsv(props) {
   const handleChange = (e) => {
     // You can use setState or dispatch with something like Redux so we can use the retrieved data
     // console.log("Selected Rows: ", e.selectedRows);
-    setState({selectedRows: e.selectedRows})
+    setState({ selectedRows: e.selectedRows });
   };
 
   // console.log(state.selectedRows)
-  const sendStudentData = () =>{
-    if(state.selectedRows.length == 0){
-      alert('No hay alumnos cargados')
-    }
-    else {
+  const sendStudentData = () => {
+    if (state.selectedRows.length === 0) {
+      alert("No hay alumnos cargados");
+    } else {
       // console.log("Seleccionados: ", state.selectedRows)
       // console.log("Type: ", type)
-      let ruta = 'http://localhost:5000/'
+      let ruta = "http://localhost:5000/";
       switch (type) {
-        case "instructores": ruta += "instructores/create"; break;
-        case "pms": ruta += "pms/create"; break;
-        case "estudiantes": ruta += "user/student/"; break;
-        case "cohorte": ruta += "cohorte/create"; break;
-        default: ruta += "grupo/create"; break;
+        case "instructores":
+          ruta += "instructores/create";
+          break;
+        case "pms":
+          ruta += "pms/create";
+          break;
+        case "estudiantes":
+          ruta += "user/student/";
+          break;
+        case "cohorte":
+          ruta += "cohorte/create";
+          break;
+        default:
+          ruta += "grupo/create";
+          break;
       }
-      axios.post(ruta, state.selectedRows)
-      .then(res => {
-        console.log("Res: ", res)
-        alert(`Se han creado ${type} exisotamente`)
-      }).catch(e => console.log("Error: ", e))
+      axios
+        .post(ruta, state.selectedRows)
+        .then((res) => {
+          console.log("Res: ", res);
+          alert(`Se han creado ${type} exisotamente`);
+        })
+        .catch((e) => console.log("Error: ", e));
     }
-
-  }
-
+  };
 
   return (
     <div className="max-w-full mx-full bg-white rounded-lg overflow-hidden md:full">
-      <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} style={{margin:'40px'}} />
-      <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      <input
+        type="file"
+        accept=".csv,.xlsx,.xls"
+        onChange={handleFileUpload}
+        style={{ margin: "40px" }}
+      />
+      <button
+        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
         onClick={sendStudentData}
       >
-        Cargar CSV</button>
+        Cargar CSV
+      </button>
 
       <DataTable
         pagination
         highlightOnHover
         columns={columns}
         data={data}
-        title={<Title type={type}/>}
+        title={<Title type={type} />}
         selectableRows // add for checkbox selection
         onSelectedRowsChange={handleChange}
-        contextActions={<ContextAction userToDelete={state.selectedRows.map(user=>  user.name)}/>} //state.selectedRows.map(user=>  user.Name)
+        contextActions={
+          <ContextAction
+            userToDelete={state.selectedRows.map((user) => user.name)}
+          />
+        } //state.selectedRows.map(user=>  user.Name)
         contextMessage={{
-          singular:'alumno',
-          plural:'alumnos',
-          message:'seleccionado'
-      }}
-      noDataComponent='No hay data que mostrar'
-      // <NoDataComponent type={type}/>
+          singular: "alumno",
+          plural: "alumnos",
+          message: "seleccionado"
+        }}
+        noDataComponent="No hay data que mostrar"
+        // <NoDataComponent type={type}/>
       />
     </div>
- 
   );
 }
 
