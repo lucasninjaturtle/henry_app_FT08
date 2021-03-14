@@ -11,6 +11,7 @@ import DeleteStudent from "./components/DeleteStudent";
 import CreateStudent from "./pages/CreateStudent/CreateStudent";
 import CreateInstructor from "./pages/CreateInstructor/CreateInstructor";
 import CreateGroup from "./pages/CreateGroup/CreateGroup";
+import CreatePM from "./pages/CreatePM/CreatePM";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/create/student" component={CreateStudent} />
       <Route exact path="/create/instructor" component={CreateInstructor} />
+      <Route exact path="/create/pm" component={CreatePM} />
       <Route exact path="/create/group" component={CreateGroup} />
       <Route exact path="/upload/:type" component={LoadCsv} />
       <Route exact path="/edit/cohort" component={EditCohort} />

@@ -10,6 +10,10 @@ export const createUserAndStudent = (data) => {
   return axios.post("/user/student", data);
 };
 
+export const createUserAndPm = (data) => {
+  return axios.post("/user/projectmanager", data);
+};
+
 export const createGroup = (data) => {
   return axios.post("/group/", data);
 };

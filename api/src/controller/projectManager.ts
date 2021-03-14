@@ -10,7 +10,14 @@ type userAndPM = UserAttributes &
 
 export const projectManagerController = {
   async createPM(req: Request, res: Response) {
-    const { cellphone, email, github, name, lastName } = req.body as userAndPM;
+    const {
+      cellphone,
+      email,
+      github,
+      name,
+      lastName,
+      groupId
+    } = req.body as any;
 
     const newUser = await db.User.create({
       name,
@@ -20,6 +27,7 @@ export const projectManagerController = {
     });
     const newPM = await db.ProjectManager.create({ github });
     await newUser.setProjectmanager(newPM);
+    if (groupId) await newPM.setGroup(groupId);
     return res.sendStatus(200);
   },
   async getPM(req: Request, res: Response) {
