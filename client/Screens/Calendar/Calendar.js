@@ -67,7 +67,7 @@ const Calendario = ()=>{
     }
 
     return (
-        <Container style={{alignContent:'center', paddingTop:60, backgroundColor:'#FFFDD0'}}>
+        <Container style={{alignContent:'center', paddingTop:60, backgroundColor:'yellow'}}>
             <View>
                 <Modal 
                     animationType="slide"
