@@ -27,7 +27,7 @@ export default function App() {
   return (<Provider store={store}>
     {state ?
       <NavigationContainer>
-        <DrawerHomeNavigator />
+        <DrawerHomeNavigator/>
       </NavigationContainer>
       : <Login test={setState} />
     }
