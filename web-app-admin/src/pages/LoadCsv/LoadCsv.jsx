@@ -103,7 +103,9 @@ function LoadCsv(props) {
   const handleFileUpload = (e) => {
     const uploadedAFile = !!e.target.files[0];
     if (!uploadedAFile) return;
+    setClearRows(true);
     const file = e.target.files[0];
+    console.log(e.target.files);
     const reader = new FileReader();
     reader.onload = (evt) => {
       /* Parse data */
@@ -129,7 +131,7 @@ function LoadCsv(props) {
   // console.log(state.selectedRows)
   const sendStudentData = () => {
     if (selectedRows.length === 0) {
-      alert("No hay alumnos cargados");
+      alert(`No hay ${uploadType}(s) cargado(s)`);
     } else {
       let baseUrl = "http://localhost:5000";
       axios
@@ -145,7 +147,7 @@ function LoadCsv(props) {
 
   return (
     <div className="h-full w-full flex px-2 py-5">
-      <div className="m-auto flex flex-col flex-around">
+      <div className="my-auto w-full flex flex-col">
         <input
           accept=".csv,.xlsx,.xls"
           className="hidden"
@@ -168,7 +170,7 @@ function LoadCsv(props) {
           {data.length > 0 && (
             <button
               onClick={sendStudentData}
-              className={`inline-block text-3xl select-none cursor-pointer bg-black text-white rounded-xl px-9 py-2`}
+              className={`inline-block text-3xl ml-16 select-none cursor-pointer bg-black text-white rounded-xl px-9 py-2`}
             >
               Subir Datos
             </button>

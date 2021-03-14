@@ -130,6 +130,11 @@ export const cohortController = {
     /* Codigo */
   },
   async bulkCreateCohort(req: Request, res: Response) {
-    console.log(req.body);
+    const cohortsData = req.body.map((data) => {
+      let [date, month, year] = data.startDay.split("/");
+      year = year.length === 2 ? "20" + year : year;
+      return { ...data, startDay: new Date(year, +month - 1, date) };
+    });
+    db.Cohort.bulkCreate(cohortsData).then(() => res.sendStatus(200));
   }
 };
