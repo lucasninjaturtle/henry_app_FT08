@@ -33,8 +33,7 @@ function App() {
       <Route exact path="/edit/student" component={EditUser} />
       <Route exact path="/delete/student" component={DeleteStudent} />
       <Route exact path="/manager" component={Manager} />
-      <Route exact path="/edit/event" component={EditEvent} />
-
+      {/* <Route exact path="/edit/event" component={EditEvent} /> */}
     </div>
   );
 }

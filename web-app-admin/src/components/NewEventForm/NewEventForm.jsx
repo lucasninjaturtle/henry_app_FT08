@@ -96,6 +96,7 @@ function NewEventForm() {
           name="link"
         />
       </div>
+
       <div className="w-full flex flex-col gap-1">
         <label>Fecha de inicio*:</label>
         <input
@@ -105,6 +106,29 @@ function NewEventForm() {
           type="date"
           name="startDay"
         />
+      </div>
+
+      <div className="flex flex-row gap-9">
+        <div className="w-full flex flex-col gap-1">
+          <label>Horario de Inicio*:</label>
+          <input
+            ref={register({ required: true })}
+            className="border-black border-2 rounded-md p-1"
+            required
+            type="time"
+            name="startTime"
+          />
+        </div>
+        <div className="w-full flex flex-col gap-1">
+          <label>Horario de Finalizar*:</label>
+          <input
+            ref={register({ required: true })}
+            className="border-black border-2 rounded-md p-1"
+            required
+            type="time"
+            name="endTime"
+          />
+        </div>
       </div>
 
       <label className="w-full flex flex-col gap-1">
