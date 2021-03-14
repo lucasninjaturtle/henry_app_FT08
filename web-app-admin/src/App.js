@@ -8,13 +8,15 @@ import Manager from "./components/Manager/Manager";
 import EditUser from "./pages/EditUser";
 import EditInstructor from "./pages/EditInstructor/EditInstructor";
 import DeleteStudent from "./components/DeleteStudent";
+import CreateStudent from "./pages/CreateStudent/CreateStudent";
 
 function App() {
   return (
     <div className="App">
       <Route exact path="/" component={Login} />
       <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/create/:type" component={LoadCsv} />
+      <Route exact path="/create/student" component={CreateStudent} />
+      <Route exact path="/upload/:type" component={LoadCsv} />
       <Route exact path="/edit/cohort" component={EditCohort} />
       <Route exact path="/edit/instructor" component={EditInstructor} />
       <Route exact path="/edit/student" component={EditUser} />

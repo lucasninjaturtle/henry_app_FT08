@@ -6,6 +6,10 @@ export const postLogin = (data) => {
   return axios.post("/auth/login/local", data).then((resp) => resp.data);
 };
 
+export const createUserAndStudent = (data) => {
+  return axios.post("/user/student", data);
+};
+
 export const getCohorts = () => {
   return axios.get("/cohort").then((resp) => resp.data);
 };
@@ -37,6 +41,12 @@ export const searchInstructorsByName = (instructorName) => {
 export const searchModulesByName = (instructorName) => {
   return axios
     .get(`/module/search?name=${instructorName}`)
+    .then((resp) => resp.data);
+};
+
+export const searchGroupsByName = (instructorName) => {
+  return axios
+    .get(`/group/search?name=${instructorName}`)
     .then((resp) => resp.data);
 };
 
