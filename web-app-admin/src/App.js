@@ -8,6 +8,7 @@ import Manager from "./components/Manager/Manager";
 import EditUser from "./pages/EditUser";
 import EditInstructor from "./pages/EditInstructor/EditInstructor";
 import DeleteStudent from "./components/DeleteStudent";
+
 import CreateStudent from "./pages/CreateStudent/CreateStudent";
 import CreateInstructor from "./pages/CreateInstructor/CreateInstructor";
 import CreateGroup from "./pages/CreateGroup/CreateGroup";
@@ -32,6 +33,8 @@ function App() {
       <Route exact path="/edit/student" component={EditUser} />
       <Route exact path="/delete/student" component={DeleteStudent} />
       <Route exact path="/manager" component={Manager} />
+      <Route exact path="/edit/event" component={EditEvent} />
+
     </div>
   );
 }
