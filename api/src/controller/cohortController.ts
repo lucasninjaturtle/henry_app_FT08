@@ -128,5 +128,8 @@ export const cohortController = {
   },
   async getUserByGroup(req: Request, res: Response) {
     /* Codigo */
+  },
+  async bulkCreateCohort(req: Request, res: Response) {
+    console.log(req.body);
   }
 };

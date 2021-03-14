@@ -193,5 +193,21 @@ export const studentController = {
       limit,
       order: [["name", "DESC"]]
     }).then((userData) => res.json(userData));
+  },
+  async bulkCreateStudents(req: Request, res: Response) {
+    const studentsData = req.body as any[];
+
+    for (let i = 0; i < studentsData.length; i++) {
+      try {
+        const { github, groupId, ...userData } = studentsData[i];
+        const newUser = await db.User.create(userData);
+        const newStudent = await db.Student.create({ github });
+        await newUser.setStudent(newStudent);
+        if (groupId) await newStudent.setGroup(groupId);
+      } catch (e) {
+        return res.status(400).json(e);
+      }
+    }
+    return res.sendStatus(200);
   }
 };
