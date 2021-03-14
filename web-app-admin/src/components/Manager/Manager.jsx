@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import henryLogo from "../../logo_henry3.png";
 import Card from "./Card";
 import "./Manager.css";
 
-export default function Manager(props) {
+export default function Manager() {
+  useEffect(() => {
+    document.title = "Henry App";
+  }, []);
+
   return (
     <div className="p-16 flex flex-col overflow-auto h-full">
       <div className=" my-auto">
@@ -33,7 +38,7 @@ export default function Manager(props) {
 
           <Card
             action="edit"
-            title={"Crear"}
+            title={"Editar"}
             description={"Modifica todo lo que tengas que modificar!"}
           />
 

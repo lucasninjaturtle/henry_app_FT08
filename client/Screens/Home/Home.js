@@ -5,10 +5,7 @@ import { Container} from "native-base";
 import { useSelector } from 'react-redux'
 import store from '../../Redux/store';
 import { ScrollView } from 'react-native-gesture-handler';
-
 import StudentCard from "./StudentCard"
-
-
 
 export default function Home() {
   let student = useSelector((store) => store.userInfo.usuario)
@@ -36,9 +33,9 @@ const styles = StyleSheet.create({
   },
 
   titles: {
-    fontFamily: 'monospace',
-    fontStyle: 'normal',
-    fontSize: 20,
+    fontFamily: "monospace",
+    fontStyle: "normal",
+    fontSize: 20
   },
   list: {
     paddingTop: -100

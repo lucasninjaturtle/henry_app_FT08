@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { AiOutlineCheck } from "react-icons/ai"; //AiOutlineCheck
 import axios from "axios";
 
 function CardStudent({ data }) {
-
-  
   const [userData, setUserData] = useState({
     name: "",
     lastName: "",
@@ -14,7 +12,7 @@ function CardStudent({ data }) {
     groupId: "",
     cohortId: "",
     instructor: "",
-    module: "",
+    module: ""
   });
   const [edit, setEdit] = useState({
     name: false,
@@ -23,8 +21,7 @@ function CardStudent({ data }) {
     cellphone: false,
     cohortId: false,
     instructor: false,
-    groupId: false,
-
+    groupId: false
   });
   // console.log('data student', userData)
 
@@ -35,24 +32,23 @@ function CardStudent({ data }) {
   const handleChange = (e) => {
     const { value, name } = e.target;
 
-    console.log(name)
-     data[name] = value
+    console.log(name);
+    data[name] = value;
     setUserData({ ...userData, [name]: value });
   };
-   console.log('data en los input (data)',data)
+  console.log("data en los input (data)", data);
   const editField = (field) => {
-  
-    
-    axios.put(`http://localhost:5000/user/student/${data.id}`,data)
-    .then(resp =>{                                         
-      console.log(resp)
-      // window.location.reload()
-    })
-    .catch(e =>{
-      console.log('error', e)
-    })
+    axios
+      .put(`http://localhost:5000/user/student/${data.id}`, data)
+      .then((resp) => {
+        console.log(resp);
+        // window.location.reload()
+      })
+      .catch((e) => {
+        console.log("error", e);
+      });
     setEdit({ ...edit, [field]: false });
-    setUserData({...userData,[field]:""})
+    setUserData({ ...userData, [field]: "" });
   };
 
   // console.log("user data", userData);
@@ -66,29 +62,24 @@ function CardStudent({ data }) {
         </div>
         <div className="text-l text-primary mb-2 mt-10  w-full h-16 flex flex-wrap justify-center ">
           <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
-
             {!edit.cohortId ? (
               <>
                 <GoPencil onClick={() => showEdit("cohortId")} />
                 <div className="flex flex-col">
                   <p>Cohorte:</p>{" "}
                   {data.cohortId === null ? "No tiene cohorte" : data.cohortId}
-
                 </div>
               </>
             ) : (
               <>
-
                 <AiOutlineCheck onClick={() => editField("cohortId")} />
 
                 <div className="flex flex-col">
                   <p>Cohorte:</p>{" "}
                   <input
                     type="text"
-
                     name="cohortId"
                     value={userData.cohortId}
-
                     onChange={handleChange}
                     className="w-20"
                   />
@@ -97,16 +88,13 @@ function CardStudent({ data }) {
             )}
             {/* <GoPencil className="m-1" onClick={() => console.log("click")} /> */}
           </div>
-         <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
-                <div className="flex flex-col">
-                  <p>Instructor:</p>{" "}
-                  {data.instructor === null
-                    ? "No tiene instructor"
-                    : data.instructor}
-                </div>
-
-             
-           
+          <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
+            <div className="flex flex-col">
+              <p>Instructor:</p>{" "}
+              {data.instructor === null
+                ? "No tiene instructor"
+                : data.instructor}
+            </div>
           </div>
           <div className="w-3/12 h-full flex flex-row mr-2 ml-2 ">
             {!edit.groupId ? (
@@ -115,22 +103,18 @@ function CardStudent({ data }) {
                 <div className="flex flex-col">
                   <p>Grupo:</p>{" "}
                   {data.groupId === null ? "No tiene grupo" : data.groupId}
-
                 </div>
               </>
             ) : (
               <>
-
                 <AiOutlineCheck onClick={() => editField("groupId")} />
 
                 <div className="flex flex-col">
                   <p>Grupo:</p>{" "}
                   <input
                     type="text"
-
                     name="groupId"
                     value={userData.groupId}
-
                     className="w-20"
                     onChange={handleChange}
                   />

@@ -4,7 +4,23 @@ import { db } from "../database/models";
 
 export const cohortController = {
   async createCohort(req: Request, res: Response) {
-    /* Codigo */
+    const { name, instructorId, pmId, moduleId, startDay } = req.body as {
+      name: string;
+      startDay: Date;
+      instructorId?: string;
+      pmId?: string;
+      moduleId?: string;
+    };
+
+    db.Cohort.create({ name, startDay }).then(async (cohort) => {
+      if (instructorId) await cohort.setInstructor(+instructorId);
+
+      if (moduleId)
+        await db.Module.findByPk(+moduleId).then((module) =>
+          module.addCohort(cohort.id)
+        );
+      res.sendStatus(200);
+    });
   },
   async putCohort(req: Request, res: Response) {
     const { id } = req.params;
@@ -49,7 +65,7 @@ export const cohortController = {
   async deleteCohort(req: Request, res: Response) {
     const { id } = req.params;
     const CohortData = await db.Cohort.findByPk(id);
-    
+
     await db.Cohort.destroy({ where: { id: CohortData.id } });
     return res.sendStatus(200);
   },
@@ -112,5 +128,13 @@ export const cohortController = {
   },
   async getUserByGroup(req: Request, res: Response) {
     /* Codigo */
+  },
+  async bulkCreateCohort(req: Request, res: Response) {
+    const cohortsData = req.body.map((data) => {
+      let [date, month, year] = data.startDay.split("/");
+      year = year.length === 2 ? "20" + year : year;
+      return { ...data, startDay: new Date(year, +month - 1, date) };
+    });
+    db.Cohort.bulkCreate(cohortsData).then(() => res.sendStatus(200));
   }
 };

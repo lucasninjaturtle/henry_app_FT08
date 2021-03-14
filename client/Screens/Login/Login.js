@@ -23,9 +23,10 @@ const envTrucho = {
 }
 
 const discovery = {
-    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-    tokenEndpoint: 'https://github.com/login/oauth/access_token',
-    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+  authorizationEndpoint: "https://github.com/login/oauth/authorize",
+  tokenEndpoint: "https://github.com/login/oauth/access_token",
+  revocationEndpoint:
+    "https://github.com/settings/connections/applications/<CLIENT_ID>"
 };
 
 const Login = (props) => {
@@ -108,21 +109,21 @@ const Login = (props) => {
 }
 
 const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "#f7f701"
-    },
-    img: {
-        width: "90%",
-        height: 161,
-        resizeMode: "contain",
-        marginTop: 100
-    },
-    btn: {
-        alignSelf: "center",
-        marginTop: 100
-    }
-})
+  view: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#f7f701"
+  },
+  img: {
+    width: "90%",
+    height: 161,
+    resizeMode: "contain",
+    marginTop: 100
+  },
+  btn: {
+    alignSelf: "center",
+    marginTop: 100
+  }
+});
 
 export default Login;
