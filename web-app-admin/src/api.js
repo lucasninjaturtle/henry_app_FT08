@@ -22,16 +22,26 @@ export const createEvent = (data) => {
   return axios.post("/event/", data);
 };
 
-export const getEvents = () => {
-  return axios.get("/events").then((resp) => resp.data);
+export const getEvents = (eventId) => {
+  return axios.get("/event/").then((resp) => resp.data);
+};
+
+export const deleteEvents = (eventId) => {
+  return axios.delete(`/event/${eventId}`).then((resp) => resp.data);
 };
 
 export const getEventById = (eventId) => {
-  return axios.get(`/cohort/${eventId}`).then((resp) => resp.data);
+  return axios.get(`/event/${eventId}`).then((resp) => resp.data);
+};
+
+export const searchEventsByName = (eventName) => {
+  return axios
+    .get(`/event/search?name=${eventName}`)
+    .then((resp) => resp.data);
 };
 
 export const putEvent = (data, eventId) => {
-  return axios.put(`/instructor/${eventId}`, data);
+  return axios.put(`/event/${eventId}`, data);
 };
 
 export const createCohort = (data) => {

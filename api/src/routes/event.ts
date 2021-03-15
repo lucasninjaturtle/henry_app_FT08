@@ -12,6 +12,8 @@ import { eventTypeController } from "../controller/eventTypeController";
 /* Ruta para CREAR un EVENTO. */
 router.post("/", eventController.createEvent);
 
+router.get("/search", eventController.searchEventsByName);
+
 /* Ruta para BUSCAR un EVENTO x TIPO DE EVENTO  */
 router.get("/:id", eventController.getEvent);
 
@@ -23,7 +25,6 @@ router.put("/:id", eventController.putEvent);
 
 /* Ruta para BORRAR un EVENTO x ID. */
 router.delete("/:id", eventController.deleteEvent);
-
 
 //////////////////////////////////
 //// RUTA DE TIPOS DE EVENTOS ////
@@ -43,6 +44,5 @@ router.put("/type/:id", eventTypeController.putEventType);
 
 /* Ruta para BORRAR un EVENTO x ID. */
 router.delete("/type/:id", eventTypeController.deleteEventType);
-
 
 export default router;
