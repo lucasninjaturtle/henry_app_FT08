@@ -38,14 +38,8 @@ export default function Manager() {
 
           <Card
             action="edit"
-            title={"Editar"}
-            description={"Modifica todo lo que tengas que modificar!"}
-          />
-
-          <Card
-            action="delete"
-            title={"Eliminar"}
-            description={"Subiste algo mal, o alguien se fue? Borralo!"}
+            title={"Editar o Eliminar"}
+            description={"Modifica o elimina todo lo que tengas que hacer respectivamente!"}
           />
         </div>
       </div>

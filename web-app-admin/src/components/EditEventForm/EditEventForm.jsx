@@ -6,7 +6,7 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
-import { getEventById, putEvent, searchEventsByName } from "../../api";
+import { deleteEvents, getEventById, putEvent, searchEventsByName } from "../../api";
 const customStyles = {
  
   control: (base) => ({
@@ -21,7 +21,7 @@ const customStyles = {
 
 function EditEventForm() {
   
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [event, setEvent] = useState();
@@ -45,26 +45,20 @@ function EditEventForm() {
         );
       });
   };
+    
   const handleOnChange = (value, { action }) => {
     if (action === "select-option") {
       getEventById(value.value)      
         .then((resp) => {
-          const name = resp.data.name
-            ? resp.data.event.name +
-              " " +
-              resp.data.event.name
-            : null;
+            setValue('name', resp.name);
+            setValue('startDay', resp.startDay);
+            setValue('link', resp.link);
+            setValue('description', resp.description);
+            setValue('startTime', resp.startTime);
+            setValue('endTime', resp.endTime);
+            
 
-          setEvent({
-            id: value.value,
-            name: resp.data.name,
-            startDate: resp.data.startDate,
-            link: resp.data.link,
-            description: resp.data.description,
-            startTime: resp.data.startTime,
-            endTime: resp.data.endTime,
-            eventTypeId: resp.data.eventTypeId
-          });
+            setEvent( value.value );
         })
         .catch((e) => {
           console.log(e);
@@ -76,7 +70,7 @@ function EditEventForm() {
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
-    putEvent({ ...data, eventTypeId: selectedEventType?.id })
+    putEvent({ ...data, eventTypeId: selectedEventType?.id }, event)
       .then(() => {
         reset();
         setSelectedEventType(null);
@@ -90,10 +84,27 @@ function EditEventForm() {
         setMessage({
           type: "error",
           content: "Algo fue mal"
-          // content: JSON.stringify(err.response.data, null, 2)
         });
       });
   };
+  const handleDelete = () => {
+    deleteEvents(event)
+    .then(() => {
+      reset();
+      setSelectedEventType(null);
+      setMessage({
+        type: "success",
+        content: "Evento eliminado exitosamente"
+      });
+    })
+    .catch((err) => {
+      console.log(err.response);
+      setMessage({
+        type: "error",
+        content: "Algo fue mal"
+      });
+    });
+  }
 
   const handleChange = (selectedOption) => {
     setSelectedEventType(
@@ -108,7 +119,6 @@ function EditEventForm() {
      <div className="mt-20 mb-5 flex justify-center">
         <AsyncSelect
           styles={customStyles}
-          cacheOptions
           isClearable={isClearable}
           onInputChange={handleInputChange}
           loadOptions={loadOptions}
@@ -135,7 +145,7 @@ function EditEventForm() {
       <div className="w-full flex flex-col gap-1">
         <label>Nombre:</label>
         <input
-          ref={register()}
+          ref={register}
           className="border-black border-2 rounded-md p-1"
           required
           name="name"
@@ -144,7 +154,7 @@ function EditEventForm() {
       <div className="w-full flex flex-col gap-1">
         <label>Descripción:</label>
         <textarea
-          ref={register()}
+          ref={register}
           className="border-black border-2 rounded-md p-1 h-40"
           required
           name="description"
@@ -153,7 +163,7 @@ function EditEventForm() {
       <div className="w-full flex flex-col gap-1">
         <label>Link:</label>
         <input
-          ref={register()}
+          ref={register}
           className="border-black border-2 rounded-md p-1"
           required
           type="url"
@@ -164,7 +174,7 @@ function EditEventForm() {
       <div className="w-full flex flex-col gap-1">
         <label>Fecha de inicio:</label>
         <input
-          ref={register()}
+          ref={register}
           className="border-black border-2 rounded-md p-1"
           required
           type="date"
@@ -176,7 +186,7 @@ function EditEventForm() {
         <div className="w-full flex flex-col gap-1">
           <label>Horario de Inicio:</label>
           <input
-            ref={register()}
+            ref={register}
             className="border-black border-2 rounded-md p-1"
             required
             type="time"
@@ -186,7 +196,7 @@ function EditEventForm() {
         <div className="w-full flex flex-col gap-1">
           <label>Horario de Finalizar:</label>
           <input
-            ref={register()}
+            ref={register}
             className="border-black border-2 rounded-md p-1"
             required
             type="time"
@@ -216,11 +226,16 @@ function EditEventForm() {
           loadOptions={loadOptions}
           />
       </label>
-          <div className="flex">
-      <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white" >
+          <div className="flex justify-between">
+      <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white" 
+      type='submit'
+      disabled={!!event}>
         Editar Evento
       </button>
-      <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white" >
+      <button className="px-6 py-2 mt-2 bg-red-500 rounded-lg text-white" 
+      onClick={handleDelete}
+      type='button'
+      disabled={!!event}>
         Eliminar Evento
       </button>
       </div>
