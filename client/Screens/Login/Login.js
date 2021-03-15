@@ -16,10 +16,10 @@ import store from '../../Redux/store';
 WebBrowser.maybeCompleteAuthSession();
 
 const envTrucho = {
-    EXPO_CLIENT_ID: "cef2e2e9046dc933c7c9",
-    EXPO_CLIENT_SECRET: "c7b6439a7635dbd632a0611271808e4a0e0d3875",
-    EXPO_NATIVE_URI: "exp://192.168.100.13:19000",
-    EXPO_HTTP_IP: "192.168.100.13"
+    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
+    EXPO_CLIENT_SECRET: "68d79c832460685944d0f832a9e604ac7dc5292d",
+    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
+    EXPO_HTTP_IP: "192.168.0.200"
 }
 
 const discovery = {

@@ -8,7 +8,7 @@ import {
 export function getUserInfo(userId) {
 
     return function (dispatch) {
-        axios.get(`http://192.168.100.13:5000/user/student/${userId}`)
+        axios.get(`http://192.168.0.200:5000/user/student/${userId}`)
             .then((res) => res.data)
             .then(data => {
                 dispatch({ type: GET_USER_INFO, payload: data })
@@ -21,7 +21,7 @@ export function getUserInfo(userId) {
 export function editUserInfo(id, input) {
     let { cellphone } = input
     return function (dispatch) {
-        axios.put(`http://192.168.0.145:5000/user/student/${id}`, { cellphone })
+        axios.put(`http://192.168.0.200:5000/user/student/${id}`, { cellphone })
             .then(data =>
                 dispatch({ type: EDIT_USER_INFO, payload: data })
             )
