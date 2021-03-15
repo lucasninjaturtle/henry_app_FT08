@@ -2,10 +2,12 @@ import React from "react"
 import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right } from "native-base";
 import { Image, StyleSheet } from 'react-native'
 
+
 export default function StudentCard({ data }) {
+    // data = { haguerrerob }
     if (!data && Object.keys(data).length === 0) return null;
 
-    // console.log(data)
+    console.log(data)
 
     const {
         cellphone,
@@ -38,7 +40,7 @@ export default function StudentCard({ data }) {
                 <Text>Datos</Text>
             </CardItem>
             <CardItem  >
-                <Text>Instructor: {instructor} </Text>
+                <Text>Instructor: {instructor && Object.keys(instructor).length > 0 ? `${instructor.firstName} ${instructor.lastName}` : 'ninguno'} </Text>
             </CardItem>
             <CardItem  >
                 <Text>Cohorte actual: {cohort}</Text>

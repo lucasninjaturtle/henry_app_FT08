@@ -38,9 +38,9 @@ function StartDate({ startDay, id }) {
               >
                 <EditIcon size="29" />
               </button>
-              <h3 className="text-3xl text-4xl font-light block text-center">
+              <span className="text-3xl text-4xl font-light block text-center">
                 {formattedDate}
-              </h3>
+              </span>
             </>
           )}
         </h1>
