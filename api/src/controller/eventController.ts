@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 import { db } from "../database/models";
 
 export const eventController = {
@@ -10,7 +11,7 @@ export const eventController = {
       description,
       eventTypeId,
       startTime,
-      endTime
+      endTime,
     } = req.body as {
       [key: string]: string;
     };
@@ -21,7 +22,7 @@ export const eventController = {
       link,
       description,
       startTime,
-      endTime
+      endTime,
     }).then(async (event) => {
       if (eventTypeId) await event.setEventType(+eventTypeId);
       res.sendStatus(200);
@@ -40,8 +41,8 @@ export const eventController = {
     const eventId = req.params.id;
     db.Event.destroy({
       where: {
-        id: eventId
-      }
+        id: eventId,
+      },
     }).then(() => res.sendStatus(200));
   },
   async putEvent(req: Request, res: Response) {
@@ -55,13 +56,21 @@ export const eventController = {
         description: eventData.description,
         startTime: eventData.startTime,
         endTime: eventData.endTime,
-        eventTypeId: eventData.eventTypeId
+        eventTypeId: eventData.eventTypeId,
       },
       {
         where: {
-          id: eventId
-        }
+          id: eventId,
+        },
       }
     ).then(() => res.sendStatus(200));
-  }
+  },
+  async searchEventsByName(req: Request, res: Response) {
+    const { name, limit = 5 } = req.query;
+    const events = await db.Event.findAll({
+      where: { name: { [Op.iLike]: `%${name}%` } },
+      limit: +limit,
+    });
+    res.json(events);
+  },
 };
