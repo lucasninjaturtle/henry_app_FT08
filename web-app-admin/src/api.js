@@ -22,7 +22,7 @@ export const createEvent = (data) => {
   return axios.post("/event/", data);
 };
 
-export const getEvents = (eventId) => {
+export const getEvents = () => {
   return axios.get("/event/").then((resp) => resp.data);
 };
 
