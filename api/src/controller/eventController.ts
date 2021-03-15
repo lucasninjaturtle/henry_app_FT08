@@ -53,6 +53,8 @@ export const eventController = {
         startDay: eventData.startDay,
         link: eventData.link,
         description: eventData.description,
+        startTime: eventData.startTime,
+        endTime: eventData.endTime,
         eventTypeId: eventData.eventTypeId
       },
       {
