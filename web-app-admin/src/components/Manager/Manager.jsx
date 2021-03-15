@@ -1,9 +1,27 @@
 import henryLogo from "../../logo_henry3.png";
+import Modal from 'react-modal'
 import {Link} from 'react-router-dom'
 import './Manager.css'
+import { useState } from "react";
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+    content: {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
 
 export default function Manager(props) {
     let h = props.history
+    const [state, setState] = useState({
+        createCohortModal: false
+    })
 
     function handleClickCsv(e, id) {
         e.preventDefault()
@@ -18,6 +36,19 @@ export default function Manager(props) {
             }
             default: h.push("/load-data/grupo")
         }
+    }
+
+    function handleClickCreate(e, id) {
+        switch (id) {
+            case 0: {
+                setState({...state, createCohortModal: true})
+            }
+        }
+    }
+
+    function createCohort(e) {
+        e.preventDefault()
+        console.log("Estado: ", state)
     }
 
     return (
@@ -47,8 +78,8 @@ export default function Manager(props) {
                         <button className="Btn">Instructores</button>
                         <button className="Btn">PMs</button>
                         <button className="Btn">Estudiante</button>
-                        <button className="Btn">Cohorte</button>
-                        <button className="Btn">Grupo</button>
+                        <button className="Btn" onClick={e => handleClickCreate(e, 0)}>Cohorte</button>
+                        <button className="Btn" onClick={e => handleClickCreate(e, 1)}>Grupo</button>
                     </div>
                 </div>
 
@@ -76,6 +107,33 @@ export default function Manager(props) {
                     </div>
                 </div>
             </div>
+
+            <Modal isOpen={state.createCohortModal}
+            // shouldCloseOnOverlayClick={false}
+            onRequestClose={e => {
+                e.preventDefault()
+                setState({...state, createCohortModal: false})
+            }}
+            style={customStyles}>
+                <div className="modalContainer">
+                    <h1>Elige el nombre de la nueva cohorte:</h1>
+                    <div>
+                        <input onChange={e => {
+                            // e.preventDefault()
+                            setState({...state, createCohortInput: e.target.value})
+                        }} type="text"/>
+                        <button onClick={e => createCohort(e)}>Create</button>
+                    </div>
+                    <h1>Elige un instructor para esta cohorte:</h1>
+                    <div>
+                        <input onChange={e => {
+                            // e.preventDefault()
+                            setState({...state, createCohortInput: e.target.value})
+                        }} type="text"/>
+                        <button onClick={e => createCohort(e)}>Create</button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     )
 }

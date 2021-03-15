@@ -14,6 +14,8 @@ export const users = {
 
       console.log("Usuarios registra2: ", users);
 
+      let cohortsToCreate = [], groupsToCreate = []
+
       users.forEach(async (inst, i) => {
         /* if (data[i].type === 'admin') {
           let adm = await db.Admin.create({})
@@ -53,35 +55,58 @@ export const users = {
             console.log("Error linea 28: ", e);
           }
         } else {
-          //let student = itBe(db.Student, inst.setStudent, i)
+          let group, cohort
+
           try {
-            let u = await db.Student.create({
+            let student = await db.Student.create({
               github: data[i].github
             });
   
-            inst.setStudent(u)
+            inst.setStudent(student)
 
-            let group = await db.Group.findOne({
+            group = await db.Group.findOne({
               where: {
                 name: data[i].group
               }
             })
-            console.log("GRUPO: ", group)
-            group.addStudent(u) // relacionar estudiante con grupo
-  
-            let cohort = await db.Cohort.findOne({
+            //console.log("Busqueda de grupo: ", group)
+            if (!group) {
+              /* console.log("No hay grupo: ", data[i].group)
+              group = await db.Group.create({
+                name: data[i].group
+              })
+              console.log("Grupo crea2: ", group) */
+              groupsToCreate.push({
+                name: data[i].group,
+                student
+              })
+            } else group.addStudent(student)
+
+            cohort = await db.Cohort.findOne({
               where: {
                 name: data[i].cohort
               }
             })
-            console.log("COHORT: ", cohort)
-            cohort.addStudent(u) // relacionar estudiante con cohorte
-          } catch (e) {
-            console.log("Error linea 28: ", e);
-          }
+            // console.log("Busqueda de cohorte: ", cohort)
+            if (!cohort) {
+              cohortsToCreate.push(db.Cohort.create({
+                name: data[i].cohort,
+                startDay: 'A definir'
+              }))
+            } else cohort.addStudent(student)
+          } catch (e) { console.log("*ERROR* [userController.ts] -> ", e) }
         }
         //.then(r => console.log("Se hizo la relación user/student"))
       });
+
+      if (cohortsToCreate[0]) {
+        Promise.all(cohortsToCreate).then(res => {
+          // lo mismo con los grupos, y relacionar to2
+          
+        })
+      }
+      console.log("A crear: ", cohortsToCreate, groupsToCreate)
+
     } catch (e) {
       console.log("Error: ", e);
     }

@@ -1,3 +1,39 @@
+.modalContainer {
+    width: 500px;
+    height: 500px;
+    background-color: #ffff01;
+    display: flex;
+    flex-direction: column;
+    justify-content:start;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.modalContainer div {
+    margin-bottom: 25px;
+}
+
+.modalContainer input {
+    width: auto;
+    height: 40px;
+    padding: 5px;
+}
+
+.modalContainer button {
+    width: auto;
+    height: 40px;
+    background-color: blue;
+    color: white;
+    border-radius: 20%;
+    margin-left: 15px;
+    padding: 5px;
+}
+
+.modalContainer h1 {
+    font-size:x-large;
+    margin-bottom: 25px;
+}
+
 .Home {
     display: flex;
     flex-direction: column;

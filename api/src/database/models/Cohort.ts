@@ -3,7 +3,7 @@ import baseProps from "./baseProps";
 
 export interface cohortAttributes extends baseProps {
   name: string;
-  startDay: Date;
+  startDay: string;
 }
 export interface cohortModel
   extends Model<cohortAttributes>,
