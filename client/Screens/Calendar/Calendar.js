@@ -1,24 +1,33 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {View, Text, Container, Icon} from 'native-base'
 import {Agenda} from 'react-native-calendars';
-import { TouchableOpacity, Modal, Pressable} from 'react-native';
+import { TouchableOpacity, Modal, Pressable, Linking} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
+import axios from 'axios'
 
 import {styles, stylesModal} from './CalendarStyles'
 
 const Calendario = ()=>{
     const [modalVisible, setModalVisible] = useState(false)
     const [selectedItem, setSelectedItem] = useState('')
-    const [items, setItems] = useState({
-        '2021-03-26': [{name: 'mi cumpleaños', time:'12:00', type:'checkpoint', description:'este es un texto generico que estoy escribiendo para tener como description de un item para probar como se ve el modal'}],
-        '2021-03-18': [{name: 'este dia ni idea, pero quiero probar que pasa con los titulos largos', type:'henryTalk'}],
-        '2021-03-12': [{name: 'cumpleaños de mi hermano', type:'kickOff'}],
-        '2021-03-23': [{name: 'primera cosa del dia'}, {name: 'segunda cosa del dia'},{name:'3 cosa del dia'},{name:'4 cosa del dia'},{name:'5 cosa del dia'},{name:'6 cosa del dia'}]
-    })
+    const [items, setItems] = useState({})
     const icons = {
         'checkpoint':{icon:'file-code-o', color:'red'},
         'henryTalk':{icon:'comments', color:"#00adf5"}
     }
+    useEffect(()=>{
+        axios.get('http://192.168.0.20:5000/event/')
+        .then(resp=>{
+            var aux = {};
+            resp.data.forEach(event => {
+                aux.hasOwnProperty(event.startDay) 
+                ? aux[event.startDay].push({'name': event.name, 'description': event.description, 'url': event.link, time:`${event.startTime} - ${event.endTime}`}) 
+                : aux[event.startDay] = [{'name': event.name, 'description': event.description, 'url': event.link, time:`${event.startTime} - ${event.endTime}`}]
+            })
+            setItems(aux)
+        })
+        .catch(err=>{console.log(err)})
+    },[])
 
     function renderItem(item) {
         return (
@@ -51,7 +60,7 @@ const Calendario = ()=>{
 
     function loadItems(day){
         //setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
           const strTime = timeToString(time);
           if (!items[strTime]) {
@@ -86,10 +95,11 @@ const Calendario = ()=>{
                                         size={75}
                                         color={selectedItem.type && icons.hasOwnProperty(selectedItem.type) ? icons[selectedItem.type].color : "gray"}
                                 />
-                                <Text style={[stylesModal.modalTextTitle,stylesModal.modalText]}>{selectedItem.name ? selectedItem.name : 'Evento Sin Nombre'}</Text>
-                                <Text style={stylesModal.modalText}>Horario: {selectedItem.time ? selectedItem.time : 'Indefinido'}</Text>
-                                <Text style={stylesModal.modalText}>Tipo de Evento: {selectedItem.type ? selectedItem.type : 'Indefinido'}</Text>
-                                <Text style={stylesModal.modalText}>{selectedItem.description ? selectedItem.description : 'Sin Descripción'}</Text>
+                                <Text style={[stylesModal.modalTextTitle,stylesModal.modalText]}>{selectedItem.name}</Text>
+                                <Text style={stylesModal.modalText}>Horario: {selectedItem.time}</Text>
+                                {/* <Text style={stylesModal.modalText}>Tipo de Evento: {selectedItem.type}</Text> */}
+                                <Text style={stylesModal.modalText}>{selectedItem.description}</Text>
+                                <Text onPress={()=>{Linking.openURL(selectedItem.url)}} style={stylesModal.modalText}>{selectedItem.url}</Text>
                             </>
                             : <></> }
                             <Pressable
@@ -110,9 +120,9 @@ const Calendario = ()=>{
             renderEmptyDate={renderEmptyDate}            
             //renderDay={renderDays}
             renderItem={renderItem}
-            //rowHasChanged={(r1, r2)=> r1.name !== r2.name}
-            pastScrollRange={12}
-            futureScrollRange={12}
+            rowHasChanged={(r1, r2)=> r1.name !== r2.name}
+            pastScrollRange={1}
+            futureScrollRange={1}
             />
         </Container>
     )
