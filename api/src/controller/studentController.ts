@@ -15,7 +15,7 @@ export const studentController = {
 
     const {
       id,
-      user: { lastName, name, cellphone, email },
+      user: { lastName, name, cellphone, email, githubToken },
       github,
       cohort,
       createdAt,
@@ -37,6 +37,7 @@ export const studentController = {
       id,
       lastName,
       github,
+      githubToken,
       cohort: cohort?.name ?? null,
       group: group?.name ?? null,
       startDay: createdAt,
