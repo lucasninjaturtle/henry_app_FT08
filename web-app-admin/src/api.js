@@ -22,6 +22,18 @@ export const createEvent = (data) => {
   return axios.post("/event/", data);
 };
 
+export const getEvents = () => {
+  return axios.get("/events").then((resp) => resp.data);
+};
+
+export const getEventById = (eventId) => {
+  return axios.get(`/cohort/${eventId}`).then((resp) => resp.data);
+};
+
+export const putEvent = (data, eventId) => {
+  return axios.put(`/instructor/${eventId}`, data);
+};
+
 export const createCohort = (data) => {
   return axios.post("/cohort/", data);
 };

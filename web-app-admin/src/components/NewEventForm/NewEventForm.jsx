@@ -153,7 +153,7 @@ function NewEventForm() {
         />
       </label>
 
-      <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white">
+      <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white" >
         Crear Evento
       </button>
     </form>
