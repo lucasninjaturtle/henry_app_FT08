@@ -11,16 +11,9 @@ import { Alert } from "react-native"
 import { useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
-
+import { envTrucho } from '../../envTrucho'
 
 WebBrowser.maybeCompleteAuthSession();
-
-const envTrucho = {
-    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
-    EXPO_CLIENT_SECRET: "68d79c832460685944d0f832a9e604ac7dc5292d",
-    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
-    EXPO_HTTP_IP: "192.168.0.200"
-}
 
 const discovery = {
   authorizationEndpoint: "https://github.com/login/oauth/authorize",
