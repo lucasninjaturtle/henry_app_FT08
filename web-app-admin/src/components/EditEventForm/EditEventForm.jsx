@@ -25,7 +25,6 @@ function EditEventForm() {
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [event, setEvent] = useState();
-  const [isClearable, setIsClearable] = useState(true);
   const [query, setQuery] = useState("");
 
   const handleInputChange = (newValue) => {
@@ -57,7 +56,6 @@ function EditEventForm() {
             setValue('startTime', resp.startTime);
             setValue('endTime', resp.endTime);
             
-
             setEvent( value.value );
         })
         .catch((e) => {
@@ -119,10 +117,10 @@ function EditEventForm() {
      <div className="mt-20 mb-5 flex justify-center">
         <AsyncSelect
           styles={customStyles}
-          isClearable={isClearable}
           onInputChange={handleInputChange}
           loadOptions={loadOptions}
           onChange={handleOnChange}
+          isClearable={true}
         />
       </div>
     <form
