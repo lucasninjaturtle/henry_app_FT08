@@ -1,14 +1,7 @@
-import React,{useState} from 'react'
-import axios from "axios";
-import AsyncSelect from "react-select/async";
-
+import React from "react";
 
 function DeleteStudent() {
-    return (
-        <div>
-            Delete
-        </div>
-    )
+  return <div>Delete</div>;
 }
 
-export default DeleteStudent
+export default DeleteStudent;

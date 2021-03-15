@@ -4,9 +4,9 @@ import axios from "axios";
 
 export const githubController = {
   async getUserGHRepo(req: Request, res: Response) {
-    axios.get("https://api.github.com/user/repos", {
+    axios.get(`https://api.github.com/user/repos`, {
       headers: {
-        "Authorization": `Bearer 9a969540c29c4440d0ff85371a3f346ddfa793b5`
+        "Authorization": `Bearer ${req.body.token}`
       }
     })
       .then((getUserAllGHRepos) => {
@@ -20,7 +20,7 @@ export const githubController = {
               UserGHRep.name.slice(0, 12) == "ecommerce-ft") {
               arrayPromises.push(axios.get(`https://api.github.com/repos/${UserGHRep.owner.login}/${UserGHRep.name}/commits`, {
                 headers: {
-                  "Authorization": `Bearer 9a969540c29c4440d0ff85371a3f346ddfa793b5`
+                  "Authorization": `Bearer ${req.body.token}`
                 }
               }))
 

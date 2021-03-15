@@ -3,14 +3,29 @@ import { db } from "../database/models";
 
 export const eventController = {
   async createEvent(req: Request, res: Response) {
-    const eventData = req.body;
+    const {
+      name,
+      startDay,
+      link,
+      description,
+      eventTypeId,
+      startTime,
+      endTime
+    } = req.body as {
+      [key: string]: string;
+    };
+
     db.Event.create({
-      name: eventData.name,
-      startDay: eventData.startDay,
-      link: eventData.link,
-      description: eventData.description,
-      eventTypeId: eventData.eventTypeId
-    }).then(() => res.sendStatus(200));
+      name,
+      startDay,
+      link,
+      description,
+      startTime,
+      endTime
+    }).then(async (event) => {
+      if (eventTypeId) await event.setEventType(+eventTypeId);
+      res.sendStatus(200);
+    });
   },
   async getEvent(req: Request, res: Response) {
     const eventId = req.params.id;
@@ -38,6 +53,8 @@ export const eventController = {
         startDay: eventData.startDay,
         link: eventData.link,
         description: eventData.description,
+        startTime: eventData.startTime,
+        endTime: eventData.endTime,
         eventTypeId: eventData.eventTypeId
       },
       {

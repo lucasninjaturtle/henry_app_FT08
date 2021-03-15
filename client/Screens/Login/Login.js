@@ -1,27 +1,19 @@
-import * as React from "react";
-import * as WebBrowser from "expo-web-browser";
-import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
-import { View, Text, Button, Item, Input } from "native-base";
-import { Image } from "react-native";
-import { StyleSheet } from "react-native";
-import henryLogo from "../../assets/logo_henry.png";
-import axios from "axios";
-import { WebView } from "react-native-webview";
-import { AuthSession } from "expo";
-import { Alert } from "react-native";
-
+import * as React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { View, Text, Button } from 'native-base'
+import { Image } from 'react-native'
+import { StyleSheet } from 'react-native'
+import henryLogo from '../../assets/logo_henry.png'
+import axios from 'axios';
+import { AuthSession } from 'expo';
+import { Alert } from "react-native"
 import { useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
+import { envTrucho } from '../../envTrucho'
 
 WebBrowser.maybeCompleteAuthSession();
-
-const envTrucho = {
-    EXPO_CLIENT_ID: "4cf64d15fe0157927482",
-    EXPO_CLIENT_SECRET: "29f49913d133a27236e1021e860edd797d398d51",
-    EXPO_NATIVE_URI: "exp://192.168.0.145:19000",
-    EXPO_HTTP_IP: "192.168.0.145"
-};
 
 const discovery = {
     authorizationEndpoint: "https://github.com/login/oauth/authorize",
@@ -106,8 +98,8 @@ const Login = (props) => {
                 <Text>Ingresar con Github!</Text>
             </Button>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     view: {

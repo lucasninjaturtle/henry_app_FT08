@@ -8,7 +8,7 @@ export interface UserAttributes extends baseProps {
   email: string;
   cellphone: string;
   password?: string;
-  githubToken: string;
+  githubToken?: string;
 }
 
 export interface UserModel extends Model<UserAttributes>, UserAttributes {}

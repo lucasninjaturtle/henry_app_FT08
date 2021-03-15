@@ -14,7 +14,7 @@ function InstructorName({ instructor, id }) {
     searchInstructorsByName(inputValue).then((data) => {
       callback(
         data.map((instructor) => ({
-          label: instructor.user.name + " " + instructor.user.lastName,
+          label: instructor.name + " " + instructor.lastName,
           value: instructor.id
         }))
       );

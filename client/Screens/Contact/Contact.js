@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Button, Header, Content, Form, Item, Input, Label, Textarea, Toast, Text, Root } from 'native-base';
 
 

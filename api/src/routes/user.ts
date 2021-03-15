@@ -15,11 +15,13 @@ import { adminController } from "../controller/adminController";
 /* Ruta para CREAR un ALUMNOS. */
 router.post("/student/", studentController.createStudent);
 
+router.post("/student/bulk", studentController.bulkCreateStudents);
+
 /* Ruta para BUSCAR un ALUMNOS x ID  */
 router.get("/student/:idOrGithub", studentController.getStudent);
 
 /* Ruta para EDITAR un ALUMNOS x ID. */
-router.put("/student/:id", studentController.putStudent)
+router.put("/student/:id", studentController.putStudent);
 
 /* Ruta para BORRAR un ALUMNOS x ID. */
 router.delete("/student/:id", studentController.deleteStudent);

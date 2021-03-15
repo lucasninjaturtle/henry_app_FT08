@@ -32,101 +32,28 @@ export default function Home({ navigation }) {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={{ width: '100%' }}>
       <Container style={styles.container}>
-        <CardItem header bordered style={styles.card}>
-          <Thumbnail
-            style={styles.image}
-            source={{
-              uri:
-                "https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"
-            }}
-          />
-        </CardItem>
         <StudentCard data={student} />
       </Container>
-      <Content style={styles.list}>
-        <List>
-          {/* <ListItem onPress={()=>navigation.navigate('Profile')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "green" }}>
-                <Icon active name="person" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Profile</Text>
-            </Body>
-            <Right>
-              <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem onPress={() => navigation.navigate('Settings')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="settings" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Settings</Text>
-            </Body>
-            <Right>
-              <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          {/* <ListItem onPress={()=>navigation.navigate('Contact')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="paper-plane" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Contact us</Text>
-            </Body>
-            <Right>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          <ListItem icon>
-            <Left>
-              <Button style={{ backgroundColor: "red" }}>
-                <Icon active name="log-out" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Logout</Text>
-            </Body>
-            <Right>
-              <Icon active name="log-out" />
-            </Right>
-          </ListItem>
-        </List>
-      </Content>
     </ScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: "center",
-    alignItems: "center",
+    alignContent: 'center',
+    alignItems: 'center',
     paddingTop: 10,
-    backgroundColor: "#AED6F1",
-    height: 550
+    height: 550,
+    width: '100%'
   },
   card: {
-    alignItems: "center",
-    alignContent: "center",
-    alignSelf: "center",
-    backgroundColor: "#AED6F1"
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
   },
-  image: {
-    borderRadius: 50,
-    width: 80,
-    height: 80,
-    marginTop: 10
-  },
+
   titles: {
     fontFamily: "monospace",
     fontStyle: "normal",
@@ -134,5 +61,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: -100
-  }
-});
+  },
+
+}
+)

@@ -6,6 +6,42 @@ export const postLogin = (data) => {
   return axios.post("/auth/login/local", data).then((resp) => resp.data);
 };
 
+export const createUserAndStudent = (data) => {
+  return axios.post("/user/student", data);
+};
+
+export const createUserAndPm = (data) => {
+  return axios.post("/user/projectmanager", data);
+};
+
+export const createGroup = (data) => {
+  return axios.post("/group/", data);
+};
+
+export const createEvent = (data) => {
+  return axios.post("/event/", data);
+};
+
+export const getEvents = () => {
+  return axios.get("/events").then((resp) => resp.data);
+};
+
+export const getEventById = (eventId) => {
+  return axios.get(`/cohort/${eventId}`).then((resp) => resp.data);
+};
+
+export const putEvent = (data, eventId) => {
+  return axios.put(`/instructor/${eventId}`, data);
+};
+
+export const createCohort = (data) => {
+  return axios.post("/cohort/", data);
+};
+
+export const createUserAndInstructor = (data) => {
+  return axios.post("/user/instructor", data);
+};
+
 export const getCohorts = () => {
   return axios.get("/cohort").then((resp) => resp.data);
 };
@@ -28,16 +64,31 @@ export const searchCohortsByName = (cohortName) => {
     .then((resp) => resp.data);
 };
 
+export const searchPmsByName = (pmName) => {
+  return axios
+    .get(`/projectmanager/search?name=${pmName}`)
+    .then((resp) => resp.data);
+};
+export const searchEventTypesByName = (eventTypeName) => {
+  return axios
+    .get(`/eventType/search?name=${eventTypeName}`)
+    .then((resp) => resp.data);
+};
+
 export const searchInstructorsByName = (instructorName) => {
   return axios
     .get(`/instructor/search?name=${instructorName}`)
     .then((resp) => resp.data);
 };
 
-export const searchModulesByName = (instructorName) => {
+export const searchModulesByName = (moduleName) => {
   return axios
-    .get(`/module/search?name=${instructorName}`)
+    .get(`/module/search?name=${moduleName}`)
     .then((resp) => resp.data);
+};
+
+export const searchGroupsByName = (groupName) => {
+  return axios.get(`/group/search?name=${groupName}`).then((resp) => resp.data);
 };
 
 export const putStudents = (data) => {
@@ -49,4 +100,16 @@ export const putInstructor = (data, id) => {
 
 export const putCohort = (data, id) => {
   return axios.put(`/cohort/${id}`, data);
+};
+
+export const editEvent = (data) => {
+  return axios.put('/event', data);
+};
+
+export const newEvent = (data) => {
+  return axios.post('/event', data)
+};
+
+export const allEvent = (data) => {
+  return axios.get('/event', data);
 };
