@@ -8,6 +8,8 @@ import { groupController } from "../controller/groupController";
 //// RUTA DE GRUPOs ////
 ////////////////////////
 
+router.get("/search", groupController.searchGroupsByName);
+
 /* Ruta para CREAR un GRUPO. */
 router.post("/", groupController.createGroup);
 
@@ -25,6 +27,5 @@ router.put("/:id", groupController.putGroup);
 
 /* Ruta para BORRAR un GRUPO x ID. */
 router.delete("/:id", groupController.deleteGroup);
-
 
 export default router;

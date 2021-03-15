@@ -1,178 +1,45 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import 'react-native-gesture-handler';
-import { Image, StyleSheet } from 'react-native'
-import { Container, Icon, Content, Card, CardItem, Text, Switch, Body, Button, View, Thumbnail, List, ListItem, Left, Right } from "native-base";
-import { useSelector, useDispatch } from 'react-redux'
-import { getUserInfo } from '../../Redux/Actions/userActions';
+import { StyleSheet } from 'react-native'
+import { Container} from "native-base";
+import { useSelector } from 'react-redux'
 import store from '../../Redux/store';
 import { ScrollView } from 'react-native-gesture-handler';
-import Profile from '../Profile/Profile'
+import StudentCard from "./StudentCard"
 
-
-
-export default function Home({ navigation }) {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getUserInfo())
-  }, [])
-
-
-    let Student = useSelector((store) => store.userInfo.usuario)
-
-    Object.keys(Student).length === 0 ? Student =  {name:'test name',
-    cohort:'tets cohort',
-    user:'GITHUBUSER',
-    group:'grupo test',
-    lastname:'apellido test',
-    module:'modulo test',
-    pm:{lucas:'PM test'},
-    startDay:'start',
-    instructor:{firstname: 'primer nombre', lastname: 'apellido'},
-}   : Student;
-    
-    // name:'',
-    // cohort:'',
-    // user:'',
-    // group:'',
-    // lastname:'',
-    // module:'',
-    // pm:{},
-    // startDay:'',
-    // instructor:{},
-
-    return (
-      <ScrollView>
-        <Container style={styles.container}>
-        <CardItem header bordered style={styles.card}>
-        <Thumbnail style={styles.image} source={{uri:'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}}/>
-        </CardItem>
-        <Content   padder>
-          <Card style={{}}>
-            
-            <CardItem bordered>
-              <Body>
-                <Text style={styles.titles}>
-                  {Student.name} {Student.lastName}
-                </Text>
-                <Text style={styles.titles}>
-                    Github: {Student.github}{"\n"}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem footer bordered >
-              <Text>Datos</Text>
-            </CardItem>
-            <CardItem  >
-              <Text>Instructor: {Student.instructor.firstName} {Student.instructor.lastName} </Text>
-            </CardItem>
-            {/* <CardItem  >
-              <Text>PM: {Student.projectManagers[0].firstName} {Student.projectManagers[0].lastName} </Text>
-            </CardItem> */}
-            <CardItem  >
-              <Text>Cohorte actual: {Student.cohort}</Text>
-            </CardItem>
-            <CardItem  >
-              <Text>Fecha Ingreso: {Student.startDay.slice(0,10)}</Text>
-            </CardItem>
-            <CardItem  >
-                <Text>Modulo Actual {Student.module}</Text>      
-            </CardItem>
-          </Card>
-        </Content>
+export default function Home() {
+  let student = useSelector((store) => store.userInfo.usuario)
+  return (
+    <ScrollView style ={{width:'100%'}}>
+      <Container style={styles.container}>
+        <StudentCard data={student} />
       </Container>
-      <Content style={styles.list}>
-          <List>
-          {/* <ListItem onPress={()=>navigation.navigate('Profile')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "green" }}>
-                <Icon active name="person" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Profile</Text>
-            </Body>
-            <Right>
-              <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem onPress={() => navigation.navigate('Settings')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="settings" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Settings</Text>
-            </Body>
-            <Right>
-              <Text>Edit</Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          {/* <ListItem onPress={()=>navigation.navigate('Contact')} icon>
-            <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="paper-plane" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Contact us</Text>
-            </Body>
-            <Right>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem> */}
-          <ListItem icon>
-            <Left>
-              <Button style={{ backgroundColor: "red" }}>
-                <Icon active name="log-out" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Logout</Text>
-            </Body>
-            <Right>   
-              <Icon active name="log-out" />
-            </Right>
-          </ListItem>
-        </List>
-      </Content>
     </ScrollView>
-
   )
 }
 
 const styles = StyleSheet.create({
-  container :{
-    alignContent:'center',
-    alignItems:'center',
-    paddingTop:10,
-    backgroundColor:'#AED6F1',
-    height:550
-    
-    
+  container: {
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
+    height: 550,
+    width: '100%'
   },
-  card:{
-    alignItems:'center',
-    alignContent:'center',
-    alignSelf:'center',
-    backgroundColor:'#AED6F1'
+  card: {
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+  },
 
-  },
-  image:{
-    borderRadius:50,
-    width:80,
-    height:80,
-    marginTop:10
-  },
   titles: {
-    fontFamily: 'monospace',
-    fontStyle: 'normal',
-    fontSize: 20,
+    fontFamily: "monospace",
+    fontStyle: "normal",
+    fontSize: 20
   },
   list: {
     paddingTop: -100
-  }
+  },
 
-})
+ }
+)

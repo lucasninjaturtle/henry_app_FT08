@@ -1,32 +1,37 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { View, Text, Button, Item, Input } from 'native-base'
+import { View, Text, Button} from 'native-base'
 import { Image } from 'react-native'
 import { StyleSheet } from 'react-native'
 import henryLogo from '../../assets/logo_henry.png'
 import axios from 'axios';
-import { WebView } from 'react-native-webview';
 import { AuthSession } from 'expo';
 import { Alert } from "react-native"
+import { useDispatch } from 'react-redux'
+import { getUserInfo } from '../../Redux/Actions/userActions';
+import store from '../../Redux/store';
 
 
 WebBrowser.maybeCompleteAuthSession();
 
 const envTrucho = {
-    EXPO_CLIENT_ID: "6dda93ca783635d2e702",
-    EXPO_CLIENT_SECRET: "ebcba9237c6d275cd6c5f46c0074d3fec49862a6",
-    EXPO_NATIVE_URI: "exp://192.168.0.200:19000",
-    EXPO_HTTP_IP: "192.168.0.200"
+    EXPO_CLIENT_ID: "cef2e2e9046dc933c7c9",
+    EXPO_CLIENT_SECRET: "c7b6439a7635dbd632a0611271808e4a0e0d3875",
+    EXPO_NATIVE_URI: "exp://192.168.100.13:19000",
+    EXPO_HTTP_IP: "192.168.100.13"
 }
 
 const discovery = {
-    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-    tokenEndpoint: 'https://github.com/login/oauth/access_token',
-    revocationEndpoint: 'https://github.com/settings/connections/applications/<CLIENT_ID>',
+  authorizationEndpoint: "https://github.com/login/oauth/authorize",
+  tokenEndpoint: "https://github.com/login/oauth/access_token",
+  revocationEndpoint:
+    "https://github.com/settings/connections/applications/<CLIENT_ID>"
 };
 
 const Login = (props) => {
+    const dispatch = useDispatch();
+
     const [request, response, promptAsync] = useAuthRequest({
         clientId: `${envTrucho.EXPO_CLIENT_ID}`,
         clientSecret: `${envTrucho.EXPO_CLIENT_SECRET}`,
@@ -47,39 +52,43 @@ const Login = (props) => {
                     'client_secret': `${envTrucho.EXPO_CLIENT_SECRET}`,
                     'code': code
                 })
-                .then(getUserToken => {
-                    axios.get('https://api.github.com/user', {
-                        headers: {
-                          "Authorization": `Bearer ${getUserToken.data}`
-                          }
+                    .then(getUserToken => {
+                        axios.get('https://api.github.com/user', {
+                            headers: {
+                                "Authorization": `Bearer ${getUserToken.data}`
+                            }
                         })
-                    .then((getGHUser) => {
-                        axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
-                            data: getGHUser.data.login
-                        })
-                        .then(() => {
-                            props.test(true);
-                        })
-                        .catch((err) => {
-                            Alert.alert(
-                                "Error FATAL",
-                                "No existe ese usuario",
-                                [
-                                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                                ]
-                            );
-                        })
+                            .then((getGHUser) => {
+                                axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
+                                    data: getGHUser.data.login,
+                                })
+                                    .then(() => {
+                                        // console.log('dataa :', getGHUser.data.login)
+                                        dispatch(getUserInfo(getGHUser.data.login))
+                                        props.test(true);
+                                    })
+                                    .catch((err) => {
+                                        Alert.alert(
+                                            "Error FATAL",
+                                            "No existe ese usuario",
+                                            [
+                                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                                            ]
+                                        );
+                                    })
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
                     })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                })
-                .catch(err => {
-                    console.log('err', err)
-                });
+                    .catch(err => {
+                        console.log('err', err)
+                    });
             }
         }
     }, [response]);
+
+
 
     return (
         <View style={styles.view}>
@@ -100,21 +109,21 @@ const Login = (props) => {
 }
 
 const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "#f7f701"
-    },
-    img: {
-        width: "90%",
-        height: 161,
-        resizeMode: "contain",
-        marginTop: 100
-    },
-    btn: {
-        alignSelf: "center",
-        marginTop: 100
-    }
-})
+  view: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#f7f701"
+  },
+  img: {
+    width: "90%",
+    height: 161,
+    resizeMode: "contain",
+    marginTop: 100
+  },
+  btn: {
+    alignSelf: "center",
+    marginTop: 100
+  }
+});
 
 export default Login;

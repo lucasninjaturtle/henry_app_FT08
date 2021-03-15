@@ -5,7 +5,7 @@ import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
 import {useSelector,useDispatch } from 'react-redux'
 
-import { Container, Header, Footer , FooterTab, Icon, Content, Card, CardItem, Switch, Body, Button, Thumbnail, List, ListItem, Left, Right} from "native-base";
+import { Container, Header, Card, CardItem, Thumbnail, List, ListItem, Left, Right} from "native-base";
 
 
 
@@ -14,8 +14,8 @@ const Profile = ()=>{
     useEffect(() => {
       dispatch(getUserInfo())
     }, [])
-
     let Student = useSelector((store) => store.userInfo.usuario)
+    if (!Student && Object.keys(Student).length === 0) return null
     return (
         <View >
             <Header style={{backgroundColor:'black',height:50,}}>
@@ -35,7 +35,7 @@ const Profile = ()=>{
                 </Text>
             </CardItem>
             <CardItem style={styles.card} >
-              <Text style={styles.text}>Instructor: {Student.instructor.firstName} {Student.instructor.lastName}</Text>
+              {/* <Text style={styles.text}>Instructor: {Object.keys(instructor).length > 0 ? `${instructor.firstName} ${instructor.lastName}` : null}</Text> */}
             </CardItem>
             {/* <CardItem  >
               <Text >PM: {Student.projectManagers[0].firstName} </Text>
