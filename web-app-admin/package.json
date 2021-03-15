@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@fullcalendar/core": "^5.5.1",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/react": "^5.5.0",
     "@inovua/reactdatagrid-community": "^4.0.29",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
