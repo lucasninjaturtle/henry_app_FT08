@@ -9,9 +9,13 @@ function CreateEvent() {
 
   return (
     <div className="h-full w-full flex">
-      <div className="m-auto w-full max-w-lg shadow-md flex">
-        <EditEventForm />
-        <Calendar />
+      <div className="m-auto px-5 w-full max-w-xl lg:max-w-7xl flex lg:flex-row flex-col">
+        <div class="lg:w-1/2 w-full">
+          <EditEventForm />
+        </div>
+        <div class="lg:w-1/2 w-full">
+          <Calendar />
+        </div>
       </div>
     </div>
   );
