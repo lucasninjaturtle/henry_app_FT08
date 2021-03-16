@@ -1,16 +1,46 @@
-import React from 'react'
-import 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native'
-import { Container} from "native-base";
-import { useSelector } from 'react-redux'
-import store from '../../Redux/store';
-import { ScrollView } from 'react-native-gesture-handler';
-import StudentCard from "./StudentCard"
+import React, { useEffect } from "react";
+import "react-native-gesture-handler";
+import { Image, StyleSheet } from "react-native";
+import {
+  Container,
+  Icon,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Switch,
+  Body,
+  Button,
+  View,
+  Thumbnail,
+  List,
+  ListItem,
+  Left,
+  Right
+} from "native-base";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserInfo } from "../../Redux/Actions/userActions";
+import store from "../../Redux/store";
+import { ScrollView } from "react-native-gesture-handler";
+import Profile from "../Profile/Profile";
 
-export default function Home() {
-  let student = useSelector((store) => store.userInfo.usuario)
+import StudentCard from "./StudentCard";
+
+export default function Home({ navigation }) {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo(student.github))
+    console.log(student)
+  }, [])
+
+  let student = useSelector((store) => store.userInfo.usuario);
+
+
+
   return (
-    <ScrollView style ={{width:'100%'}}>
+    <ScrollView style={{ width: '100%' }}>
       <Container style={styles.container}>
         <StudentCard data={student} />
       </Container>
@@ -41,5 +71,5 @@ const styles = StyleSheet.create({
     paddingTop: -100
   },
 
- }
+}
 )

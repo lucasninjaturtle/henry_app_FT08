@@ -16,6 +16,7 @@ export const authController = {
       )
       .then((resp: any) => {
         let token = resp.data.split("&")[0].split("=")[1];
+        console.log(token)
         res.status(200).json(token);
       })
       .catch((err) => {

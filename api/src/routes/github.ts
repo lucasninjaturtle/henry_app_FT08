@@ -7,5 +7,5 @@ const passport = require("passport")
 import { githubController } from "../controller/githubController"
 
 // Rutas
-router.get("/getRepos", githubController.getUserGHRepo);
+router.post("/getRepos", githubController.getUserGHRepo);
 export default router;

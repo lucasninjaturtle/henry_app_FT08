@@ -1,5 +1,5 @@
 import React from 'react'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 // import Icon from 'react-native-vector-icons/FontAwesome'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -13,79 +13,76 @@ import ChatNavigator from '../Chat/ChatNavigator'
 
 const Tab = createBottomTabNavigator();
 
-const NavigationMain = () =>{
+const NavigationMain = () => {
 
-    
-    return(
-        
-        <Tab.Navigator 
-        initialRouteName='Login'
-        tabBarOptions={{
-            // keyboardHidesTabBar=true,
-            // showLabel=false,
-            activeTintColor: 'grey',
-          inactiveTintColor: 'black',
-          style: {
-            backgroundColor: 'yellow',
-        
-          },
-        }}
-        
+    return (
+
+        <Tab.Navigator
+            initialRouteName='Login'
+            tabBarOptions={{
+                activeTintColor: 'grey',
+                inactiveTintColor: 'black',
+                style: {
+                    backgroundColor: 'yellow',
+
+                },
+            }}
+
         >
             <Tab.Screen
-            name="Home"
-            component={HomeNavigator}
-            options={{
-                tabBarIcon:({color}) =>(
-                    <Ionicons
-                    name='home'
-                    style={{position:'relative'}}
-                    color={color}
-                    size={30}
-                    />
-                )
-            }}
+                name="Home"
+                component={HomeNavigator}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons
+                            name='home'
+                            style={{ position: 'relative' }}
+                            color={color}
+                            size={30}
+                        />
+                    )
+                }}
             />
             <Tab.Screen
-            name='Calendar'
-            component={CalendarNavigator}
-            options={{
-                tabBarIcon:({color}) =>(
-                    <Ionicons
-                    name='calendar'
-                    color={color}
-                    size={30}
-                    />
-                )
-            }}
+                name='Calendar'
+                component={CalendarNavigator}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons
+                            name='calendar'
+                            color={color}
+                            size={30}
+                        />
+                    )
+                }}
             />
 
-<Tab.Screen
-            name='Stats'
-            component={StatsNavigator}
-            options={{
-                tabBarIcon:({color}) =>(
-                    <Ionicons
-                    name='analytics'
-                    color={color}
-                    size={30}
-                    />
-                )
-            }}
+            <Tab.Screen
+                name='Stats'
+                component={StatsNavigator}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons
+                            name='analytics'
+                            color={color}
+                            size={30}
+                        />
+                    )
+                }}
             />
 
-<Tab.Screen
-            name='Chat'
-            component={ChatNavigator}
-            options={{
-                tabBarIcon:({color}) =>(
-                    <Ionicons
-                    name='md-chatbubbles'
-                    color={color}
-                    size={30}
-                    />
-                )
-            }}
+            <Tab.Screen
+                name='Chat'
+                component={ChatNavigator}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons
+                            name='md-chatbubbles'
+                            color={color}
+                            size={30}
+                        />
+                    )
+                }}
             />
         </Tab.Navigator>
     )

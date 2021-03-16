@@ -15,7 +15,7 @@ export const studentController = {
 
     const {
       id,
-      user: { lastName, name, cellphone, email },
+      user: { lastName, name, cellphone, email, githubToken },
       github,
       cohort,
       createdAt,
@@ -37,6 +37,7 @@ export const studentController = {
       id,
       lastName,
       github,
+      githubToken,
       cohort: cohort?.name ?? null,
       group: group?.name ?? null,
       startDay: createdAt,
@@ -93,9 +94,11 @@ export const studentController = {
     res.json(userData);
   },
   async putStudent(req: Request, res: Response) {
+    console.log(req.body);
     type studentData = {
       id: number;
       github: string;
+      githubToken: string;
       groupId: number;
       cohortId: number;
       name: string;
@@ -115,6 +118,7 @@ export const studentController = {
             cohortId,
             email,
             github,
+            githubToken,
             groupId,
             id,
             lastName,
@@ -126,7 +130,7 @@ export const studentController = {
               { where: { id } }
             );
             await db.User.update(
-              { cellphone, email, lastName, name },
+              { cellphone, githubToken, email, lastName, name },
               { where: { id: userId } }
             );
           }
@@ -140,6 +144,7 @@ export const studentController = {
         cohortId,
         email,
         github,
+        githubToken,
         groupId,
         lastName,
         name,
@@ -154,6 +159,13 @@ export const studentController = {
       await userData.save();
       await db.Student.update({ github, groupId, cohortId }, { where: { id } });
     }
+
+    // if (githubToken) {
+    //   console.log('Entroooooo......')
+    //   const user = await db.User.findOne({ include: [{ model: db.Student, where: { id } }] })
+    //   user.githubToken = githubToken
+    //   await user.save();
+    // }
 
     res.sendStatus(200);
   },

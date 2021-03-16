@@ -11,6 +11,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+
 export default function StudentCard({ data }) {
   if (!data && Object.keys(data).length === 0) return null;
 

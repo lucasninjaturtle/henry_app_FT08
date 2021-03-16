@@ -91,9 +91,9 @@ export const projectManagerController = {
       );
     });
   },
-  async bulkCreate(req: Request, res: Response){
+  async bulkCreate(req: Request, res: Response) {
     const pmsData = req.body as any[];
-    
+
     const usersData = await pmsData.forEach(async (pm) => {
       const {
         cellphone,
@@ -115,6 +115,7 @@ export const projectManagerController = {
       await newUser.setProjectmanager(newPM);
       if (groupId) await newPM.setGroup(groupId);
     })
-    
+
     return res.sendStatus(200);
-};
+  }
+}
