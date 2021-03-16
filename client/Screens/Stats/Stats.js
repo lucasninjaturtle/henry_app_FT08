@@ -49,11 +49,9 @@ const Stats = (props) => {
       }).then(resp => {
         console.log('respondio', resp.data)
       }).catch(err => {
-        console.log('error')
+        console.log(err)
       })
-
     }
-
   });
 
   return (

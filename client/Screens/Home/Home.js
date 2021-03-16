@@ -27,8 +27,16 @@ import Profile from "../Profile/Profile";
 import StudentCard from "./StudentCard";
 
 export default function Home({ navigation }) {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo(student.github))
+    console.log(student)
+  }, [])
+
   let student = useSelector((store) => store.userInfo.usuario);
-  console.log(student)
+
 
 
   return (

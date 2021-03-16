@@ -13,6 +13,7 @@ import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
 import { envTrucho } from '../../envTrucho'
 
+
 WebBrowser.maybeCompleteAuthSession();
 
 const discovery = {

@@ -2,28 +2,30 @@ import React, { useState } from 'react'
 import 'react-native-gesture-handler';
 import { Dimensions, Modal, StyleSheet, Linking } from 'react-native'
 import { Input, Form, Label, Textarea, Item, Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail, Button } from 'native-base';
-import { Ionicons } from '@expo/vector-icons'
-import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
-import envTrucho from '../../envTrucho';
+import Stats from './Stats'
+// import envTrucho from '../../envTrucho';
 
 import { useSelector, useDispatch } from "react-redux";
-import { getUserInfo } from "../../Redux/Actions/userActions";
-import store from "../../Redux/store";
+import DrawerHomeNavigator from '../../Navigators_test/DrawerHomeNavigator'
+import { setUserToken } from '../../Redux/Actions/userActions';
 
-
-
+const envTrucho = '192.168.0.145';
 
 const width = Dimensions.get("window").width
+console.log('envTrucho :', envTrucho)
 
 const Auxilio = (props) => {
+
+    const dispatch = useDispatch();
+
+
     let student = useSelector((store) => store.userInfo.usuario);
 
     const [token, setToken] = useState('');
 
     const handleInputChange = function (e) {
         // console.log(e.target)
-        console.log(e.nativeEvent.text)
         setToken({
             ...token,
             token: e.nativeEvent.text
@@ -32,8 +34,17 @@ const Auxilio = (props) => {
     };
 
     const handleOnPress = () => {
-        axios.put(`http://${EXPO_HTTP_IP}:5000/student/${student.id}`, {
-            githubToken: token
+        console.log('handleOnPress : ', token.token)
+        axios.put(`http://${envTrucho}:5000/user/student/${student.id}`, {
+            githubToken: token.token
+        }).then(resp => {
+            dispatch(setUserToken(token.token))
+            console.log('Entro aquí........')
+            // return (
+            //     DrawerHomeNavigator()
+            // );
+        }).catch(err => {
+            console.log(err)
         })
     };
 
@@ -52,7 +63,8 @@ const Auxilio = (props) => {
 
         >
             <Thumbnail
-                style={{ height: 50, width: 50 }}
+                scaleX={3} scaleY={3} style={{ margin: 30 }}
+                // style={{ height: 100, width: 100 }}
                 source={{
                     uri:
                         "https://png.pngitem.com/pimgs/s/252-2529729_picture-freeuse-explosion-like-text-bubbles-transprent-hd.png",
@@ -70,7 +82,7 @@ const Auxilio = (props) => {
                         onChange={handleInputChange}
                         style={{ borderBottomColor: 'black' }}
                         onPress={() => {
-                            actToken();
+                            handleOnPress();
                         }}
                     />
                 </Item>
@@ -89,9 +101,6 @@ const Auxilio = (props) => {
                 </ListItem>
                 <ListItem>
                     <Text>2- Despliega la ventana de tu perfil (Arriba a la derecha), y selecciona la opcion "Settings"</Text>
-                </ListItem>
-                <ListItem>
-                    <Text>3- Selecciona la opcion "Developer Settings" (Abajo a la izquierda)</Text>
                 </ListItem>
                 <ListItem>
                     <Text>3- Selecciona la opcion "Developer Settings" (Abajo a la izquierda)</Text>

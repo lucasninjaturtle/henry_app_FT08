@@ -2,7 +2,8 @@ import axios from 'axios'
 import { Linking } from 'react-native'
 import {
     GET_USER_INFO,
-    EDIT_USER_INFO
+    EDIT_USER_INFO,
+    SET_USER_TOKEN,
 } from '../constants'
 import { envTrucho } from '../../envTrucho'
 
@@ -28,4 +29,10 @@ export function editUserInfo(id, input) {
             )
     }
         .catch(error => alert(error))
+}
+
+export function setUserToken(userToken) {
+
+    return { type: SET_USER_TOKEN, payload: userToken }
+
 }

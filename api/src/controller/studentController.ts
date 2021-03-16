@@ -94,6 +94,7 @@ export const studentController = {
     res.json(userData);
   },
   async putStudent(req: Request, res: Response) {
+    console.log(req.body);
     type studentData = {
       id: number;
       github: string;
@@ -157,8 +158,14 @@ export const studentController = {
       }
       await userData.save();
       await db.Student.update({ github, groupId, cohortId }, { where: { id } });
-      await db.User.update({ githubToken }, { where: { id } });
     }
+
+    // if (githubToken) {
+    //   console.log('Entroooooo......')
+    //   const user = await db.User.findOne({ include: [{ model: db.Student, where: { id } }] })
+    //   user.githubToken = githubToken
+    //   await user.save();
+    // }
 
     res.sendStatus(200);
   },
