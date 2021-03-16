@@ -7,6 +7,8 @@ import {
   MdDone as SuccessIcon
 } from "react-icons/md";
 import { deleteEvents, getEventById, putEvent, searchEventsByName } from "../../api";
+import { useQueryClient } from 'react-query';
+
 const customStyles = {
  
   control: (base) => ({
@@ -25,8 +27,8 @@ function EditEventForm() {
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [event, setEvent] = useState();
-  const [isClearable, setIsClearable] = useState(true);
   const [query, setQuery] = useState("");
+  const queryClient = useQueryClient();
 
   const handleInputChange = (newValue) => {
     const query = newValue.replace(/\W/g, "");
@@ -57,7 +59,6 @@ function EditEventForm() {
             setValue('startTime', resp.startTime);
             setValue('endTime', resp.endTime);
             
-
             setEvent( value.value );
         })
         .catch((e) => {
@@ -73,6 +74,7 @@ function EditEventForm() {
     putEvent({ ...data, eventTypeId: selectedEventType?.id }, event)
       .then(() => {
         reset();
+        queryClient.invalidateQueries('events');
         setSelectedEventType(null);
         setMessage({
           type: "success",
@@ -91,6 +93,7 @@ function EditEventForm() {
     deleteEvents(event)
     .then(() => {
       reset();
+      queryClient.invalidateQueries('events');
       setSelectedEventType(null);
       setMessage({
         type: "success",
@@ -119,10 +122,10 @@ function EditEventForm() {
      <div className="mt-20 mb-5 flex justify-center">
         <AsyncSelect
           styles={customStyles}
-          isClearable={isClearable}
           onInputChange={handleInputChange}
           loadOptions={loadOptions}
           onChange={handleOnChange}
+          isClearable={true}
         />
       </div>
     <form
@@ -228,14 +231,14 @@ function EditEventForm() {
       </label>
           <div className="flex justify-between">
       <button className="px-6 py-2 mt-2 bg-black rounded-lg text-white" 
-      type='submit'
-      disabled={!!event}>
+      type='submit'>
+      
         Editar Evento
       </button>
       <button className="px-6 py-2 mt-2 bg-red-500 rounded-lg text-white" 
       onClick={handleDelete}
-      type='button'
-      disabled={!!event}>
+      type='button'>
+      
         Eliminar Evento
       </button>
       </div>

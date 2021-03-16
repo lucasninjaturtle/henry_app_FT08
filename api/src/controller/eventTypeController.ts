@@ -9,7 +9,7 @@ export const eventTypeController = {
     db.EventType.create({
       name: eventTypeData.name
     }).then(() => {
-      console.log("Se creo el tipo de evento correctamente");
+      res.sendStatus(200);
     });
   },
   async getEventType(req: Request, res: Response) {

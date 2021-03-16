@@ -9,7 +9,7 @@ function CreateEvent() {
 
   return (
     <div className="h-full w-full flex">
-      <div className="m-auto px-5 w-full max-w-xl lg:max-w-7xl flex lg:flex-row flex-col">
+      <div className="m-auto px-5 w-full max-w-xl lg:max-w-7xl flex lg:flex-row flex-col lg:items-center">
         <div className="lg:w-1/2 w-full">
           <EditEventForm />
         </div>
