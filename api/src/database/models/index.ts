@@ -93,6 +93,7 @@ Student.belongsTo(Cohort);
 Module.hasMany(Class);
 Class.belongsTo(Module);
 
+EventType.hasMany(Event);
 Event.belongsTo(EventType);
 
 export const db: DB = {
