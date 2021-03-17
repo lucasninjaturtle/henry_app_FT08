@@ -126,8 +126,20 @@ export const cohortController = {
       order: [["name", "DESC"]]
     }).then((userData) => res.json(userData));
   },
-  async getUserByGroup(req: Request, res: Response) {
-    /* Codigo */
+  async getUserByCohort(req: Request, res: Response) {
+    const { id } = req.params;
+    db.Student.findAll({
+      include: {model: db.User},
+      where: {
+        cohortId: id
+      }
+    })
+    .then((getAllStudents) => {
+      res.json(getAllStudents)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   },
   async bulkCreateCohort(req: Request, res: Response) {
     const cohortsData = req.body.map((data) => {

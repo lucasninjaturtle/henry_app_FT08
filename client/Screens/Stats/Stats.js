@@ -31,23 +31,14 @@ const width = Dimensions.get("window").width
 
 const Stats = (props) => {
   let student = useSelector((store) => store.userInfo.usuario);
-  console.log('Estoy desde Stats.js :', student)
-  // const github = student.github;
-  // const githubToken = student.githubToken;
-  // if(githubToken)
-  // if (student.githubToken) {
-
-  // }
-
   React.useEffect(() => {
     const github = student.github;
     const githubToken = student.githubToken;
 
     if (github) {
-      axios.post('http://192.168.0.145:5000/github/getrepos', {
+      axios.post('http://192.168.100.13:5000/github/getrepos', {
         token: githubToken
       }).then(resp => {
-        console.log('respondio', resp.data)
       }).catch(err => {
         console.log(err)
       })

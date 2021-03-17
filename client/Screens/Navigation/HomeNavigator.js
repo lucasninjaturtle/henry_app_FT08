@@ -5,12 +5,11 @@ import Profile from '../Profile/Profile'
 import Test from '../../Navigators_test/Components/Test'
 import Settings from '../Settings/Settings'
 import Contact from '../Contact/Contact'
+import Cohort from  '../Cohort/Cohort'
 
 const Stack = createStackNavigator()
 
 const MyStack = ()=>{
-
-
     return (
         <Stack.Navigator>
             <Stack.Screen

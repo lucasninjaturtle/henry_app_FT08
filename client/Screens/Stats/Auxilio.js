@@ -10,10 +10,9 @@ import { useSelector, useDispatch } from "react-redux";
 import DrawerHomeNavigator from '../../Navigators_test/DrawerHomeNavigator'
 import { setUserToken } from '../../Redux/Actions/userActions';
 
-const envTrucho = '192.168.0.145';
+const envTrucho = '192.168.100.13';
 
 const width = Dimensions.get("window").width
-console.log('envTrucho :', envTrucho)
 
 const Auxilio = (props) => {
 
@@ -25,24 +24,17 @@ const Auxilio = (props) => {
     const [token, setToken] = useState('');
 
     const handleInputChange = function (e) {
-        // console.log(e.target)
         setToken({
             ...token,
             token: e.nativeEvent.text
         });
-        console.log(token)
     };
 
     const handleOnPress = () => {
-        console.log('handleOnPress : ', token.token)
         axios.put(`http://${envTrucho}:5000/user/student/${student.id}`, {
             githubToken: token.token
         }).then(resp => {
             dispatch(setUserToken(token.token))
-            console.log('Entro aquí........')
-            // return (
-            //     DrawerHomeNavigator()
-            // );
         }).catch(err => {
             console.log(err)
         })

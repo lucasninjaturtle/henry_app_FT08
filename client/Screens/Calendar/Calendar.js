@@ -16,7 +16,7 @@ const Calendario = ()=>{
         'henryTalk':{icon:'comments', color:"#00adf5"}
     }
     useEffect(()=>{
-        axios.get('http://192.168.0.20:5000/event/')
+        axios.get('http://192.168.100.13:5000/event/')
         .then(resp=>{
             var aux = {};
             resp.data.forEach(event => {
