@@ -10,7 +10,7 @@ import { ClassFactory, ClassStatic } from "./Class";
 import { ModuleFactory, ModuleStatic } from "./Module";
 import { GroupFactory, GroupStatic } from "./Group";
 import { EventFactory, EventStatic } from "./Event";
-import { EventTypeFactory, EventTypeStatic } from './EventType'
+import { EventTypeFactory, EventTypeStatic } from "./EventType";
 
 export interface DB {
   sequelize: Sequelize;
@@ -57,7 +57,7 @@ const Class = ClassFactory(sequelize);
 const Module = ModuleFactory(sequelize);
 const Group = GroupFactory(sequelize);
 const Event = EventFactory(sequelize);
-const EventType = EventTypeFactory(sequelize)
+const EventType = EventTypeFactory(sequelize);
 
 // RELACION ENTRE MODELOS
 User.hasOne(Student);
@@ -84,8 +84,8 @@ Student.belongsTo(Group);
 Cohort.hasMany(Group);
 Group.belongsTo(Cohort);
 
-Cohort.hasMany(Module);
-Module.belongsTo(Cohort);
+Module.hasMany(Cohort);
+Cohort.belongsTo(Module);
 
 Cohort.hasMany(Student);
 Student.belongsTo(Cohort);
@@ -93,6 +93,7 @@ Student.belongsTo(Cohort);
 Module.hasMany(Class);
 Class.belongsTo(Module);
 
+EventType.hasMany(Event);
 Event.belongsTo(EventType);
 
 export const db: DB = {

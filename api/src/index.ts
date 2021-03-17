@@ -4,6 +4,7 @@ import indexRoutes from "./routes/index";
 import session from "express-session";
 import passport from "passport";
 import { db } from "./database/models/index";
+import passportConfig from "./passportConfig";
 import cors from "cors";
 
 // Middlewares
@@ -11,19 +12,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-const SESSION_SECRET = "secret_code_1234";
-
 app.use(
   session({
-    secret: SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true
+    secret: "henryapp",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: false
+    }
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-import passportConfig from "./passportConfig";
 passportConfig(passport);
 
 // Rutas
@@ -31,7 +32,7 @@ app.use(indexRoutes);
 
 // // INICIO DB
 db.sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => console.log("Se conecto a la base de datos"))
   .catch(() => {
     throw "error";

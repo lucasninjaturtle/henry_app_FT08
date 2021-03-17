@@ -114,107 +114,117 @@ export const users = {
     res.status(200).json(users)
   },
   async getUsers(req: Request, res: Response) {
-    /* CODIGO */
-    res.status(200).json({test: "asdf"})
+    // ola
   },
   async getUserById(req: Request, res: Response) {
-    /* CODIGO */
-    let id = req.params.id
-    res.status(200).send(id)
-  },
-  async getUserByGh(req: Request, res: Response) {
-
-    // ---------------
-    /* CODIGO */
-    let name = req.params.name
-    // res.status(200).send(name)
-
-    db.Student.findOne({
-      include: [db.User, db.Cohort, db.Group],
-      where: { github: name }
-    }).then((getUserGrlData) => {
-      console.log("usergrl: ", getUserGrlData)
-      
-      res.json(getUserGrlData.dataValues);
-      /* let instructorName = getUserGrlData.dataValues.cohort.instructorId;
-      db.Instructor.findOne({
-        instructorName,
-        include: { model: db.User }
-      }).then((getUserInstructor) => {
-        db.ProjectManager.findAll({
-          include: [
-            {
-              model: db.User
-            },
-            {
-              model: db.Group,
-              where: { id: getUserGrlData.group.id }
-            }
-          ]
-        }).then((getUserPM) => {
-          db.Module.findAll({
-            include: [
-              {
-                model: db.Cohort,
-                where: { id: getUserGrlData.cohort.id }
-              }
-            ]
-          }).then((getUserModule) => {
-            let user = {
-              name: getUserGrlData.user.name,
-              lastname: getUserGrlData.user.lastName,
-              githubUser: getUserGrlData.github,
-              cohort: getUserGrlData.cohort.name,
-              instructor: {
-                firstname: getUserInstructor.user.name,
-                lastname: getUserInstructor.user.lastName
-              },
-              group: getUserGrlData.group.name,
-              module: getUserModule.name,
-              projectManagers: {
-                firstname: getUserPM.user.name,
-                lastname: getUserPM.user.lastName
-              },
-              startDay: getUserGrlData.createdAt
-            };
-            res.json(user);
-          });
-        });
-      }); */
-    }).catch(e => {
-      console.log("Error: ", e)
-      res.status(500).send("Error")
+    const userId = req.params.id;
+    db.User.findOne({
+      where: {
+        id: userId
+      }
     })
-
-    /* 
-    try {
-      let student = await db.Student.findOne({
-        include: [db.User, db.Cohort, db.Group],
-        where: { github: name }
+      .then((response) => {
+        console.log(response);
+        res.status(200).json(response);
       })
+      .catch((response) => {
+        res.send(response);
+      });
+  },
 
-      res.status(200).json(student)
-    } catch (e) {
-      console.log("Error: ", e)
-      res.status(500).send("Error")
-    } */
+  async getUsersByCohort(req: Request, res: Response) {
+    const { id } = req.params;
+    db.Student.findAll({
+      include: [db.User, db.Cohort, db.Group],
+      where: { cohortId: id }
+    }).then((getUserGrlData) => {
+      let rtdo = [];
+      for (let index = 0; index < getUserGrlData.length; index++) {
+        const element = getUserGrlData[index];
 
+        let user = {
+          name: getUserGrlData[index].user.name,
+          lastName: getUserGrlData[index].user.lastName,
+          email: getUserGrlData[index].user.email,
+          cellphone: getUserGrlData[index].user.cellphone,
+          studentId: getUserGrlData[index].id
+        };
+        rtdo.push(user);
+      }
+      res.json(rtdo);
+    });
+  },
 
+  async putUserById(req: Request, res: Response) {
+    const { id } = req.params;
+    const { name, lastName, email, cellphone, password } = req.body;
 
-    /* res.json([
+    await db.User.update(
       {
-        name:'test name',
-        cohort:'tets cohort',
-        user:'GITHUBUSER',
-        group:'grupo test',
-        lastname:'apellido test',
-        module:'modulo test',
-        pm:{lucas:'PM test'},
-        startDay:'start',
-        instructor:{firstname: 'primer nombre', lastname: 'apellido'},
+        name: name,
+        lastName: lastName,
+        email: email,
+        cellphone: cellphone,
+        password: password
       },
-      demas cosas
-    ]) */
+      {
+        returning: true,
+        where: {
+          id: id
+        }
+      }
+    );
+    return res.sendStatus(200);
+  },
+
+  async getUsersByType(req: Request, res: Response) {
+    const { typeName } = req.params;
+    let arrayUsers = [];
+    let rtdo = [];
+    if (typeName === "Instructor") {
+      db.Instructor.findAll({
+        include: [db.User]
+      }).then((Data) => {
+        res.json(fillUserInfo(Data));
+      });
+    }
+    if (typeName === "Student") {
+      db.Student.findAll({
+        include: [db.User, db.Cohort, db.Group]
+      }).then((Data) => {
+        res.json(fillUserInfo(Data));
+      });
+    }
+    if (typeName === "ProjectManager") {
+      db.ProjectManager.findAll({
+        include: [db.User]
+      }).then((Data) => {
+        res.json(fillUserInfo(Data));
+      });
+    }
+  },
+
+  async getUsersByGroup(req: Request, res: Response) {
+    const { id } = req.params;
+    db.Student.findAll({
+      include: [db.User, db.Cohort, db.Group],
+      where: { groupId: id }
+    }).then((getUserGrlData) => {
+      let rtdo = [];
+      for (let index = 0; index < getUserGrlData.length; index++) {
+        const element = getUserGrlData[index];
+
+        let user = {
+          name: getUserGrlData[index].user.name,
+          lastName: getUserGrlData[index].user.lastName,
+          email: getUserGrlData[index].user.email,
+          cellphone: getUserGrlData[index].user.cellphone,
+          studentId: getUserGrlData[index].id
+        };
+        rtdo.push(user);
+      }
+      res.json(rtdo);
+    });
   },
 
   loadUsers: function (req: Request, res: Response) {
@@ -222,5 +232,21 @@ export const users = {
       console.log(req.body);
       return res.send("ok");
     } catch (error) {}
-  },
+  }
 };
+
+function fillUserInfo(array) {
+  let rtdo = [];
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+
+    let user = {
+      name: array[index].user.name,
+      lastName: array[index].user.lastName,
+      email: array[index].user.email,
+      cellphone: array[index].user.cellphone
+    };
+    rtdo.push(user);
+  }
+  return rtdo;
+}

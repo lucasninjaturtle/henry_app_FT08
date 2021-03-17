@@ -15,8 +15,10 @@ import { adminController } from "../controller/adminController";
 /* Ruta para CREAR un ALUMNOS. */
 router.post("/student/", studentController.createStudent);
 
+router.post("/student/bulk", studentController.bulkCreateStudents);
+
 /* Ruta para BUSCAR un ALUMNOS x ID  */
-router.get("/student/:id", studentController.getStudent);
+router.get("/student/:idOrGithub", studentController.getStudent);
 
 /* Ruta para EDITAR un ALUMNOS x ID. */
 router.put("/student/:id", studentController.putStudent);
@@ -87,5 +89,20 @@ router.get("/gh/:name", users.getUserByGh);
 
 /* Ruta para BUSCAR un USUARIO x ID */
 router.get("/:id", users.getUserById);
+<<<<<<< HEAD
+=======
+
+/* Ruta para BUSCAR USUARIOS x ID COHORT. */
+router.get("/usersByCohort/:id", users.getUsersByCohort);
+
+/* Ruta para ACTUALIZAR USUARIO X ID */
+router.put("/:id", users.putUserById);
+
+/* Ruta para BUSCAR USUARIOS x TIPO. */
+router.get("/type/:typeName", users.getUsersByType);
+
+/* Ruta para BUSCAR USUARIOS x grupo */
+router.get("/group/:id", users.getUsersByGroup);
+>>>>>>> 3b716f23ad61f0cbf6e9596b896a046a2901fac5
 
 export default router;

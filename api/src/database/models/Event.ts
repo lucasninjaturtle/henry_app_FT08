@@ -6,10 +6,10 @@ export interface eventAttributes extends baseProps {
   startDay: string;
   link: string;
   description: string;
+  startTime: string;
+  endTime: string;
 }
-export interface eventModel
-  extends Model<eventAttributes>,
-  eventAttributes {}
+export interface eventModel extends Model<eventAttributes>, eventAttributes {}
 export class Event extends Model<eventModel, eventAttributes> {}
 
 export type EventStatic = typeof Model & {
@@ -27,12 +27,20 @@ export function EventFactory(sequelize: Sequelize) {
       allowNull: false
     },
     link: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true
     },
     description: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    startTime: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    endTime: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   });
 }

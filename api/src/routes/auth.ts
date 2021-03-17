@@ -2,9 +2,24 @@ import { Router } from "express";
 const router = Router();
 var passport = require("passport");
 
-router.post("/login/local", passport.authenticate("local"), (req, res) => {
-  if (req.isAuthenticated()) return res.sendStatus(200);
-  res.sendStatus(401);
-});
+// Importo los controllers de cada ruta
+import { authController } from "../controller/authController";
+
+////////////////////////
+//// LOGIN WEB APP /////
+////////////////////////
+
+router.post(
+  "/login/local",
+  passport.authenticate("local"),
+  authController.webappAuth
+);
+
+///////////////////////////
+//// LOGIN APP MOBILE /////
+///////////////////////////
+
+router.post("/githubcode", authController.githubCode);
+router.post("/githubUser", authController.githubUser);
 
 export default router;
