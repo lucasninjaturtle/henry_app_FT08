@@ -95,14 +95,7 @@ export const projectManagerController = {
     const pmsData = req.body as any[];
 
     const usersData = await pmsData.forEach(async (pm) => {
-      const {
-        cellphone,
-        email,
-        github,
-        name,
-        lastName,
-        groupId
-      } = pm
+      const { cellphone, email, github, name, lastName, groupId } = pm;
 
       const newUser = await db.User.create({
         name,
@@ -114,8 +107,11 @@ export const projectManagerController = {
       const newPM = await db.ProjectManager.create({ github });
       await newUser.setProjectmanager(newPM);
       if (groupId) await newPM.setGroup(groupId);
-    })
+    });
 
     return res.sendStatus(200);
+  },
+  async getAllPms(req: Request, res: Response) {
+    res.json(await db.ProjectManager.findAll());
   }
-}
+};
