@@ -488,6 +488,19 @@ router.get("/student/set/group/all", async (req, res) => {
   res.sendStatus(200);
 });
 
+router.get("/student/set/relations/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const cohorts = await db.Cohort.findAll();
+  const groups = await db.Group.findAll();
+  const randomIdx = (thing) => ~~(Math.random() * thing.length);
+  const student = await db.Student.findByPk(id);
+  await student.setCohort(cohorts[randomIdx(cohorts)]);
+  await student.setGroup(groups[randomIdx(groups)]);
+
+  res.sendStatus(200);
+});
+
 router.get("/cohort/set/instructor/all", async (req, res) => {
   const cohorts = await db.Cohort.findAll();
   db.Instructor.findAll().then(async (instructors) => {
