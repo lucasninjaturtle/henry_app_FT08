@@ -23,7 +23,7 @@ router.get("/", cohortController.getCohorts);
 router.get("/:id", cohortController.getCohort);
 
 /* Ruta para BUSCAR usuarios x COHORTE. */
-router.get("/users/:id", cohortController.getUserByGroup);
+router.get("/users/:id", cohortController.getUserByCohort);
 
 /* Ruta para EDITAR un COHORTE x ID. */
 router.put("/:id", cohortController.putCohort);

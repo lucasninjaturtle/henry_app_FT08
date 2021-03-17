@@ -1,3 +1,5 @@
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const EDIT_USER_INFO = 'EDIT_USER_INFO';
 export const SET_USER_TOKEN = "SET_USER_TOKEN";
+export const GET_USER_COHORT_ID = "GET_USER_COHORT_ID";
+export const GET_USER_COHORT = "GET_USER_COHORT";

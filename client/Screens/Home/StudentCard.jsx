@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Content,
   CardItem,
@@ -8,14 +8,35 @@ import {
   List,
   ListItem,
 } from "native-base";
-import { StyleSheet, View } from "react-native";
+import {
+  getUserCohortId,
+  getUserCohort,
+} from "../../Redux/Actions/userActions";
+import { Pressable, StyleSheet, View, Modal } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { useDispatch, useSelector } from "react-redux";
+import store from "../../Redux/store";
 
 export default function StudentCard({ data }) {
+  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   if (!data && Object.keys(data).length === 0) return null;
 
-  console.log(data);
+  let student = useSelector((store) => store.userInfo.usuario);
+
+  useEffect(() => {
+    dispatch(getUserCohortId(student.cohort));
+  }, []);
+  let cohortid = useSelector((store) => store.userInfo.cohortId);
+  useEffect(() => {
+    dispatch(getUserCohort(cohortid[0].id));
+  }, []);
+
+  let cohortData = useSelector((store) => store.userInfo.cohort);
+  let students = cohortData.students;
+  if (students === undefined) return null;
+
+  if (!cohortData && Object.keys(cohortData).length === undefined) return null;
 
   const {
     cellphone,
@@ -41,6 +62,34 @@ export default function StudentCard({ data }) {
         }}
         padder
       >
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Usuarios del cohorte </Text>
+              {students.map((student) => {
+                return (
+                  <Text>
+                    {student.name} {student.lastName}
+                  </Text>
+                );
+              })}
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <CardItem header style={styles.card}>
           <Thumbnail
             style={styles.image}
@@ -71,17 +120,21 @@ export default function StudentCard({ data }) {
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Grupo</Text>
           <Text style={styles.titles}>
-            {group
-              ? group
-              : "no tiene asignado ningun grupo, hable con administracion para un reembolso"}
+            {group ? group : "no tiene asignado ningun grupo"}
           </Text>
+        </View>
+        <View style={{ flex: 1, flexDirection: "column" }}>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <Text style={styles.cohort}>Cohort:</Text>
+            <Text style={styles.titles}>
+              {cohort ? cohort : "no tiene asignado ningun cohorte"}
+            </Text>
+          </Pressable>
         </View>
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Fecha de Inicio</Text>
           <Text style={styles.titles}>
-            {startDay
-              ? startDay.slice(0, 10)
-              : "que hace aqui si no tiene dia de inicio"}
+            {startDay ? startDay.slice(0, 10) : "indefinido"}
           </Text>
         </View>
         <View style={{ flex: 1, flexDirection: "column" }}>
@@ -136,6 +189,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textDecorationLine: "underline",
   },
+  cohort: {
+    color: "blue",
+    textAlign: "center",
+    fontFamily: "monospace",
+    fontWeight: "bold",
+    lineHeight: 20,
+    marginTop: 20,
+    textDecorationLine: "underline",
+  },
   image: {
     marginLeft: "auto",
     marginRight: "auto",
@@ -154,5 +216,46 @@ const styles = StyleSheet.create({
     width: 1000,
     height: 1000,
     zIndex: -1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });

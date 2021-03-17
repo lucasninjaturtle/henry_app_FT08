@@ -1,11 +1,16 @@
 import {
     GET_USER_INFO,
     SET_USER_TOKEN,
+    GET_USER_COHORT_ID,
+    GET_USER_COHORT
 } from '../constants'
 
 
 let initialState = {
-    usuario: {}
+    usuario: {},
+    cohortId:'',
+    cohort:{}
+
 }
 
 
@@ -22,6 +27,17 @@ const userInfo = (state = initialState, action) => {
                 ...state,
                 usuario: { ...state.usuario, githubToken: action.payload }
             }
+        case GET_USER_COHORT_ID:
+            return {
+                ...state,
+                cohortId: action.payload
+            }
+            case GET_USER_COHORT:
+                return {
+                    ...state,
+                    cohort: action.payload
+                }
+            
     }
     return state;
 }

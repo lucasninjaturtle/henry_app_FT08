@@ -32,7 +32,6 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     dispatch(getUserInfo(student.github))
-    console.log(student)
   }, [])
 
   let student = useSelector((store) => store.userInfo.usuario);
