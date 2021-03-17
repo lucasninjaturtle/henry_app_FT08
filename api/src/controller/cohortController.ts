@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import { db } from "../database/models";
 
 export const cohortController = {
+  /* Ruta para CREAR un COHORTE. */
   async createCohort(req: Request, res: Response) {
     const { name, instructorId, pmId, moduleId, startDay } = req.body as {
       name: string;
@@ -22,6 +23,7 @@ export const cohortController = {
       res.sendStatus(200);
     });
   },
+  /* Ruta para EDITAR un COHORTE x ID. */
   async putCohort(req: Request, res: Response) {
     const { id } = req.params;
 
@@ -62,6 +64,7 @@ export const cohortController = {
     if (instructorId) await cohort.setInstructor(instructorId);
     res.sendStatus(200);
   },
+  /* Ruta para BORRAR un COHORTE x ID. */
   async deleteCohort(req: Request, res: Response) {
     const { id } = req.params;
     const CohortData = await db.Cohort.findByPk(id);
@@ -69,9 +72,11 @@ export const cohortController = {
     await db.Cohort.destroy({ where: { id: CohortData.id } });
     return res.sendStatus(200);
   },
+  /* Ruta para BUSCAR todos los COHORTEs */
   async getCohorts(req: Request, res: Response) {
     db.Cohort.findAll().then((data) => res.json(data));
   },
+  /* Ruta para BUSCAR un COHORTE x ID  */
   async getCohort(req: Request, res: Response) {
     const { id } = req.params;
 

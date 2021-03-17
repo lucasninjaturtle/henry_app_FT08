@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import * as WebBrowser from "expo-web-browser";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
@@ -57,7 +58,6 @@ const Login = (props) => {
               }
             })
             .then((resp) => resp.data);
-            console.log(ghUserName)
 
           axios
             .post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
