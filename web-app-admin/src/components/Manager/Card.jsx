@@ -11,24 +11,21 @@ function Card({ title, action, description, customs }) {
         style={{ width: "100%", height: 1, background: "black" }}
       ></div>
       <ul className="gap-x-5 gap-y-3 flex flex-row flex-wrap text-3xl xl:text-2xl font-normal">
-        <li className="action-manager-link">
+        {/* <li className="action-manager-link">
           <Link to={`/${action}/instructor`}>Instructor</Link>
-        </li>
-        <li className="action-manager-link">
+        </li> */}
+        {/* <li className="action-manager-link">
           <Link to={`/${action}/pm`}>PM</Link>
-        </li>
+        </li> */}
         <li className="action-manager-link">
           <Link to={`/${action}/student`}>Estudiante</Link>
         </li>
         <li className="action-manager-link">
           <Link to={`/${action}/cohort`}>Cohorte</Link>
         </li>
-        <li className="action-manager-link">
+        {/* <li className="action-manager-link">
           <Link to={`/${action}/group`}>Grupo</Link>
-        </li>
-        <li className="action-manager-link">
-          <Link to={`/${action}/event`}>Evento</Link>
-        </li>
+        </li> */}
         {customs &&
           Array.isArray(customs) &&
           customs.length > 0 &&
