@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../database/models/index";
 
-
 export const users = {
   async getUsers(req: Request, res: Response) {
     // ola
@@ -10,10 +9,11 @@ export const users = {
     const userId = req.params.id;
     db.User.findOne({
       where: {
-        id: userId,
-      },
+        id: userId
+      }
     })
       .then((response) => {
+        console.log(response);
         res.status(200).json(response);
       })
       .catch((response) => {
@@ -27,7 +27,6 @@ export const users = {
       include: [db.User, db.Cohort, db.Group],
       where: { cohortId: id }
     }).then((getUserGrlData) => {
-
       let rtdo = [];
       for (let index = 0; index < getUserGrlData.length; index++) {
         const element = getUserGrlData[index];
@@ -37,8 +36,8 @@ export const users = {
           lastName: getUserGrlData[index].user.lastName,
           email: getUserGrlData[index].user.email,
           cellphone: getUserGrlData[index].user.cellphone,
-          studentId: getUserGrlData[index].id,
-        }
+          studentId: getUserGrlData[index].id
+        };
         rtdo.push(user);
       }
       res.json(rtdo);
@@ -65,31 +64,27 @@ export const users = {
       }
     );
     return res.sendStatus(200);
-
   },
 
   async getUsersByType(req: Request, res: Response) {
     const { typeName } = req.params;
     let arrayUsers = [];
     let rtdo = [];
-    if (typeName === 'Instructor') {
-
+    if (typeName === "Instructor") {
       db.Instructor.findAll({
         include: [db.User]
       }).then((Data) => {
         res.json(fillUserInfo(Data));
       });
     }
-    if (typeName === 'Student') {
-
+    if (typeName === "Student") {
       db.Student.findAll({
         include: [db.User, db.Cohort, db.Group]
       }).then((Data) => {
         res.json(fillUserInfo(Data));
       });
     }
-    if (typeName === 'ProjectManager') {
-
+    if (typeName === "ProjectManager") {
       db.ProjectManager.findAll({
         include: [db.User]
       }).then((Data) => {
@@ -104,7 +99,6 @@ export const users = {
       include: [db.User, db.Cohort, db.Group],
       where: { groupId: id }
     }).then((getUserGrlData) => {
-
       let rtdo = [];
       for (let index = 0; index < getUserGrlData.length; index++) {
         const element = getUserGrlData[index];
@@ -115,7 +109,7 @@ export const users = {
           email: getUserGrlData[index].user.email,
           cellphone: getUserGrlData[index].user.cellphone,
           studentId: getUserGrlData[index].id
-        }
+        };
         rtdo.push(user);
       }
       res.json(rtdo);
@@ -126,11 +120,9 @@ export const users = {
     try {
       console.log(req.body);
       return res.send("ok");
-    } catch (error) { }
-  },
+    } catch (error) {}
+  }
 };
-
-
 
 function fillUserInfo(array) {
   let rtdo = [];
@@ -142,7 +134,7 @@ function fillUserInfo(array) {
       lastName: array[index].user.lastName,
       email: array[index].user.email,
       cellphone: array[index].user.cellphone
-    }
+    };
     rtdo.push(user);
   }
   return rtdo;

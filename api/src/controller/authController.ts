@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { setIndexes } from "sequelize-typescript";
 import { db } from "../database/models";
 
 export const authController = {
@@ -16,25 +15,26 @@ export const authController = {
       )
       .then((resp: any) => {
         let token = resp.data.split("&")[0].split("=")[1];
-        console.log(token)
+        console.log("token: ", token);
         res.status(200).json(token);
       })
       .catch((err) => {
         console.log("Linea 24: " + err);
       });
   },
+
   async githubUser(req: Request, res: Response) {
-    const { data } = req.body;
+    const { githubUserName } = req.body as { githubUserName: string };
     db.Student.findOne({
       where: {
-        github: data
+        github: githubUserName
       }
     })
       .then((resp) => {
         if (!resp) {
           res.sendStatus(401);
         } else {
-          res.sendStatus(200);
+          res.json(resp.id);
         }
       })
       .catch((err) => {

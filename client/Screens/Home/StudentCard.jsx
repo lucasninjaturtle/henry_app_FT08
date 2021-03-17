@@ -6,33 +6,28 @@ import {
   Thumbnail,
   Container,
   List,
-  ListItem,
+  ListItem
 } from "native-base";
-import {
-  getUserCohortId,
-  getUserCohort,
-} from "../../Redux/Actions/userActions";
+import { getUserCohort } from "../../Redux/Actions/userActions";
 import { Pressable, StyleSheet, View, Modal } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../../Redux/store";
 
-export default function StudentCard({ data }) {
+export default function StudentCard() {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
-  if (!data && Object.keys(data).length === 0) return null;
 
-  let student = useSelector((store) => store.userInfo.usuario);
+  const userData = useSelector((state) => state.userInfo.usuario);
+
+  let { usuario } = useSelector((store) => store.userInfo);
+  let { cohort: cohortData } = useSelector((store) => store.userInfo);
 
   useEffect(() => {
-    dispatch(getUserCohortId(student.cohort));
-  }, []);
-  let cohortid = useSelector((store) => store.userInfo.cohortId);
-  useEffect(() => {
-    dispatch(getUserCohort(cohortid[0].id));
+    if (usuario.cohort) dispatch(getUserCohort(usuario.cohort.id));
   }, []);
 
-  let cohortData = useSelector((store) => store.userInfo.cohort);
+  if (Object.keys(userData).length === 0) return null;
+
   let students = cohortData.students;
   if (students === undefined) return null;
 
@@ -49,16 +44,15 @@ export default function StudentCard({ data }) {
     lastName,
     module,
     name,
-    projectManagers,
-    startDay,
-  } = data;
+    projectManagers
+  } = userData;
 
   return (
     <ScrollView>
       <Content
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "column"
         }}
         padder
       >
@@ -95,7 +89,7 @@ export default function StudentCard({ data }) {
             style={styles.image}
             source={{
               uri:
-                "https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png",
+                "https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"
             }}
           />
         </CardItem>
@@ -105,8 +99,9 @@ export default function StudentCard({ data }) {
         <Text style={styles.titles}>{github}</Text>
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Instructor</Text>
+
           <Text style={styles.titles}>
-            {instructor && Object.keys(instructor).length > 0
+            {instructor
               ? `${instructor.firstName} ${instructor.lastName}`
               : "ninguno"}
           </Text>
@@ -114,35 +109,29 @@ export default function StudentCard({ data }) {
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Modulo</Text>
           <Text style={styles.titles}>
-            {module ? module : "no tiene asignado ningun modulo"}
+            {module ? module.name : "no tiene asignado ningun modulo"}
           </Text>
         </View>
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Grupo</Text>
           <Text style={styles.titles}>
-            {group ? group : "no tiene asignado ningun grupo"}
+            {group ? group.name : "no tiene asignado ningun grupo"}
           </Text>
         </View>
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Pressable onPress={() => setModalVisible(true)}>
             <Text style={styles.cohort}>Cohort:</Text>
             <Text style={styles.titles}>
-              {cohort ? cohort : "no tiene asignado ningun cohorte"}
+              {cohort ? cohort.name : "no tiene asignado ningun cohorte"}
             </Text>
           </Pressable>
-        </View>
-        <View style={{ flex: 1, flexDirection: "column" }}>
-          <Text style={styles.items}>Fecha de Inicio</Text>
-          <Text style={styles.titles}>
-            {startDay ? startDay.slice(0, 10) : "indefinido"}
-          </Text>
         </View>
         <View style={{ flex: 1, flexDirection: "column" }}>
           <Text style={styles.items}>Numero de Telefono</Text>
           <Text style={styles.titles}>
             {cellphone ? cellphone : "coloque su numero de telefono"}
           </Text>
-          {projectManagers && projectManagers.length > 0 ? (
+          {projectManagers.length > 0 ? (
             <>
               <Text style={styles.items}>PM's</Text>
               <List>
@@ -169,17 +158,17 @@ export default function StudentCard({ data }) {
 
 const styles = StyleSheet.create({
   titles: {
-    textAlign: "center",
+    textAlign: "center"
   },
   subtitles: {
     fontWeight: "100",
     fontSize: 30,
     textAlign: "center",
-    fontFamily: "monospace",
+    fontFamily: "monospace"
   },
   card: {
     backgroundColor: "transparent",
-    borderRadius: 9999,
+    borderRadius: 9999
   },
   items: {
     textAlign: "center",
@@ -187,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 20,
     marginTop: 20,
-    textDecorationLine: "underline",
+    textDecorationLine: "underline"
   },
   cohort: {
     color: "blue",
@@ -196,7 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 20,
     marginTop: 20,
-    textDecorationLine: "underline",
+    textDecorationLine: "underline"
   },
   image: {
     marginLeft: "auto",
@@ -204,7 +193,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 150 / 2,
-    borderWidth: 3,
+    borderWidth: 3
   },
   card1: {
     backgroundColor: "yellow",
@@ -215,13 +204,13 @@ const styles = StyleSheet.create({
     // transform: [{ translateX: -50 }, { translateY: -75 }],
     width: 1000,
     height: 1000,
-    zIndex: -1,
+    zIndex: -1
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 22
   },
   modalView: {
     margin: 20,
@@ -232,30 +221,30 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
+    elevation: 2
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: "#F194FF"
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#2196F3"
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "center"
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
-  },
+    textAlign: "center"
+  }
 });
