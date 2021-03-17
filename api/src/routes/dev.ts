@@ -301,10 +301,14 @@ router.get("/demo/", async (req, res) => {
       type = 1;
       name += " " + cvs[~~(Math.random() * cvs.length)];
     }
-    const beginningDate = new Date(2020, 4, 5);
+    const beginningDate = new Date(2020, 8, 5);
     let startDay = new Date();
     startDay = new Date(startDay.setDate(beginningDate.getDate() + 7 * i));
-    const newStartDay = `${startDay.getFullYear()}-${startDay.getMonth()}-${startDay.getDay()}`;
+    const month = startDay.getMonth();
+    const day = ~~(Math.random() * startDay.getDay() + i);
+    const newStartDay = `${startDay.getFullYear()}-${
+      month < 9 ? "0" + month : month
+    }-${day < 9 ? "0" + day : day}`;
 
     const newEvent = await db.Event.create({
       name,

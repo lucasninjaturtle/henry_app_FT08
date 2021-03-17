@@ -6,7 +6,7 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
-import { deleteEvents, getEventById, putEvent, searchEventsByName } from "../../api";
+import { deleteEvents, getEventById, putEvent, searchEventsByName, searchEventTypesByName } from "../../api";
 
 
 const customStyles = {
@@ -47,6 +47,18 @@ function EditEventForm() {
         );
       });
   };
+  const loadOptionsType = (inputValue, cb) => {
+    
+    searchEventTypesByName(inputValue)
+    .then((res) => {
+      cb(
+        res.map((event) => ({
+          value: event.id,
+          label: event.name
+        }))
+      );
+    });
+};
     
   const handleOnChange = (value, { action }) => {
     if (action === "select-option") {
@@ -226,7 +238,7 @@ function EditEventForm() {
           placeholder={`Buscar tipos...`}
           onChange={handleChange}
           isClearable={true}
-          loadOptions={loadOptions}
+          loadOptions={loadOptionsType}
           />
       </label>
           <div className="flex justify-between">
