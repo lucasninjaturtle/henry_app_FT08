@@ -5,18 +5,21 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
+import { useQueryClient } from 'react-query';
 import { searchEventTypesByName, createEvent } from "../../api";
 
 function NewEventForm() {
   const { register, handleSubmit, reset } = useForm();
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [message, setMessage] = useState({ type: "", content: "" });
+  const queryClient = useQueryClient();
 
   const onSubmit = (data) => {
     setMessage({ type: "", content: "" });
     createEvent({ ...data, eventTypeId: selectedEventType?.id })
       .then(() => {
         reset();
+        queryClient.invalidateQueries('events');
         setSelectedEventType(null);
         setMessage({
           type: "success",

@@ -7,7 +7,7 @@ import {
   MdDone as SuccessIcon
 } from "react-icons/md";
 import { deleteEvents, getEventById, putEvent, searchEventsByName } from "../../api";
-import { useQueryClient } from 'react-query';
+
 
 const customStyles = {
  
@@ -28,7 +28,7 @@ function EditEventForm() {
   const [message, setMessage] = useState({ type: "", content: "" });
   const [event, setEvent] = useState();
   const [query, setQuery] = useState("");
-  const queryClient = useQueryClient();
+  
 
   const handleInputChange = (newValue) => {
     const query = newValue.replace(/\W/g, "");
@@ -74,7 +74,7 @@ function EditEventForm() {
     putEvent({ ...data, eventTypeId: selectedEventType?.id }, event)
       .then(() => {
         reset();
-        queryClient.invalidateQueries('events');
+        
         setSelectedEventType(null);
         setMessage({
           type: "success",
@@ -93,7 +93,7 @@ function EditEventForm() {
     deleteEvents(event)
     .then(() => {
       reset();
-      queryClient.invalidateQueries('events');
+      // queryClient.invalidateQueries('events');
       setSelectedEventType(null);
       setMessage({
         type: "success",
