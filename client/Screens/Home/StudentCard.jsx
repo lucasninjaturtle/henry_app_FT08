@@ -6,10 +6,10 @@ import {
   Thumbnail,
   Container,
   List,
-  ListItem
+  ListItem,
 } from "native-base";
 import { getUserCohort } from "../../Redux/Actions/userActions";
-import { Pressable, StyleSheet, View, Modal } from "react-native";
+import { Pressable, StyleSheet, View, Modal, FlatList } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,13 +25,9 @@ export default function StudentCard() {
   useEffect(() => {
     if (usuario.cohort) dispatch(getUserCohort(usuario.cohort.id));
   }, []);
-
   if (Object.keys(userData).length === 0) return null;
 
   let students = cohortData.students;
-  if (students === undefined) return null;
-
-  if (!cohortData && Object.keys(cohortData).length === undefined) return null;
 
   const {
     cellphone,
@@ -44,7 +40,7 @@ export default function StudentCard() {
     lastName,
     module,
     name,
-    projectManagers
+    projectManagers,
   } = userData;
 
   return (
@@ -52,7 +48,7 @@ export default function StudentCard() {
       <Content
         style={{
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
         }}
         padder
       >
@@ -68,13 +64,21 @@ export default function StudentCard() {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Usuarios del cohorte </Text>
-              {students.map((student) => {
-                return (
-                  <Text>
-                    {student.name} {student.lastName}
-                  </Text>
-                );
-              })}
+              <Container>
+                <ScrollView>
+                  {students &&
+                    students.map((student) => {
+                      return (
+                        <Text>
+                          {student.name} {student.lastName}
+                        </Text>
+                      );
+                    })}
+                </ScrollView>
+              </Container>
+
+              {/* <Text>{JSON.stringify(students.length)}</Text> */}
+
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
@@ -89,7 +93,7 @@ export default function StudentCard() {
             style={styles.image}
             source={{
               uri:
-                "https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"
+                "https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png",
             }}
           />
         </CardItem>
@@ -131,7 +135,7 @@ export default function StudentCard() {
           <Text style={styles.titles}>
             {cellphone ? cellphone : "coloque su numero de telefono"}
           </Text>
-          {projectManagers.length > 0 ? (
+          {projectManagers && projectManagers.length > 0 ? (
             <>
               <Text style={styles.items}>PM's</Text>
               <List>
@@ -158,17 +162,17 @@ export default function StudentCard() {
 
 const styles = StyleSheet.create({
   titles: {
-    textAlign: "center"
+    textAlign: "center",
   },
   subtitles: {
     fontWeight: "100",
     fontSize: 30,
     textAlign: "center",
-    fontFamily: "monospace"
+    fontFamily: "monospace",
   },
   card: {
     backgroundColor: "transparent",
-    borderRadius: 9999
+    borderRadius: 9999,
   },
   items: {
     textAlign: "center",
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 20,
     marginTop: 20,
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
   },
   cohort: {
     color: "blue",
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 20,
     marginTop: 20,
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
   },
   image: {
     marginLeft: "auto",
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 150 / 2,
-    borderWidth: 3
+    borderWidth: 3,
   },
   card1: {
     backgroundColor: "yellow",
@@ -204,13 +208,13 @@ const styles = StyleSheet.create({
     // transform: [{ translateX: -50 }, { translateY: -75 }],
     width: 1000,
     height: 1000,
-    zIndex: -1
+    zIndex: -1,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -221,30 +225,30 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF"
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3"
+    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
