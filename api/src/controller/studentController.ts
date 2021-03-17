@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
 import { Op } from "sequelize";
 import { db } from "../database/models";
-import { UserAttributes } from "../database/models/User";
-import { StudentAttributes } from "../database/models/Student";
-import { cohortAttributes } from "../database/models/Cohort";
-import { groupAttributes } from "../database/models/Group";
+import { projectManager } from "../database/models/ProjectManager";
 
 export const studentController = {
   async getStudent(req: Request, res: Response) {
@@ -13,85 +10,113 @@ export const studentController = {
     if (isNaN(+idOrGithub)) query.github = idOrGithub;
     else query.id = idOrGithub;
 
-    const {
-      id,
-      user: { lastName, name, cellphone, email, githubToken },
-      github,
-      cohort,
-      createdAt,
-      group
-    } = ((await db.Student.findOne({
+    const userData = await db.Student.findOne({
       where: query,
-      include: [db.User, db.Cohort, db.Group]
-    })) as unknown) as {
-      user: UserAttributes;
-      cohort: cohortAttributes | null;
-      group: groupAttributes | null;
-      userId: number | null;
-      groupId: number | null;
-      cohortId: number | null;
-    } & StudentAttributes;
+      attributes: ["id", "github"],
+      include: [
+        {
+          model: db.User,
+          attributes: ["name", "lastName", "cellphone", "email", "githubToken"]
+        },
+        {
+          model: db.Cohort,
+          attributes: ["id", "name"],
+          include: [
+            {
+              model: db.Instructor,
+              attributes: ["id", "github"],
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["name", "firstName"], "lastName"]
+                }
+              ]
+            },
+            {
+              model: db.Module,
+              attributes: ["id", "name"]
+            }
+          ]
+        },
+        {
+          model: db.Group,
+          attributes: ["id", "name"],
+          include: [
+            {
+              model: db.ProjectManager,
+              attributes: ["id", "github"],
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["name", "firstName"], "lastName"]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+    if (!userData) return res.sendStatus(404);
+    let data = userData.toJSON() as any;
 
-    let userData: any = {
-      name,
-      id,
-      lastName,
-      github,
-      githubToken,
-      cohort: cohort?.name ?? null,
-      group: group?.name ?? null,
-      startDay: createdAt,
-      cellphone,
-      email
+    if (data.cohort?.instructor) {
+      data.instructor = {
+        ...data.cohort.instructor,
+        ...data.cohort.instructor.user
+      };
+      delete data.instructor.user;
+      delete data.cohort.instructor;
+    }
+
+    if (data.cohort?.module) {
+      data.module = { ...data.cohort.module };
+      delete data.cohort.module;
+    }
+
+    if (data.group?.projectmanagers?.length > 0) {
+      const pms = data.group.projectmanagers.map((pm) => {
+        const userData = { ...pm.user };
+        delete pm.user;
+        return { ...pm, ...userData };
+      });
+      data.projectManagers = pms;
+      delete data.group.projectmanagers;
+    }
+
+    data = { ...data, ...data.user };
+    delete data.user;
+
+    /* ----- DEVUELVE ----
+
+    {
+      id: number;
+      github: string;
+      cohort: null | { id: number; name: string };
+      group: null | { id: number; name: string };
+      instructor: null | {
+        id: number;
+        github: string;
+        firstName: string;
+        lastName: string;
+      };
+      projectManagers:
+        [] | {
+            id: number;
+            github: string;
+            firstName: string;
+            lastName: string;
+          }[];
+      lastName: string;
+      name: string;
+      cellphone: string;
+      email: string;
+      githubToken: string;
+      module: null | { name: string; id: number; }
     };
 
-    if (cohort) {
-      await db.Instructor.findByPk(cohort.instructorId, {
-        include: [{ model: db.User }]
-      }).then((resp) => {
-        if (resp)
-          userData.instructor = {
-            firstName: resp.user.name,
-            lastName: resp.user.lastName
-          };
-        else userData.instructor = null;
-      });
-      await db.Module.findOne({
-        include: [{ model: db.Cohort, where: { id: cohort.id } }]
-      }).then((resp) => {
-        userData.module = resp?.name ?? null;
-      });
-    } else {
-      userData.module = null;
-      userData.instructor = null;
-    }
+     --------------------- */
 
-    if (group) {
-      await db.ProjectManager.findAll({
-        include: [
-          {
-            model: db.User
-          },
-          {
-            model: db.Group,
-            where: { id: group.id }
-          }
-        ]
-      }).then((resp) => {
-        if (resp)
-          userData.projectManagers =
-            resp?.map((pm) => ({
-              firstName: pm.user.name,
-              lastName: pm.user.lastName
-            })) ?? [];
-      });
-    } else {
-      userData.projectManagers = [];
-    }
-
-    // console.log(userData);
-
-    res.json(userData);
+    res.json(data);
   },
   async putStudent(req: Request, res: Response) {
     console.log(req.body);
