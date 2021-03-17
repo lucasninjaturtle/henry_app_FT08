@@ -78,8 +78,14 @@ router.delete("/admin/:id", adminController.deleteAdmin);
 //// RUTA DE USUARIOs ////
 //////////////////////////
 
+/* Ruta para CREAR USUARIOS */
+router.post("/", users.createUsers);
+
 /* Ruta para BUSCAR todos los USUARIOS */
-router.post("/", users.getUsers);
+router.get("/", users.getUsers);
+
+/* Ruta para BUSCAR un USUARIO x GH-Name */
+// router.get("/gh/:name", users.getUserByGh);
 
 /* Ruta para BUSCAR un USUARIO x ID */
 router.get("/:id", users.getUserById);

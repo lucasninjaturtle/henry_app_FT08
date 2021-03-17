@@ -3,11 +3,13 @@ import baseProps from "./baseProps";
 
 export interface cohortAttributes extends baseProps {
   name: string;
-  startDay: Date;
+  startDay: string;
 }
 export interface cohortModel
   extends Model<cohortAttributes>,
-    cohortAttributes {}
+    cohortAttributes {
+  setInstructor(instructorId: any);
+}
 export class Cohort extends Model<cohortModel, cohortAttributes> {}
 
 export type CohortStatic = typeof Model & {
@@ -18,10 +20,11 @@ export function CohortFactory(sequelize: Sequelize) {
   return <CohortStatic>sequelize.define("cohort", {
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     startDay: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false
     }
   });
