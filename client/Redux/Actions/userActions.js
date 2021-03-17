@@ -12,7 +12,7 @@ import { envTrucho } from '../../envTrucho'
 export function getUserInfo(userId) {
 
     return function (dispatch) {
-        axios.get(`http://${envTrucho.EXPO_HTTP_IP}:5000/user/student/${userId}`)
+        axios.get(`http://192.168.100.13:5000/user/student/${userId}`)
             .then((res) => res.data)
             .then(data => {
                 dispatch({ type: GET_USER_INFO, payload: data })
@@ -23,7 +23,7 @@ export function getUserInfo(userId) {
 
 export function getUserCohortId(cohortName) {
     return function (dispatch) {
-        axios.get(`http://${envTrucho.EXPO_HTTP_IP}:5000/cohort/search?name=${cohortName}`)
+        axios.get(`http://192.168.100.13:5000/cohort/search?name=${cohortName}`)
             .then((res) => res.data)
             .then(data => {
                 dispatch({ type: GET_USER_COHORT_ID, payload: data })
@@ -34,7 +34,7 @@ export function getUserCohortId(cohortName) {
 
 export function getUserCohort(cohortId) {
     return function (dispatch) {
-        axios.get(`http://${envTrucho.EXPO_HTTP_IP}:5000/cohort/${cohortId}`)
+        axios.get(`http://192.168.100.13:5000/cohort/${cohortId}`)
             .then((res) => res.data)
             .then(data => {
                 dispatch({ type: GET_USER_COHORT, payload: data })
@@ -48,7 +48,7 @@ export function getUserCohort(cohortId) {
 export function editUserInfo(id, input) {
     let { cellphone } = input
     return function (dispatch) {
-        axios.put(`http://${envTrucho.EXPO_HTTP_IP}:5000/user/student/${id}`, { cellphone })
+        axios.put(`http://192.168.100.13:5000/user/student/${id}`, { cellphone })
             .then(data =>
                 dispatch({ type: EDIT_USER_INFO, payload: data })
             )

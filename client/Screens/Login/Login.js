@@ -11,7 +11,7 @@ import { Alert } from "react-native"
 import { useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
-import envTrucho from '../../envTrucho'
+import envTrucho from '../../envTrucho.js'
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -24,14 +24,15 @@ const discovery = {
 };
 
 const Login = (props) => {
+    console.log(envTrucho)
     const dispatch = useDispatch();
     const [request, response, promptAsync] = useAuthRequest(
         {
-            clientId: `${envTrucho.EXPO_CLIENT_ID}`,
-            clientSecret: `${envTrucho.EXPO_CLIENT_SECRET}`,
+            clientId: `cef2e2e9046dc933c7c9`,
+            clientSecret: `13bd39577a7c1de81ef937fa2a7ed81587bbff81`,
             scopes: ["user", "repo"],
             redirectUri: makeRedirectUri({
-                native: `${envTrucho.EXPO_NATIVE_URI}`
+                native: `exp://192.168.100.13:19000`
             })
         },
         discovery
@@ -45,9 +46,9 @@ const Login = (props) => {
             const { code } = response.params;
             if (code) {
                 axios
-                    .post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubcode`, {
-                        client_id: `${envTrucho.EXPO_CLIENT_ID}`,
-                        client_secret: `${envTrucho.EXPO_CLIENT_SECRET}`,
+                    .post(`http://192.168.100.13:5000/auth/githubcode`, {
+                        client_id: `cef2e2e9046dc933c7c9`,
+                        client_secret: `13bd39577a7c1de81ef937fa2a7ed81587bbff81`,
                         code: code
                     })
                     .then((getUserToken) => {
@@ -60,7 +61,7 @@ const Login = (props) => {
                             .then((getGHUser) => {
                                 axios
                                     .post(
-                                        `http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`,
+                                        `http://192.168.100.13:5000/auth/githubUser`,
                                         {
                                             data: getGHUser.data.login
                                         }

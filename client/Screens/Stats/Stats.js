@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import 'react-native-gesture-handler';
 import { Dimensions, Modal, StyleSheet } from 'react-native'
 import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail, Button } from 'native-base';
@@ -17,13 +17,7 @@ import store from '../../Redux/store';
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo, setUserCommits } from "../../Redux/Actions/userActions";
 import axios from 'axios';
-
 import envTrucho from '../../envTrucho'
-
-
-
-
-
 import GeneralGraph from './Graphs/GeneralGraph';
 import ContributGraph from './Graphs/ContributGraph';
 import CakeGraph from './Graphs/CakeGraph'
@@ -66,7 +60,7 @@ const Stats = (props) => {
     const githubToken = student.githubToken;
 
     if (github) {
-      axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/github/getrepos`, {
+      axios.post(`http://192.168.100.13:5000/github/getrepos`, {
         token: githubToken
       }).then(resp => {
         resp.data.forEach(x=>{
@@ -85,18 +79,19 @@ const Stats = (props) => {
   });
 
   return (
-
-    <View
-      style={{
-        flexDirection: "column",
-        height: 150,
-        padding: 0,
-        top: 40,
-      }}
-    >
-      <GeneralGraph commits={commits ? commits : ''}/>
-      <ContributGraph />
-    </View>
+    <Suspense delayMs={500} >
+      <View
+        style={{
+          flexDirection: "column",
+          height: 150,
+          padding: 0,
+          top: 40,
+        }}
+      >
+        <GeneralGraph commits={commits ? commits : ''}/>
+        <ContributGraph />
+      </View>
+    </Suspense>
 
   )
 
