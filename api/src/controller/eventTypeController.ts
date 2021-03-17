@@ -5,7 +5,10 @@ import { db } from "../database/models";
 export const eventTypeController = {
   async createEventType(req: Request, res: Response) {
     const eventTypeData = req.body;
-    console.log(eventTypeData);
+    const eventType = await db.EventType.findOne({
+      where: {name: eventTypeData.name}
+    })
+    if(eventType) return res.sendStatus(400);
     db.EventType.create({
       name: eventTypeData.name
     }).then(() => {

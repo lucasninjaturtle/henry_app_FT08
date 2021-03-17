@@ -34,6 +34,7 @@ export default function Manager() {
             action="create"
             title={"Crear"}
             description={"Dale vida a Henry!"}
+            customs={[{text: 'Tipo de evento', link: 'type'}]}
           />
 
           <Card

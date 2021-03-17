@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from '@fullcalendar/interaction';
 import { getEvents } from "../../api";
 import  {useQuery} from 'react-query'
 
@@ -22,11 +23,16 @@ export default function Calendar() {
     })
   });
 
+  const dateClickInfo = (info) => {
+
+  }
+
   return (
       <div className='bg-white p-5 ml-3'>
     <FullCalendar
-      plugins={[dayGridPlugin]}
+      plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
+      dateClick={function(info){}}
       events={data}
     />
     </div>

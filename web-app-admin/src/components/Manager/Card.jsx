@@ -33,7 +33,7 @@ function Card({ title, action, description, customs }) {
           Array.isArray(customs) &&
           customs.length > 0 &&
           customs.map((custom) => {
-            <li className="action-manager-link">
+            return <li className="action-manager-link">
               <Link to={`/${action}/${custom.link}`}>{custom.text}</Link>
             </li>;
           })}

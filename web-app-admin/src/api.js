@@ -112,3 +112,14 @@ export const putCohort = (data, id) => {
   return axios.put(`/cohort/${id}`, data);
 };
 
+export const createEventType = (data) => {
+  return axios.post("/eventType/type/", data);
+};
+
+export const getEventsType = () => {
+  return axios.get("/type/").then((resp) => resp.data);
+};
+
+export const deleteEventType = (eventTypeId) => {
+  return axios.delete(`/event/${eventTypeId}`).then((resp) => resp.data);
+};
