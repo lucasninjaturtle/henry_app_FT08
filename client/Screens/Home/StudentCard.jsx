@@ -29,9 +29,6 @@ export default function StudentCard() {
   if (Object.keys(userData).length === 0) return null;
 
   let students = cohortData.students;
-  if (students === undefined) return null;
-
-  if (!cohortData && Object.keys(cohortData).length === undefined) return null;
 
   const {
     cellphone,
