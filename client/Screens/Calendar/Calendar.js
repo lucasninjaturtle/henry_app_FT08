@@ -99,7 +99,7 @@ const Calendario = ()=>{
                                 <Text style={stylesModal.modalText}>Horario: {selectedItem.time}</Text>
                                 {/* <Text style={stylesModal.modalText}>Tipo de Evento: {selectedItem.type}</Text> */}
                                 <Text style={stylesModal.modalText}>{selectedItem.description}</Text>
-                                <Text onPress={()=>{Linking.openURL(selectedItem.url)}} style={stylesModal.modalText}>{selectedItem.url}</Text>
+                                <Text onPress={()=>{Linking.openURL(selectedItem.url)}} style={stylesModal.modalLink}>{selectedItem.url}</Text>
                             </>
                             : <></> }
                             <Pressable

@@ -15,8 +15,10 @@ import { Ionicons } from '@expo/vector-icons'
 
 import store from '../../Redux/store';
 import { useSelector, useDispatch } from "react-redux";
-import { getUserInfo } from "../../Redux/Actions/userActions";
+import { getUserInfo, setUserCommits } from "../../Redux/Actions/userActions";
 import axios from 'axios';
+
+import envTrucho from '../../envTrucho'
 
 
 
@@ -26,19 +28,56 @@ import GeneralGraph from './Graphs/GeneralGraph';
 import ContributGraph from './Graphs/ContributGraph';
 import CakeGraph from './Graphs/CakeGraph'
 
+function countCommits(commits, name) {
+  let auxiliar = {}
+  var date;
+  for(let i=0; i<commits.length; i++){
+      date = commits[i].date.slice(0,10)
+      if(commits[i].author !== "unknown"){
+          if(!auxiliar[date]){
+              auxiliar[date] = 1
+          }else{
+              auxiliar[date] += 1
+          }
+      }
+  }
+  //var formatoFinal = []
+  var formatoFinal = 0
+  //Object.entries(auxiliar).forEach(x=>{formatoFinal.push({date:x[0], count:x[1]})})
+  Object.entries(auxiliar).forEach(x=>{formatoFinal += x[1]})
+  return formatoFinal
+}
 
 const width = Dimensions.get("window").width
 
 const Stats = (props) => {
+  const [commits, setCommits] = useState({
+    'ecommerce':  0,
+    'Curso.Prep.Henry': 0,
+    'FT-M1': 0,
+    'FT-M2': 0,
+    'FT-M3': 0,
+    'FT-M4': 0,
+  })
+
   let student = useSelector((store) => store.userInfo.usuario);
   React.useEffect(() => {
     const github = student.github;
     const githubToken = student.githubToken;
 
     if (github) {
-      axios.post('http://192.168.100.13:5000/github/getrepos', {
+      axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/github/getrepos`, {
         token: githubToken
       }).then(resp => {
+        resp.data.forEach(x=>{
+          var aux = commits
+          if(x.name.slice(0,9) === "ecommerce"){
+            aux["ecommerce"] = countCommits(x.data)
+          }else{
+            aux[x.name] = countCommits(x.data)
+          }
+          setCommits(aux)
+        })
       }).catch(err => {
         console.log(err)
       })
@@ -55,8 +94,7 @@ const Stats = (props) => {
         top: 40,
       }}
     >
-      <Text>Hola Mundo</Text>
-      <GeneralGraph />
+      <GeneralGraph commits={commits ? commits : ''}/>
       <ContributGraph />
     </View>
 
