@@ -113,6 +113,214 @@ const getRandomNumbers = async (amount = 0) => {
   );
 };
 
+router.get("/demo/", async (req, res) => {
+  // MODULES
+  const modulesNames = [
+    "Fundamentals",
+    "Frontend",
+    "Backend",
+    "Database",
+    "E-commerce",
+    "Final Project"
+  ];
+
+  const modulesToCreateData = [];
+  for (let i = 0; i < modulesNames.length; i++) {
+    const startDay = new Date(2020, 2 + i, 17);
+    modulesToCreateData.push({
+      name: modulesNames[i],
+      startDay: startDay,
+      checkpointDay: new Date(
+        startDay.getFullYear(),
+        startDay.getMonth() + 1,
+        startDay.getDay() + 26
+      )
+    });
+  }
+
+  const modules = await db.Module.bulkCreate(modulesToCreateData);
+
+  // COHORTS
+  const cohorts = [];
+  const groups = [];
+  const cohortNames = [
+    "FT-01",
+    "FT-02",
+    "FT-03",
+    "FT-04",
+    "FT-05",
+    "FT-06",
+    "FT-07",
+    "FT-08",
+    "FT-09",
+    "FT-10"
+  ];
+
+  const dates = [];
+  for (let i = 0; i < cohortNames.length; i++) {
+    const randomDay = ~~(Math.random() * 31);
+    const date = new Date(2020, 2 + i, randomDay);
+    dates.push(date);
+  }
+
+  for (let i = 0; i < cohortNames.length; i++) {
+    const newCohort = await db.Cohort.create({
+      name: cohortNames[i],
+      startDay: dates[i]
+    });
+
+    // Ft09-g1
+    for (let j = 0; j < 10; j++) {
+      const groupNumber = j <= 9 ? "0" + j : j;
+      const newGroup = await db.Group.create({
+        name: cohortNames[i] + "-g" + groupNumber
+      });
+      await newGroup.setCohort(newCohort);
+      groups.push(newGroup);
+    }
+    cohorts.push(newCohort);
+  }
+
+  // --------------
+
+  modules[0].setCohorts([cohorts[0], cohorts[1], cohorts[2]]);
+  modules[1].setCohorts([cohorts[3], cohorts[4], cohorts[5]]);
+  modules[2].setCohorts([cohorts[6], cohorts[7], cohorts[8]]);
+  modules[3].setCohorts([cohorts[9], cohorts[10], cohorts[11]]);
+  modules[4].setCohorts([cohorts[12], cohorts[13], cohorts[14]]);
+  modules[5].setCohorts([cohorts[15], cohorts[16], cohorts[17]]);
+
+  const students = []; // 1000 students
+
+  const amount = 1000;
+  const numbers = await getRandomNumbers(+amount);
+  const names = await getRandomNames(+amount);
+  for (let i = 0; i < +amount; i++) {
+    const { first_name, last_name, uid } = names[i];
+    const { number } = numbers[i];
+    const newUser = await db.User.create({
+      cellphone: `${number}`,
+      email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+      lastName: last_name,
+      name: first_name
+    });
+    const newStudent = await db.Student.create({
+      github: `${first_name}-${uid.substr(0, 4)}`
+    });
+    await newUser.setStudent(newStudent);
+    students.push(newStudent);
+  }
+
+  // ----------
+
+  async function createPms() {
+    const pms = [];
+    const amount = groups.length;
+    const numbers = await getRandomNumbers(+amount);
+    const names = await getRandomNames(+amount);
+    for (let i = 0; i < +amount; i++) {
+      const { first_name, last_name, uid } = names[i];
+      const { number } = numbers[i];
+      const newUser = await db.User.create({
+        cellphone: `${number}`,
+        email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+        lastName: last_name,
+        name: first_name
+      });
+      const newPm = await db.ProjectManager.create({
+        github: `${first_name}-${uid.substr(0, 4)}`
+      });
+      await newUser.setProjectmanager(newPm);
+      await newPm.setGroup(groups[i]);
+      pms.push(newPm);
+    }
+    return pms;
+  }
+
+  const pms = await createPms();
+
+  async function createInstructors() {
+    const instructors = [];
+    const amount = cohorts.length;
+    const numbers = await getRandomNumbers(+amount);
+    const names = await getRandomNames(+amount);
+    for (let i = 0; i < +amount; i++) {
+      const { first_name, last_name, uid } = names[i];
+      const { number } = numbers[i];
+      const newUser = await db.User.create({
+        cellphone: `${number}`,
+        email: `${first_name.substr(0, 1)}-${uid.substr(0, 15)}@test.com`,
+        lastName: last_name,
+        name: first_name
+      });
+      const newInstructor = await db.Instructor.create({
+        github: `${first_name}-${uid.substr(0, 4)}`
+      });
+      await newUser.setInstructor(newInstructor);
+      await cohorts[i].setInstructor(newInstructor);
+      instructors.push(newInstructor);
+    }
+    return instructors;
+  }
+
+  const instructors = await createInstructors();
+
+  let studentToGroupI = 0;
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    for (let j = Math.max(0, studentToGroupI - 8); j < studentToGroupI; j++) {
+      students[j].setGroup(group);
+    }
+    studentToGroupI += 8;
+  }
+
+  const eventTypes = [];
+
+  eventTypes.push(await db.EventType.create({ name: "HenryTalk" }));
+  eventTypes.push(await db.EventType.create({ name: "HenryCV" }));
+
+  const events = [];
+  for (let i = 0; i < 25; i++) {
+    const first = [
+      "Hablamos de",
+      "Nos juntamos y hablamos de",
+      "Hablaremos de",
+      "Unite para hablar de",
+      "Unite para el taller de",
+      "Hablaremos de"
+    ];
+    const talks = ["las buenas practicas", "los tipos de algoritmos"];
+    const cvs = ["como crear un buen CVs", "un tip para los cvs"];
+    const talkType = Math.floor(Math.random() * 2) + 1;
+    let type = 0;
+    let name = first[~~Math.random() * first.length];
+    if (talkType === 1) {
+      type = 0;
+      name += " " + talks[~~(Math.random() * talks.length)];
+    } else {
+      type = 1;
+      name += " " + cvs[~~(Math.random() * cvs.length)];
+    }
+    const beginningDate = new Date(2020, 4, 5);
+    let startDay = new Date();
+    startDay = new Date(startDay.setDate(beginningDate.getDate() + 7 * i));
+    const newStartDay = `${startDay.getFullYear()}-${startDay.getMonth()}-${startDay.getDay()}`;
+
+    const newEvent = await db.Event.create({
+      name,
+      startDay: newStartDay,
+      link: "http://meet.google.com/was-hdfb-avx",
+      startTime: "15:15",
+      endTime: "16:30",
+      description: "Va a estar con nosotros un invitado especial"
+    });
+    await newEvent.setEventType(eventTypes[type]);
+    events.push(newEvent);
+  }
+
+  res.sendStatus(200);
+});
+
 router.post("/cohorts/:amount", async (req, res) => {
   const { amount } = req.params;
   const companies = await getRandomCompanies(+amount);
@@ -199,6 +407,7 @@ router.post("/instructor/:amount", async (req, res) => {
 
 router.post("/module/:amount", async (req, res) => {
   const { amount } = req.params;
+
   const names = await getRandomNames(+amount);
   const today = new Date();
   const data = names.map((name) => ({

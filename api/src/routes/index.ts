@@ -16,12 +16,6 @@ import projectManagerRouter from "./projectManager";
 
 const router = Router();
 
-router.use("/", (req, res, next) => {
-    console.log("here")
-    next()
-}
-)
-
 router.use("/user", userRouter);
 router.use("/github", githubRouter);
 router.use("/auth", authRouter);
