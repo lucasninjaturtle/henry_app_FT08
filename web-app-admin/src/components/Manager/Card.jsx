@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Card({ title, action, description }) {
+function Card({ title, action, description, customs }) {
   return (
     <div style={{ maxWidth: "63ch" }}>
       <h2 className="text-5xl xl:text-4xl font-mono font-semibold">{title}</h2>
@@ -29,6 +29,14 @@ function Card({ title, action, description }) {
         <li className="action-manager-link">
           <Link to={`/${action}/event`}>Evento</Link>
         </li>
+        {customs &&
+          Array.isArray(customs) &&
+          customs.length > 0 &&
+          customs.map((custom) => {
+            <li className="action-manager-link">
+              <Link to={`/${action}/${custom.link}`}>{custom.text}</Link>
+            </li>;
+          })}
       </ul>
     </div>
   );
