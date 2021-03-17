@@ -126,10 +126,10 @@ function LoadCsv(props) {
       console.log("Type: ", type)
       let ruta = 'http://localhost:5000/'
       switch (type) {
-        case "usuarios": ruta += "user"; break;
-        case "pms": ruta += "pms/create"; break;
-        case "estudiantes": ruta += "user/student"; break;
-        case "cohorte": ruta += "cohorte/create"; break;
+        //case "usuarios": ruta += "user"; break;
+        case "pm": ruta += "pm/bulk"; break;
+        case "student": ruta += "student/bulk"; break;
+        case "cohort": ruta += "cohort/bulk"; break;
         default: ruta += "grupo/create"; break;
       }
       axios.post(ruta, state.selectedRows)

@@ -137,12 +137,13 @@ function LoadCsv(props) {
       axios
         .post(
           `${baseUrl}/${
-            props.match.params.type === "pm" ? "projectmanager" : "pm"
+            props.match.params.type === "pm" ? "projectmanager" : props.match.params.type === 'student' ? "student" : "cohort"
           }/bulk`,
           selectedRows
         )
         .then((res) => {
           alert(`${uploadType}(s) creado(s)`);
+          alert("Bien!");
           setClearRows(true);
           setSelectedRows([]);
         })
