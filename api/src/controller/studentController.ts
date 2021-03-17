@@ -179,11 +179,10 @@ export const studentController = {
       const newStudent = await db.Student.create({ github });
       await newUser.setStudent(newStudent);
       if (groupId) await newStudent.setGroup(groupId);
+      res.json(newStudent);
     } catch (e) {
       return res.status(400).json(e);
     }
-
-    res.sendStatus(200);
   },
   async searchStudentByName(req: Request, res: Response) {
     const { limit = 15, name } = (req.query as unknown) as {
