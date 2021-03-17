@@ -16,6 +16,7 @@ import CreatePM from "./pages/CreatePM/CreatePM";
 import CreateCohorte from "./pages/CreateCohorte/CreateCohorte";
 import CreateEvent from "./pages/CreateEvent/CreateEvent";
 import EditEvent from "./pages/EditEvent/EditEvent";
+import CreateEventType from "./pages/CreateEventType/CreateEventType";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Route exact path="/delete/student" component={DeleteStudent} />
       <Route exact path="/manager" component={Manager} />
       <Route exact path="/edit/event" component={EditEvent} />
+      <Route exact path="/create/type" component={CreateEventType} />
     </div>
   );
 }

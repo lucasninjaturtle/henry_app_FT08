@@ -6,8 +6,8 @@ import {
   MdHighlightOff as ErrorIcon,
   MdDone as SuccessIcon
 } from "react-icons/md";
-import { deleteEvents, getEventById, putEvent, searchEventsByName } from "../../api";
-import { useQueryClient } from 'react-query';
+import { deleteEvents, getEventById, putEvent, searchEventsByName, searchEventTypesByName } from "../../api";
+
 
 const customStyles = {
  
@@ -28,7 +28,7 @@ function EditEventForm() {
   const [message, setMessage] = useState({ type: "", content: "" });
   const [event, setEvent] = useState();
   const [query, setQuery] = useState("");
-  const queryClient = useQueryClient();
+  
 
   const handleInputChange = (newValue) => {
     const query = newValue.replace(/\W/g, "");
@@ -47,6 +47,18 @@ function EditEventForm() {
         );
       });
   };
+  const loadOptionsType = (inputValue, cb) => {
+    
+    searchEventTypesByName(inputValue)
+    .then((res) => {
+      cb(
+        res.map((event) => ({
+          value: event.id,
+          label: event.name
+        }))
+      );
+    });
+};
     
   const handleOnChange = (value, { action }) => {
     if (action === "select-option") {
@@ -74,7 +86,7 @@ function EditEventForm() {
     putEvent({ ...data, eventTypeId: selectedEventType?.id }, event)
       .then(() => {
         reset();
-        queryClient.invalidateQueries('events');
+        
         setSelectedEventType(null);
         setMessage({
           type: "success",
@@ -93,7 +105,7 @@ function EditEventForm() {
     deleteEvents(event)
     .then(() => {
       reset();
-      queryClient.invalidateQueries('events');
+      // queryClient.invalidateQueries('events');
       setSelectedEventType(null);
       setMessage({
         type: "success",
@@ -226,7 +238,7 @@ function EditEventForm() {
           placeholder={`Buscar tipos...`}
           onChange={handleChange}
           isClearable={true}
-          loadOptions={loadOptions}
+          loadOptions={loadOptionsType}
           />
       </label>
           <div className="flex justify-between">

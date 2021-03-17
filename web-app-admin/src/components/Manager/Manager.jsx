@@ -28,18 +28,21 @@ export default function Manager() {
             description={
               "Sube un archivo csv, visualizalo y modificalo antes de cargarlo en la base de datos"
             }
+            customs={[{text:'PM', link: 'pm'}]}
           />
 
           <Card
             action="create"
             title={"Crear"}
             description={"Dale vida a Henry!"}
+            customs={[{text:'Instructor', link: 'instructor'}, {text: 'Evento', link: 'event'}, {text: 'Tipo de evento', link: 'type'}]}
           />
 
           <Card
             action="edit"
             title={"Editar o Eliminar"}
             description={"Modifica o elimina todo lo que tengas que hacer respectivamente!"}
+            customs={[{text:'Instructor', link: 'instructor'}, {text: 'Evento', link: 'event'}]}
           />
         </div>
       </div>
