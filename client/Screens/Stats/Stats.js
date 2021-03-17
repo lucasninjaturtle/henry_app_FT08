@@ -156,7 +156,6 @@ const Stats = (props) => {
   </View>
 
 </Modal>
-</View>
 
 </View> */
 };

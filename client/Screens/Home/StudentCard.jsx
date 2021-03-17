@@ -66,6 +66,7 @@ export default function StudentCard() {
               <Text style={styles.modalText}>Usuarios del cohorte </Text>
               <Container>
                 <ScrollView>
+                  {!students ? <Text>loading...</Text> : null}
                   {students &&
                     students.map((student) => {
                       return (
@@ -76,9 +77,6 @@ export default function StudentCard() {
                     })}
                 </ScrollView>
               </Container>
-
-              {/* <Text>{JSON.stringify(students.length)}</Text> */}
-
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
