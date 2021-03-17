@@ -1,64 +1,46 @@
-import React, { useState } from 'react'
-import 'react-native-gesture-handler';
-import { Dimensions, Modal, StyleSheet } from 'react-native'
-import { Container, Header, Content, Badge, Text, Icon, View, List, ListItem, Left, Body, Right, Thumbnail, Button } from 'native-base';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'
-
-import store from '../../Redux/store';
-import { useSelector, useDispatch } from "react-redux";
-import { getUserInfo, setUserCommits } from "../../Redux/Actions/userActions";
-import axios from 'axios';
-
-import envTrucho from '../../envTrucho'
-
-
-
-
-
-import GeneralGraph from './Graphs/GeneralGraph';
-import ContributGraph from './Graphs/ContributGraph';
-import CakeGraph from './Graphs/CakeGraph'
+import React, { useState } from "react";
+import "react-native-gesture-handler";
+import { Dimensions, StyleSheet } from "react-native";
+import { View } from "native-base";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { envTrucho } from "../../envTrucho";
+import GeneralGraph from "./Graphs/GeneralGraph";
+import ContributGraph from "./Graphs/ContributGraph";
 
 function countCommits(commits, name) {
-  let auxiliar = {}
+  let auxiliar = {};
   var date;
-  for(let i=0; i<commits.length; i++){
-      date = commits[i].date.slice(0,10)
-      if(commits[i].author !== "unknown"){
-          if(!auxiliar[date]){
-              auxiliar[date] = 1
-          }else{
-              auxiliar[date] += 1
-          }
+  for (let i = 0; i < commits.length; i++) {
+    date = commits[i].date.slice(0, 10);
+    if (commits[i].author !== "unknown") {
+      if (!auxiliar[date]) {
+        auxiliar[date] = 1;
+      } else {
+        auxiliar[date] += 1;
       }
+    }
   }
   //var formatoFinal = []
-  var formatoFinal = 0
+  var formatoFinal = 0;
   //Object.entries(auxiliar).forEach(x=>{formatoFinal.push({date:x[0], count:x[1]})})
-  Object.entries(auxiliar).forEach(x=>{formatoFinal += x[1]})
-  return formatoFinal
+  Object.entries(auxiliar).forEach((x) => {
+    formatoFinal += x[1];
+  });
+  return formatoFinal;
 }
 
-const width = Dimensions.get("window").width
+const width = Dimensions.get("window").width;
 
 const Stats = (props) => {
   const [commits, setCommits] = useState({
-    'ecommerce':  0,
-    'Curso.Prep.Henry': 0,
-    'FT-M1': 0,
-    'FT-M2': 0,
-    'FT-M3': 0,
-    'FT-M4': 0,
-  })
+    ecommerce: 0,
+    "Curso.Prep.Henry": 0,
+    "FT-M1": 0,
+    "FT-M2": 0,
+    "FT-M3": 0,
+    "FT-M4": 0
+  });
 
   let student = useSelector((store) => store.userInfo.usuario);
   React.useEffect(() => {
@@ -66,39 +48,40 @@ const Stats = (props) => {
     const githubToken = student.githubToken;
 
     if (github) {
-      axios.post(`http://${envTrucho.EXPO_HTTP_IP}:5000/github/getrepos`, {
-        token: githubToken
-      }).then(resp => {
-        resp.data.forEach(x=>{
-          var aux = commits
-          if(x.name.slice(0,9) === "ecommerce"){
-            aux["ecommerce"] = countCommits(x.data)
-          }else{
-            aux[x.name] = countCommits(x.data)
-          }
-          setCommits(aux)
+      axios
+        .post(`http://${envTrucho.EXPO_HTTP_IP}:5000/github/getrepos`, {
+          token: githubToken
         })
-      }).catch(err => {
-        console.log(err)
-      })
+        .then((resp) => {
+          resp.data.forEach((x) => {
+            var aux = commits;
+            if (x.name.slice(0, 9) === "ecommerce") {
+              aux["ecommerce"] = countCommits(x.data);
+            } else {
+              aux[x.name] = countCommits(x.data);
+            }
+            setCommits(aux);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   });
 
   return (
-
     <View
       style={{
         flexDirection: "column",
         height: 150,
         padding: 0,
-        top: 40,
+        top: 40
       }}
     >
-      <GeneralGraph commits={commits ? commits : ''}/>
+      <GeneralGraph commits={commits ? commits : ""} />
       <ContributGraph />
     </View>
-
-  )
+  );
 
   // const commitsData = [
   //   { date: "2017-01-02", count: 1 },
@@ -114,9 +97,6 @@ const Stats = (props) => {
   //   { date: "2017-02-30", count: 4 }
   // ];
   // const [modalVisible, setModalVisible] = useState(false)
-
-
-
 
   /* <View>
 
@@ -183,25 +163,25 @@ const Stats = (props) => {
 
 const styles = StyleSheet.create({
   baseText: {
-    fontWeight: 'bold',
-    alignItems: 'center',
+    fontWeight: "bold",
+    alignItems: "center"
   },
   innerText: {
-    color: 'red',
+    color: "red"
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
   }
 });
 
