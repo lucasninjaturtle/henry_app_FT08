@@ -24,7 +24,7 @@ export function CohortFactory(sequelize: Sequelize) {
       unique: true
     },
     startDay: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false
     }
   });
