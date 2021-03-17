@@ -28,7 +28,7 @@ export default function Manager() {
             description={
               "Sube un archivo csv, visualizalo y modificalo antes de cargarlo en la base de datos"
             }
-            
+            customs={[{text:'PM', link: 'pm'}]}
           />
 
           <Card
