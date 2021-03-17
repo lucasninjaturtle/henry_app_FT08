@@ -39,8 +39,6 @@ const Login = (props) => {
   React.useEffect(() => {
     console.log(process.env);
     if (response?.type === "success") {
-      console.log(response.type);
-      console.log("Respuesta de GH  ", response.params);
       const { code } = response.params;
       async function asyncd() {
         if (code) {
@@ -59,6 +57,7 @@ const Login = (props) => {
               }
             })
             .then((resp) => resp.data);
+            console.log(ghUserName)
 
           axios
             .post(`http://${envTrucho.EXPO_HTTP_IP}:5000/auth/githubUser`, {
