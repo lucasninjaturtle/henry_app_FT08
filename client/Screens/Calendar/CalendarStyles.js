@@ -74,6 +74,11 @@ const stylesModal = StyleSheet.create({
       marginBottom: 15,
       textAlign: "center"
     },
+    modalLink: {
+      marginBottom: 15,
+      textAlign: "center",
+      color: 'blue'
+    },
     modalTextTitle: {
         textDecorationLine: "underline",
         fontSize: 25

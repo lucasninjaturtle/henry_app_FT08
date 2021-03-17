@@ -11,7 +11,7 @@ import { Alert } from "react-native"
 import { useDispatch } from 'react-redux'
 import { getUserInfo } from '../../Redux/Actions/userActions';
 import store from '../../Redux/store';
-import { envTrucho } from '../../envTrucho'
+import envTrucho from '../../envTrucho'
 
 
 WebBrowser.maybeCompleteAuthSession();
