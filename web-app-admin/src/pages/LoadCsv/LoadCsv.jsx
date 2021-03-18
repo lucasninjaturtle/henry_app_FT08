@@ -1,7 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import * as XLSX from "xlsx";
 import axios from "axios";
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root')
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 function getUploadType(type) {
   switch (type) {
@@ -27,6 +41,8 @@ function LoadCsv(props) {
   const [data, setData] = useState([]);
   const [clearRows, setClearRows] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [modal, setModal] = useState(false)
+  const [modalData, setModalData] = useState(null)
 
   let uploadType = getUploadType(props.match.params.type);
   //componente contextAction
@@ -46,13 +62,36 @@ function LoadCsv(props) {
         setClearRows(true);
       }
     }
+
+    function onEdit(e) {
+      /* var newData = data.filter((user) => !userToDelete.includes(user.name));
+      var newSelected = selectedRows.filter(
+        (user) => !userToDelete.includes(user.name)
+      );
+      setData(newData);
+      setSelectedRows(newSelected);
+      setClearRows(true);
+      setModal(s => {}) */
+      console.log("Datita:", selectedRows)
+      setModal(true)
+      setModalData([...selectedRows])
+    }
+
     return (
+      <div>
+      <button
+        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-blue rounded mr-2"
+         onClick={onEdit}
+      >
+        Editar
+      </button>
       <button
         className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-red rounded"
         onClick={onDelete}
       >
         Eliminar
       </button>
+      </div>
     );
   }
 
@@ -64,6 +103,7 @@ function LoadCsv(props) {
     );
 
     const list = [];
+    let id = 0;
     for (let i = 1; i < dataStringLines.length; i++) {
       const row = dataStringLines[i].split(
         /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
@@ -83,6 +123,7 @@ function LoadCsv(props) {
 
         // remove the blank rows
         if (Object.values(obj).filter((x) => x).length > 0) {
+          obj.id = id++
           list.push(obj);
         }
       }
@@ -133,6 +174,7 @@ function LoadCsv(props) {
     if (selectedRows.length === 0) {
       alert(`No hay ${uploadType}(s) cargado(s)`);
     } else {
+      console.log("A subir: ", selectedRows)
       let baseUrl = "http://localhost:5000";
       axios
         .post(
@@ -143,13 +185,46 @@ function LoadCsv(props) {
         )
         .then((res) => {
           alert(`${uploadType}(s) creado(s)`);
-          alert("Bien!");
           setClearRows(true);
           setSelectedRows([]);
         })
         .catch((e) => alert("Algo fue mal"));
     }
   };
+
+  function handleEdit(e) {
+    e.preventDefault();
+    console.log("Data: ", data)
+    if (window.confirm(`¿Seguro quieres guardar los cambios?`)) {
+      // console.log('confirmo')
+      let find = (arr, prop, val) => {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i][prop] === val) return true
+        }
+        return false
+      }
+
+      let aux = data
+      modalData.forEach((e, j) => {
+        let i = find(aux, 'id', e.id)
+        aux[i] = modalData[j]
+      })
+      
+      setData(s => ([{name: "Loading"}]))
+      setTimeout(() => {
+        setData(s => ([...aux]));
+      }, 1)
+      //setSelectedRows([]);
+      //setClearRows(true);
+      setModal(false)
+    }
+  }
+
+  function handleInputChange(e, i) {
+    let aux = modalData
+    aux[i][e.target.name] = e.target.value
+    setModalData(s => [...aux])
+  }
 
   return (
     <div className="h-full w-full flex px-2 py-5">
@@ -199,14 +274,36 @@ function LoadCsv(props) {
                 />
               }
               contextMessage={{
-                singular: "alumno",
-                plural: "alumnos",
-                message: "seleccionado"
+                singular: "alumno seleccionado",
+                plural: "alumnos seleccionados",
+                message: ""
               }}
             />
           </div>
         )}
       </div>
+
+      <Modal isOpen={modal}
+      style={customStyles}
+      onRequestClose={e => {
+        setModal(false)
+      }}>
+        {modalData && modalData.map((d, i) => <form key={d.id} className="">
+          {
+            ( () => {
+              let ret = []
+              for (let p in d) {
+                if (p !== 'id') ret.push(<input name={p} onChange={e => handleInputChange(e, i)}
+                  type="text"
+                  value={modalData[i][p]} />)
+              }
+              return ret
+            })()
+          }
+        </form>)}
+        <button style={{marginLeft: "48%", marginTop: '25px', backgroundColor: '#eb8700',
+      padding: '10px'}} onClick={handleEdit}>Guardar</button>
+      </Modal>
     </div>
   );
 }
