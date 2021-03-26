@@ -1,6 +1,6 @@
 # (MERN) React Native Henry App 📱 / (PERN) - Web Admin App 📰
 
-#### Video of the App => https://youtu.be/F5ExSpyWMoo
+#### Project video => https://youtu.be/F5ExSpyWMoo
 
 ## The main features:
 
